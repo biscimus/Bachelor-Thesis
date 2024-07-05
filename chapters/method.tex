@@ -1,0 +1,45 @@
+\begin{comment}
+    Describe the method/idea/algorithm in this chapter.
+    Rename this chapter to a more meaningful name, given your topic.
+
+    The best possible Method chapter is fairly easy, it has the following sections:
+    \begin{enumerate}
+        \item Overview; You provide an overview of the approach. You do so by showing a graphical example of the main steps (usually 2-3 steps).
+        For each step, you clearly indicate the inputs and the outputs of the step. Let's assume we have Step 1, 2 and 3; guess what the next sections are\dots
+        \item Step 1 (obviously a fancier name)
+        \item Step 2 (obviously a fancier name)
+        \item Step 3 (obviously a fancier name)
+    \end{enumerate}
+    Describing the steps is very similar to the difficult mathematical concepts.
+    First describe an informal description of what the step does.
+    Then provide supporting definitions, theorems and proofs.
+    Then show how this works on an example.
+    In some cases, it helps to adopt a \enquote{running example} that you use throughout this section to clarify each step.
+\end{comment}
+
+\section{Framework Overview}
+
+\begin{itemize}
+    \item The program should accept an event log and an optional process model, e.g. a Petri net, as inputs and should return a corresponding translucent event log as output. Users should have the option to select from various methods of log generation, will will be specified below. Mainly, these methods can be classified in two categories: top-down approaches which require a Petri net, and bottom-up approaches which solely need the event log.
+\end{itemize}
+
+\section{Top-down Approaches}
+
+\begin{itemize}
+    \item Given a Petri net and an event log, the program utiltizes the alignment-based appraoch presented in \cite{creating-translucent-event-logs} as its baseline algorithm. After computing the alignment for each trace, the program replays the alignment on the reachabiliy graph trace by trace in order to circumvent the silent transitions. For each activity, the algorithm then augments the event log with the corresponding transitions situated in outgoing arcs of the current state. After creating a basic translucent event log, the log can be refined by further algorithms.
+    
+    \item A method to incorporate the data attributes is to implement multivariate regression. Similar to the setting in \cite{sldpn}, we construct a training data set for each transition of a Petri net consisting of data attributes and a boolean label indicating whether the transition was executed given the data attributes as input. We then perform a regression analysis on the training data set for each transition. The resulting dictionary of transitions and regression functions can be employed to filter out transitions lying below a certain probability threshold $p$ in each decision point during replay.
+    
+\end{itemize}
+
+\section{Bottom-up Approaches}
+
+\begin{itemize}
+    \item Given an event log, we compute the set of unique activities and generate a next-activity matrix $\mathcal{A}$, where the entry $\mathcal{A}_{ij}$ represents the number of times activity $j$ follows activity $i$. We can then easily transform $\mathcal{A}$ into a probability matrix $\mathcal{A'}$ by dividing each row by the sum of the row. We then filter out the results by a certain threshold $p$ and add the entries surviving the threshold to each event trace. This algorithm can serve as baseline for further extensions.
+    \item Furthermore, we can utilitze a deep-learning based black-box approach. The issue with implementing supervised learning algorithms is that we need a labeled training dataset. In our case, this would be a preexisting translucent event log, which is unavailable in our setting due to missing enabled activities data. We can cirucmvent the problem by training the model using the next activity information as label, as this information is available in every event log. Since most learning algorithms would not return a single value but an underlying probability distribution of possible outcomes, we can substitute the final $\mathit{argmax}$ operation with selecting a threshold $p$ and returning all labels lying above it.
+\end{itemize}
+
+Note that this is not the final list as we are still in the process of selecting new methods. The final list of methods will be updated in the final version of the thesis paper.
+
+
+

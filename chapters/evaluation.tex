@@ -1,0 +1,66 @@
+\begin{itemize}
+
+    \item Limitations: Using real-life translucent event logs is often implausible for our scenario due to the fact that most real-life logs do not contain the set of enabled activities. Therefore, direct evaluation by receiving a real-life translucent event log as input, stripping away the enabled activities column, inserting the log in our algorithm as input then comparing the result with the original translucent event log is not possible.
+
+    \item Instead, we can use artificial process models. The evaluation process works like the following: 
+    
+    \begin{enumerate}
+        \item We generate random process models, e.g. data Petri nets.
+        \item We then play-out the model randomly and extract  1. a normal log and 2. a translucent event log.
+        \item We then use the normal log as input to our TLG program and compare the result with the original translucent log.
+    \end{enumerate}
+
+    \item On top of that, we can also evaluate its versatility by directly comparing models generated using translucent event logs and the usual state-of-the-art process discovery algorithms. The  evaluation process works like the following: 
+        
+    \begin{enumerate}
+        \item Given a normal process log, we use state-of-the-art process discovery algorithms to generate process models.
+        \item We use the log as input to our program and generate a translucent event log.
+        \item We then generate a process model based on translucent-log based process discovery algorithms.
+        \item We then compare the models based on their performance measures.
+    \end{enumerate}
+     
+    \item In the model annotation setting, we can evaluate the performance of the model extension algorithm by comparing the stochastic precision of the annotated model with the original model. The evaluation process works like the following:
+    
+    \begin{enumerate}
+        \item We iterate over each trace and replay it on two models: The original model received as input and the annotated model.
+        \item For each transition, we calculate the stochastic precision by computing the product of the transition probabilities in each transition step.
+        \item We then add up the stochastic precision score for each trace and divide it by the total number of traces to get the average stochastic precision score.
+    \end{enumerate}
+
+    Note that this is different from the translucent precision score defined in \cite{translucent-precision}, since we need a precision measure comparable and applicable to both of the original log-model-pair and the translucent-log-annotated-model pair.
+
+    \item As we are not presenting a single generation method, it will be necessary to compare and evaluate each method separately using the process described above.
+
+\end{itemize}
+
+\begin{comment}
+    \section{Experimental Setup}
+    Describe the setup of your experiments.
+    If you apply a pipeline of different techniques, show the pipeline.
+    Present the parameters of your experiments in a table, and, describe them.
+    Typical Elements:
+    \begin{itemize}
+        \item Input Data Set(s) Used
+        \item Algorithm(s) Used
+        \item Parameter(s) Used
+        \item \dots
+    \end{itemize}
+
+    \section{Results}
+    Show the results.
+    Try to present your results as structured as you can.
+    A good result (sub)section, follows the following structure:
+    \begin{itemize}
+        \item Describe what results you are going to Show
+        \item Present an initial hypothesis about the results, e.g., We expect the quality metric M to behave like this, conditional to this parameter P.
+        \item Show the Results
+        \item Confirm the hypothesis.
+        \item If there are results that are not according to the hypothesis, you have to be able to explain why this is the case!!!
+    \end{itemize}
+
+    \section{Threats to Validity}
+    Here you discuss any element of your experiments (usually depending on the setup), e.g., data sets used, parameters assessed, that might have implications for the validity of your results.
+    For example, if you have not considered a specific range of parameter values, it is unclear how the algorithm will behave for these settings.
+    If you have excluded certain data, this might have its implications for the generalizability of your results.
+    In a way, this is the discussion section of your thesis.
+\end{comment}
