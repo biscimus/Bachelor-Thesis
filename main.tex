@@ -4,13 +4,11 @@
 \usepackage[toc,page]{appendix} % support appendices
 \usepackage{csquotes} % handles quotes automatically
 \usepackage{hyperref} % allows autoref/hyperlinks/etc.
-\usepackage{comment}
-\usepackage{amsthm}
 \usepackage{tikz}
-\usetikzlibrary{petri,positioning}
+\usetikzlibrary{petri,positioning, automata, arrows.meta}
 
 %%%%% PADS TEMPLATE SETTINGS %%%%%
-\renewcommand{\gTitle}{Translucify: Tackling the Translucent Log Generation Problem (Abstract)}
+\renewcommand{\gTitle}{Translucify: Enhancing Event Logs with Enabled Activities Beyond the Control-Flow Perspective}
 \renewcommand{\gAuthor}{Geonho Yun}
 \renewcommand{\gStudentID}{422305}
 \renewcommand{\gHeader}{Bachelor's Thesis}
@@ -53,26 +51,26 @@
 \chapter{Introduction} \label{chap:intro}
 \input{chapters/introduction.tex}
 
-% \chapter{Preliminaries} \label{chap:prelim}
-% \input{chapters/prelim.tex}
+\chapter{Preliminaries} \label{chap:prelim}
+\input{chapters/prelim.tex}
 
 \chapter{Related Work} \label{chap:related_work}
 \input{chapters/related_work.tex}
 
-\chapter{Translucent Log Generation} \label{chap:method}
+\chapter{Translucifying the Event Log} \label{chap:method}
 \input{chapters/method.tex}
 
-% \chapter{Implementation} \label{chap:impl}
-% \input{chapters/implementation.tex}
+\chapter{Implementation} \label{chap:impl}
+\input{chapters/implementation.tex}
 
 \chapter{Evaluation} \label{chap:eval}
 \input{chapters/evaluation.tex}
 
-% \chapter{Discussion} \label{chap:discussion}
-% \input{chapters/discussion.tex}
+\chapter{Discussion} \label{chap:discussion}
+\input{chapters/discussion.tex}
 
-% \chapter{Conclusion} \label{chap:conclusion}
-% \input{chapters/conclusion.tex}
+\chapter{Conclusion} \label{chap:conclusion}
+\input{chapters/conclusion.tex}
 
 \bibliography{references} 
 \addcontentsline{toc}{chapter}{Bibliography}

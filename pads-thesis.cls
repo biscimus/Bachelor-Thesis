@@ -35,6 +35,7 @@
 %$% amstheorem setup (order of the require's matters here!)
 %$ introduce separate theorem-like environments 
 %using a shared counter tied to the section numbering
+\RequirePackage[parfill]{parskip}
 \RequirePackage{textcomp}
 \RequirePackage{hyperref}
 \RequirePackage{amsmath, amsthm, amssymb,mathrsfs, array}
@@ -48,7 +49,7 @@
 \RequirePackage{wrapfig}
 %\RequirePackage{svg}
 %\RequirePackage{subcaption}
-\RequirePackage[parfill]{parskip}
+
 
 %%make the chapters separate from each other
 %\RequirePackage{graphicx}
@@ -69,11 +70,13 @@
 
 %%% Miscellaneous
 \RequirePackage{url}
+\RequirePackage{comment}
 \RequirePackage{framed}
 \RequirePackage{enumerate}
 \RequirePackage{subcaption}
 \RequirePackage{pgfplots}
 \pgfplotsset{compat=1.15} 
+
 %%% BibTeX setup
 
 \RequirePackage[numbers,sort&compress]{natbib}

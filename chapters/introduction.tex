@@ -61,8 +61,28 @@ Before we dive into the motivation section, a few general guidelines for writing
 \item Next steps: Develop a library to play-out translucent logs from a process model (petri net).
 \end{comment}
 
+Process Mining is a field of computer science aiming to reconstruct the latent process model from a manifest event data. Together with the surge of data availability, process mining has become a hot topic in the fields of data science and business intelligence. 
+
+The foundation of all process mining discovery algorithms is the so-called \emph{event logs}: A chronologically ordered list of every event recorded in a business system. Event logs have three mandatory feature columns. \emph{Case ID} represents which case the event belongs to. \emph{Activitiy} portrays what kind of event happened. \emph{Timestamp} logs the time of occurrence of that specific event. 
+
+(Insert an example event log here)
+
+The tree major phases of process mining are \emph{Process Discovery}, \emph{Conformance Checking}, and \emph{Process Enhancement}. Process Discovery is where a process model is extracted from a submitted event log. In Conformance Checking, the quality of the discovered process model is evaluated in terms of various criteria, e.g. fitness, precision, generalization, and simplicity. Finally, in the \emph{enhancement} phase, the idea is to extend or improve the existing process model using the data present in the event log.
+
+
+
+
+
+
+
+
+
+
+
 \section{Motivation}
 \label{sec:intro_ssec:motiv}
+
+
 
 \begin{comment}
     In this section, you explain to the reader why:
@@ -75,14 +95,14 @@ Note that parts of this section are already highlighted in both the abstract and
 However, in this section, you dive a bit deeper.
 In a good motivation, you show a (simple) example on which current methods fail, yet, the method that you are going to describe in this thesis actually yields a better result.
 
-For example, assume that your thesis describes a new \emph{process discovery} algorithm that is able to handle noise, incomplete behavior, and, on top of that, is able to apply label-splitting.
+For example, assume that your thesis describes a new \emph{process-discovery} algorithm that is able to handle noise, incomplete behavior, and, on top of that, is able to apply label-splitting.
 You can take an (example) event log and show that existing algorithms result in models that are of suboptimal quality.
 Finally, you show a model discovered by your fancy algorithm, and, you explain why this model is so much better.
 \end{comment}
 
-Business processes are seldom linear. Instead, they are usually a messy, chaotic, intertangled mash of activities where its golden path is meticulously hidden. On top of that, event logs have no guarantee of completeness. The quality of the process model therefore is entirely dependent on the quality of its event log.
+Business processes are seldom linear. Instead, they are usually a messy, chaotic, intertangled mash of activities where its golden path is meticulously hidden. On top of that, event logs have no guarantee of completeness. The quality of the process model produced by process-discovery techniques is therefore entirely dependent on the quality of its event log.
 
-An ideal event log would be \emph{transparent}, containing metadata of structural properties of the corresponding process model, e.g. state information in a Petri net setting. Event logs, however, are usually \emph{opaque} - one cannot identify the underlying process model straight away by solely looking at the log. One must instead utilize process discovery algorithms to generate corresponding models. By its nature, process discovery algorithms primarily focus on what \emph{happened}. However, they often do not take into consideration what \emph{could have happened} instead. An event log is \textit{translucent} if the log contains the information which potential, alternative realities of the past could have occurred instead of the activity occurred in the real world. Logs of this nature are called \textit{translucent event logs.} and are extremely beneficial to enhance the quality of existing process discovery algorithms.
+In an ideal world where perfect process discovery is conceivable, an event log would be \emph{transparent}, containing metadata of structural properties of the corresponding process model, e.g., state information in a Petri net setting. Event logs, however, are usually \emph{opaque} - one cannot identify the underlying process model straight away by solely looking at the log. One must instead utilize process-discovery algorithms to generate corresponding models. By its nature, process event logs primarily focus on what \emph{happened}. However, they often do not take into consideration what \emph{could have happened} instead. An event log is \textit{translucent} if the log contains the information which potential, alternative realities of the past could have occurred instead of the activity occurred in the real world. Logs of this nature are called \textit{translucent event logs} and are extremely beneficial to enhance the quality of existing process-discovery algorithms.
 
 Let us consider a small example as motivation. Suppose the underlying model of our business process is represented as the petri net below.
 
@@ -134,27 +154,16 @@ Let us consider a small example as motivation. Suppose the underlying model of o
 
 \end{figure}
 
-We play-out the model fifty times and retrieve the event log $\mathcal{L}_1 = [ \langle a, b, c, d \rangle ^{48}, \langle a, c, b, d \rangle^2 ]$ in the process. We can then leverage widely used process discovery algorithms to rediscover the process model described in Figure \ref{petrinet}. 
+We play-out the model fifty times and retrieve the event log $\mathcal{L}_1 = [ \langle a, b, c, d \rangle ^{48}, \langle a, c, b, d \rangle^2 ]$ in the process. We can then leverage widely used process-discovery algorithms to rediscover the process model described in Figure \ref{petrinet}. 
 
-This works under the assumption of log completeness, but what would happen if the trace $\langle a, c, b, d \rangle$ occurs so rarely that we weren't able to capture the behavior? Given the incomplete log $\mathcal{L}_1 = [ \langle a, b, c, d \rangle ^{50}]$, every process discovery algorithm will return a linear process model. The translucent variant would look like $\mathcal{L}_2 = [ \langle \underline{a}, \underline{b}c,  \underline{c},  \underline{d} \rangle ^{50}]$, where all enabled activities are listed and the executed activity is underscored. Here, the choice situation between activities $b$ and $c$ is clearly visible, thus preventing the linear modelling of our process.
+This works under the assumption of log completeness, but what would happen if the trace $\langle a, c, b, d \rangle$ occurs so rarely that we weren't able to capture the behavior? Given the incomplete log $\mathcal{L}_1 = [ \langle a, b, c, d \rangle ^{50}]$, every process-discovery algorithm will return a linear process model. The translucent variant would look like $\mathcal{L}_2 = [ \langle \underline{a}, \underline{b}c,  \underline{c},  \underline{d} \rangle ^{50}]$, where all enabled activities are listed and the executed activity is underscored. Here, the choice situation between activities $b$ and $c$ is clearly visible, thus preventing the linear modelling of our process.
 
-% % In fact, translucent logs make the process discovery trivial for a certain subclass of process models, for which each state activates a unique set of activities. Such process models are called \textit{lucent process models.} Sound workflow nets that are short-circuited and free-choice belong to this class of process models. Although this seems like a hard restriction, many of the real-life workflow nets modelling business processes are reported to possess the free-choice property \cite{Advances in Quantitative Analysis of Free-Choice Workflow Petri Nets}.
+% % In fact, translucent logs make the process-discovery trivial for a certain subclass of process models, for which each state activates a unique set of activities. Such process models are called \textit{lucent process models.} Sound workflow nets that are short-circuited and free-choice belong to this class of process models. Although this seems like a hard restriction, many of the real-life workflow nets modelling business processes are reported to possess the free-choice property \cite{Advances in Quantitative Analysis of Free-Choice Workflow Petri Nets}.
 
-Despite its benefits, lucent models and translucent event logs are relatively new concepts and are therefore scarcely researched. As a result, translucent event logs are hardly available in real-life process logs. This motivates us to devise novel methods to generate translucent event logs from a non-translucent variant.
+Despite its benefits, lucent models and translucent event logs are relatively new concepts and are therefore scarcely researched. As a result, translucent event logs are hardly available in real-life process logs. This motivates us to devise novel methods to generate translucent event logs from a non-translucent event log.
 
 \section{Problem Statement}
 \label{sec:intro_ssec:probs}
-
-\begin{comment}
-    In this section, you introduce the problem that you are solving.
-A good problem statement is a concise, more general statement of the example motivation that you have used in the motivation section.
-
-For example, in the case of our previous example:
-
-\enquote{Real event data contains infrequent and incomplete behavior. 
-Furthermore, different recordings of the same activity may refer to conceptually different contextual executions.
-Existing, state-of-the-art process discovery algorithms cannot discover process models of adequate quality, given event data of the previously described form.}
-\end{comment}
 
 \begin{figure}
     \centering
@@ -165,47 +174,38 @@ Existing, state-of-the-art process discovery algorithms cannot discover process 
 
     % Draw the input arrows with labels on the side
     \draw[->] (-3.5,0.5) -- node[pos=0,left] {Event log $\mathcal{L}$} (box.west |- 0.5, 0.5);
-    \draw[->] (-3.5,-0.5) -- node[pos=0, left] {Process model $\mathcal{M}$} (box.west |- -0.5,-0.5);
+    \draw[->, dashed] (-3.5,-0.5) -- node[pos=0, left] {Process model $\mathcal{M}$} (box.west |- -0.5,-0.5);
 
     % Draw the output arrow with label on the side
     \draw[->] (box.east) -- ++(1,0) node[right] {Translucent event log $\mathcal{L'}$};
 
-\end{tikzpicture}
-    \caption{Translucent Log Generation Problem.}
+	\end{tikzpicture}
+    \caption{Workflow of Translucify. The algorithm takes an event log $\mathcal{L}$ and and optional process model $\mathcal{M}$, then returns an annotated translucent event log $\mathcal{L'}$.}
     \label{fig:enter-label}
 \end{figure}
 
+\subsection{Limitations of Previous Methods}
 
-In order to look deeper into the main problem of this thesis, we first formally define our problem as described below. \\
+\subsubsection*{Insufficient Previous Methods}
+The problem of embedding translucent information in the event log is relatively new and few methods have been proposed so far. This prompts us to explore new methods to annotate event logs with enabled activities.
 
-\begin{definition}[Translucent Log Generation Problem]
-\label{def:tlgp}
-    Given an event log $\mathcal{L}$ as input, produce a translucent event log $\mathcal{L'}$ where the set of enabled activities are added as attributes. 
-\end{definition}
+\subsubsection*{Limitations of Previous Methods}
+Among the previously suggesting methods, one of them involves annotating the event log with activities which are in turn pattern-matched by labeling the user's system interface. This requires manual labour of labeling individual patterns and are rather unrealistic for real-life systems with a sizable variety of system interfaces. Another method suggests replaying the event log on the provided process model and annotating the enabled activities in the log. This method is more feasible, but the quality of the annotation, i.e., the accuracy of the enabled activities, is heavily dependent on the quality of the process model. As process models returned by process-discovery algorithms such as the Inductive Miner tend to be underfitting, the method above will likely take a superset of enabled activities for each event, thereby reducing its accuracy.
 
-There is a variant of the \emph{Translucent Log Generation Problem}, where a process model is provided along with the event log. \\
+\subsection*{Neglecting the Data-Centered Aspect}
+Current methods of translucent log annotation are solely focused on the control-flow aspect, even though the data attributes of event logs also contain valuable information and have an impact on activity enablement.  
 
-\begin{definition}[Translucent Log Generation Problem - Process Model Variant]
-\label{def:tlgpm}
-    Given an event log $\mathcal{L}$ and a process model $\mathcal{M}$ as inputs, produce a translucent event log $\mathcal{L'}$ where the set of enabled activities are added as attributes. 
-\end{definition}
+\subsection{Problem Declaration}
 
-The second variant differs from the first, as the set of enabled activities is constrained by the process model. Note that the function of $\mathcal{M}$ is to provide an upper bound on the set of enabled activities, and the log is there to provide further constraints to enrich the model. Of particular interest are parallel and choice situations, since we are able to deduce supplementary patterns not demonstrated in the process model using log data. We name the first variant defined in Definition \ref{def:tlgp} as \emph{Bottom-up Translucent Log Generation Problem}, whereas the second variant in Definition \ref{def:tlgpm} is named as \emph{Top-down Translucent Log Generation Problem.}
+Taking these aforementioned aspects into account, our problem statement can be formulated as the followng.
+
+\begin{center}
+	\emph{\textbf{Translucent Log Extension:} Given an event log and an auxillary process model, annotate the event log with translucent information while incorporating the data attributes into the computation.}
+\end{center}
 
 \section{Research Questions}
+
 \begin{comment}
-    The research questions you pose, are questions you need to (largely) answer in order to solve the problem.
-Basically, the combined set of answers to the questions you pose, allow you to solve the research problem.
-
-From the book of Justin Zobel, \enquote{Writing for Computer Science}~\cite{DBLP:books/sp/Zobel14} (which we highly recommend you to read before writing):
-
-\enquote{
-	A hypothesis or research question should be specific and precise, and should be
-	unambiguous; the more loosely a concept is defined, the more easily it will satisfy
-	many needs simultaneously, even when these needs are contradictory. And it is
-	important to state what is not being proposed—what the limits on the conclusions
-	will be.
-}
 
 In the context of our example, we can define many relevant research questions:
 \begin{enumerate}
@@ -221,45 +221,22 @@ Typically, your thesis consists of 3-5 research questions (often multiple more q
 
 In the scope of the thesis, we define the five research questions below: 
 
-\textbf{(RQ1.)} Which techniques can be derived to tackle the \textit{Translucent Log Generation Problem}?
+\textbf{\emph{RQ1.}} Which techniques can detect enabled activities considering solely the log?
 
-\textbf{(RQ2.)} How can we guarantee the accuracy of predictions made by our algorithm?
+\textbf{\emph{RQ2.}} Which techniques can detect enabled activities considering the log-model pair?
 
-\textbf{(RQ3.)} How much value do the novel techniques add compared to the state-of-the-art process discovery algorithms?
+\textbf{\emph{RQ3.}} How do these methods compare to each other in terms of accuracy and runtime?
 
-\textbf{(RQ4.)} How can the data-centered aspect be incorportaed in our method?
-
-\textbf{(RQ4.)} How should we design and implement an intuitive, user-friendly tool to demonstrate our results?
-
+\textbf{\emph{RQ4.}} How can we design and implement an intuitive, user-friendly tool to demonstrate our results?
 
 
 \section{Research Goals}
-\begin{comment}
-    In this section, you present your research goals.
-A research goal is a concise statement that s.t., achieving the goal helps you in (partially) solve a research question.
-Hence, the research questions and goals are often very related.
-Furthermore, it should be obvious for the reader what goal answers what problem.
 
-In the context of our previously mentioned questions, some example goals are:
-\begin{itemize}
-	\item Conduct a systematic literature review on noise patterns in real event data.
-	\item Design a noise detection algorithm.
-	\item Formalize the notion of incompleteness in an event log.
-	\item ...
-\end{itemize}
-\end{comment}
+The principal resarch goal of this thesis paper is to explore different methods to annotate event logs with translucent information. Furthermore, by building a meaningful, easily operable end-user framework dedicated to translucent log annotation, the \textbf{Translucify} framework should be able to evaluate these methods systematically with respect to its accuracy and runtime. 
 
-The principal research goal is to develop a framework dedicated to solve the \emph{Translucent Log Generation Problem} with the following properties:
+We hereby explicitly state that while the generated translucent log could be applied for further use, especially for process discovery to enhance previously discovered models, the exact application of generated translucent event logs is not the scope of this thesis. Instead, our sole focus lies on the log enhancement phase.
 
-\begin{enumerate}
-    \item Accurately reflects the enabled activities
-    \item Performs well regarding time complexity, particularly with large event logs
-    \item Easily operable for end-users
-\end{enumerate}
-
-By building a meaningful framework, our framework should add value to enhancing existing process discovery algorithms with more accurate models.
-
-% \section{Contributions}
+\section{Contributions}
 \begin{comment}
     In this section, you list the contributions that your thesis makes to our wonderful world (of science).
 Again, there is a strong link to the previous section.

@@ -55,19 +55,21 @@ numpages = {27},
 keywords = {translucent event logs, lucent process models, Petri nets, Process mining}
 }
 
-@article{lucency-first-paper,
-  author       = {Wil M. P. van der Aalst},
-  title        = {Markings in Perpetual Free-Choice Nets Are Fully Characterized by
-                  Their Enabled Transitions},
-  journal      = {CoRR},
-  volume       = {abs/1801.04315},
-  year         = {2018},
-  url          = {http://arxiv.org/abs/1801.04315},
-  eprinttype    = {arXiv},
-  eprint       = {1801.04315},
-  timestamp    = {Thu, 14 Oct 2021 09:15:22 +0200},
-  biburl       = {https://dblp.org/rec/journals/corr/abs-1801-04315.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
+@inproceedings{lucency-first-paper,
+author = {van der Aalst, Wil M. P.},
+title = {Markings in Perpetual Free-Choice Nets Are Fully Characterized by Their Enabled Transitions},
+year = {2018},
+isbn = {978-3-319-91267-7},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+url = {https://doi.org/10.1007/978-3-319-91268-4_16},
+doi = {10.1007/978-3-319-91268-4_16},
+abstract = {A marked Petri net is lucent if there are no two different reachable markings enabling the same set of transitions, i.e., states are fully characterized by the transitions they enable. This paper explores the class of marked Petri nets that are lucent and proves that perpetual marked free-choice nets are lucent. Perpetual free-choice nets are free-choice Petri nets that are live and bounded and have a home cluster, i.e., there is a cluster such that from any reachable state there is a reachable state marking the places of this cluster. A home cluster in a perpetual net serves as a “regeneration point” of the process, e.g., to start a new process instance (case, job, cycle, etc.). Many “well-behaved” process models fall into this class. For example, the class of short-circuited sound workflow nets is perpetual. Also, the class of processes satisfying the conditions of the α algorithm for process discovery falls into this category. This paper shows that the states in a perpetual marked free-choice net are fully characterized by the transitions they enable, i.e., these process models are lucent. Having a one-to-one correspondence between the actions that can happen and the state of the process, is valuable in a variety of application domains. The full characterization of markings in terms of enabled transitions makes perpetual free-choice nets interesting for workflow analysis and process mining. In fact, we anticipate new verification, process discovery, and conformance checking techniques for the subclasses identified.},
+booktitle = {Application and Theory of Petri Nets and Concurrency: 39th International Conference, PETRI NETS 2018, Bratislava, Slovakia, June 24-29, 2018, Proceedings},
+pages = {315–336},
+numpages = {22},
+keywords = {Free Choice Nets, Home Cluster, Petri Net Marking, Workﬂow Nets, Reachable Marking},
+location = {Bratislava, Slovakia}
 }
 
 @InProceedings{creating-translucent-event-logs,
@@ -228,6 +230,20 @@ doi = {10.1137/1.9781611975673.14},
 URL = {https://epubs.siam.org/doi/abs/10.1137/1.9781611975673.14},
 eprint = {https://epubs.siam.org/doi/pdf/10.1137/1.9781611975673.14},
     abstract = { Abstract Event sequence prediction has wide applications on economics, electronic health and social media monitoring. Accurate prediction of event sequences can help provide better service to customers and prevent risks. Recent works try to address the problem aiming at learning the impact of past events on the future events using deep learning methods. Such works often take the past event sequences as input and model the self-change transformations of the events, and few of them concerned the effect of event attributes. We propose an RNN-based predictive model to encode multiple attributes as attached information of the event for predicting next event and its attributes given past sequences. To learn how important each attribute is for the event, we design a component modulator to customize weights for representations of the event and its attributes. The more important the information is, the relevant weight will be higher. Finally, the prediction of next event and its attributes are conducted simultaneously with a different modulator for each predictive task. The performance of the proposed model was evaluated on 5 real-life datasets, containing two different types of event logs. The results show that our model outperforms the baselines and the state-of-the-art, not only on the prediction of next event and its attributes but also the generation of event sequence suffix. }
+}
+
+@Inbook{bible,
+author="van der Aalst, Wil",
+title="Data Science in Action",
+bookTitle="Process Mining: Data Science in Action",
+year="2016",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="3--23",
+abstract="In recent years, data science emerged as a new and important discipline. It can be viewed as an amalgamation of classical disciplines like statistics, data mining, databases, and distributed systems. Existing approaches need to be combined to turn abundantly available data into value for individuals, organizations, and society. Moreover, new challenges have emerged, not just in terms of size (``Big Data'') but also in terms of the questions to be answered. This book focuses on the analysis of behavior based on event data. Process mining techniques use event data to discover processes, check compliance, analyze bottlenecks, compare process variants, and suggest improvements. In later chapters, we will show that process mining provides powerful tools for today's data scientist. However, before introducing the main topic of the book, we provide an overview of the data science discipline.",
+isbn="978-3-662-49851-4",
+doi="10.1007/978-3-662-49851-4_1",
+url="https://doi.org/10.1007/978-3-662-49851-4_1"
 }
 
 

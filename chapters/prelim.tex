@@ -21,33 +21,163 @@ Some useful tips:
 \end{itemize}
 \end{comment}
 
+% 1. process mining
+% 2. ml
+\begin{definition}[Multisets and sequences]
+    The set of all multisets of a set $A$ is denoted with $\mathbb{B}(A)$. $\sigma = \langle a_1, a_2, \dots, a_n \rangle \in A^*$ denotes a sequence over $A$ of length $\lvert \sigma \rvert = n$. 
+\end{definition}
+
+\section{Process Mining}
+
+
+
+\subsection{Petri Nets}
+
 \begin{definition}[Petri net]
 \label{def:petrinet}
     Let $P, T$ be finite, disjoint sets, where $T$ is a set of \emph{places} and $T$ set of \emph{transitions}. A \emph{Petri net} is a triple $N = (P, T, F)$, where $F \subseteq (P \times T) \cup (T \times P)$ is a set of directed arcs between places and transitions.
 \end{definition}
 
-\begin{definition}[Marked Petri net]
-    Let $N = (P, T, F)$ be a Petri net. A \emph{marked Petri net} is an ordered pair $(N, M)$ where $M \in \mathbb{B}(P)$ is a multiset over P.
+Petri nets are the standard process model used in process mining, whose biggest advantage is the ability to model concurrent systems. Places of a Petri net correspond to states of a process, whereas transition of a Petri net correspond to event activities. In order to portray this behavior, we label transitions with activity names.
+
+\begin{definition}[Marked Labeled Petri net]
+    Let $N = (P, T, F)$ be a Petri net. A \emph{labeled Petri net} is an extended tuple $N = (P, T, F, \mathcal{A}, l)$, where $\mathcal{A}$ is a set of activity labels and $l: T \rightarrow \mathcal{A}$ is a labeling function. A \emph{marked Petri net} is an ordered pair $(N, M)$ where $M \in \mathbb{B}(P)$ is a multiset over P.
 \end{definition}
 
-\begin{definition}[Labeled Petri net]
-    
+There are cases where a transition does not correspond to any of the activity names in the event log, as some are only used to model the control flow of a Petri net. These transitions are called \emph{silent transitions} (also $\tau$-transitions) and are denoted with the activity name $\tau$.
+
+\begin{definition}[Firing rule]
+    Let $(N, M)$ be a marked Petri net. A transition $t \in T$ is \emph{enabled} in $M$ if and only if $\pre t \leq M$. We also characterize this property using the notation $(N, M)[t\rangle$. The set of enabled transitions in a marked Petri net $(N, M)$ is denoted as $en(N, M) = \{ t \in T \mid \pre t \leq M \}$.
 \end{definition}
 
+An enabled transition can be fired, which removes a token from each of its input places and adds a token to each of its output places.
 
+\begin{definition}[Firing rule]
+    Let $(N, M)$ be a marked Petri net. The firing of a transition $t \in T$ is denoted as $(N, M) [t\rangle (N, M')$, where $M' = (M / ^{\bullet}t) \cup t^{\bullet}$.
 
-\begin{definition}[Event Log]
-    
+    Let $\sigma = \langle t_1, t_2, \dots, t_n \rangle \in T^*$ be a sequence of transitions. $(N, M)[\sigma \rangle (N, M')$ denotes that there exists a sequence of markings $\langle M_1 = M, M_2, \dots, M_{n+1} = M' \rangle$ so that $(N, M_i)[t_i \rangle (N, M_{i+1})$ for all $1 \leq i \leq n$. The set of all reachable markings from $M$ is denoted as $[N, M\rangle = \{ M' \mid (N, M) [\sigma\rangle (N, M') \} \text{ for some } \sigma \in T^*$.
 \end{definition}
 
-\begin{definition}[Translucent Event Log]
-\end{definition}
+(Show example of a marked Petri net and the firing sequence)
 
 \begin{definition}[Lucency]
-    
+    Let $(N, M)$ be a marked Petri net. $(N, M)$ is \emph{lucent} if and only if:
+    \[
+        \forall M_1, M_2 \in [N, M \rangle: en(N, M_1) = en(N, M_2) \Rightarrow M_1 = M_2.
+    \]
 \end{definition}
 
-\begin{definition}[Directly-Follows Graph]
+
+
+\begin{definition}[Stoachastic Data Petri net]
+    Let $N = (P, T, F, \mathcal{A}, l)$ be a labeled Petri net. A tuple $(P, T, F, \mathcal{A}, l, \omega)$ is \emph{stochastic} if and only if $\omega: T \times \Delta \to \mathbb{R}^+$ is a weight function.
+\end{definition}
+
+Given a state $p \in P$ and a data state $\delta \in \Delta$, the probability that the Petri net $N$ fires a transition $t \in p^{\bullet}$ is given as the following equation:
+
+\[
+    p(t \mid p, \delta) = \frac{\omega(t, \delta)}{\sum_{t' \in p^{\bullet}} \omega(t', \delta)}.
+\]
+
+\subsection{Event Logs}
+
+\begin{definition}[Event]
+    Let $\mathcal{E}$ be the event universe. An \emph{event} $e \in \mathcal{E}$ is a logical abstraction of a real-life process event. An event possesses multiple named attributes. We define the universe of all attribute names as $\mathcal{AN}$ and the universe of all attribute values as $\mathcal{AV}$.  
+\end{definition}
+
+Based on this, we define the attribute projection function $\pi: \mathcal{E} \times \mathcal{AN} \rightarrow \mathcal{AV} \cup \{ \perp \}$, where $\pi$ is a partial function mapping the attribute name of every event to an attribute value (otherwise a none value $\perp$). Following the convention in \cite{bible}, we denote the signature $\pi(e, n)$ as $\pi_n(e)$ for all $e \in \mathcal{E}, n \in \mathcal{AN}$.
+
+Subsequently, a collection of events form an event log of a system process.
+
+\begin{definition}[Event Log]
+    Let $\mathcal{C, A, T} \subseteq \mathcal{AV}$, where $\mathcal{C}$ is the universe of case identifiers, $\mathcal{A}$ the universe of activity names, and $\mathcal{T}$ the universe of timestamps.  An event log $\mathcal{L} \subseteq \mathcal{E}$ is a subset of the event universe such that for all events $e \in \mathcal{L}$:
+    
+    \begin{itemize}
+        \item $\pi_{case}(e) \in \mathcal{C}$ is the case identifier,
+        \item $\pi_{act}(e) \in \mathcal{A}$ is the activity name,
+        \item $\pi_{time}(e) \in \mathcal{T}$ is the timestamp.
+    \end{itemize}
+\end{definition}
+
+We further assume that in a conventional event log, there exists a total order $<_{time}$ on $\mathcal{L}$ such that for all $e, e' \in \mathcal{L}: e <_{time} e' \Leftrightarrow \pi_{time}(e) < \pi_{time}(e')$, i.e. the events are sorted by their timestamps in chronological order.
+
+We can further group events by their case identifiers. A sequence of events with the same case identifier ordered by $<_{time}$ is called a \emph{trace}. Note that the set of all traces of an event log is pairwise disjoint, i.e., there is no event $e \in \mathcal{E}$ which is an element of two different traces. Hence, an event log can also be represented as a set of traces.
+
+\begin{definition}[Trace]
+    Let $\mathcal{E}$ be the event universe. A \emph{trace} is a sequence of events $\sigma = \langle e_1, e_2, \dots, e_n \rangle \in \mathcal{E}^*$ such that for all $i \in \{1, \dots, n-1\}: \pi_{case}(e_i) = \pi_{case}(e_{i+1})$.
+\end{definition}
+
+However, when discussing about traces, we oftentimes refer to them as a sequence of activities. This is firstly for the sake of simplicity, but also due to the fact that the control flow is considered to be the most crucial aspect in process mining, in particular when constructing process models. Event logs where each trace is solely represented as a sequence of activities is called a \emph{simple event log}.
+
+\begin{definition}[Simple Event Log]
+    Let $\mathcal{L}$ be an event log and $\sigma \in \mathcal{L}$ a trace. We expand the attribute projection function analogously for traces as the following: $\pi_n(\sigma) = \pi_n(\langle e_1, e_2, \dots, e_n \rangle) = \langle \pi_n(e_1), \pi_n(e_2), \dots, \pi_n(e_n) \rangle$. $\mathcal{L'}$ is a simple event log of $\mathcal{L}$, if:
+    \[
+        L' = \bigcup\limits_{\sigma \in \mathcal{L}} \pi_{act}(\sigma).
+    \]
+\end{definition}
+
+Since we are projecting only the activity names of each event, we lose the uniqueness of each event, resulting in losing the uniqueness of each trace as well. In the simple event log setting, we therefore need to represent the event log as a multiset of traces.
+
+The objective of our thesis is to transform conventional event logs into translucent event logs by annotating each event $e \in \mathcal{E}$ with an additional attribute $en$. $en$ specifies all activities which could have happened the moment $\pi_{act}(e)$ occurred. We formally define the notion of translucent event logs below.
+
+\begin{definition}[Translucent Event Log]
+    Let $\mathcal{L}$ be an event log. $\mathcal{L}$ is \emph{translucent} if and only if for all $e \in \mathcal{L}: \pi_{en}(e) \subseteq \mathcal{A} \land \pi_{act}(e) \in \pi_{en}(e)$.
+\end{definition}
+
+(Example of a translucent event log)
+
+\subsection{Transition Systems}
+
+\begin{definition}[Transition System]
+    Let $S$ be the set of states, $A$ the set of activities, and $T \subseteq S \times A \times S$ the set of transitions. A \emph{transition system} is a triple $TS = (S, A, T)$. We denote the set of initial states as $S^{start}$ and the set of final states as $S^{end}$, where $S^{start}, S^{end} \subseteq S$.
+\end{definition}
+
+Transition systems are an alternative method next to Petri nets to represent processes of a system. Due to its structural property, silent transitions are absent in transition systems. This relieves us from the need to compute alignments when replaying the event log on the model.
+
+\begin{definition}[Prefix Automaton]\label{def:pa}
+
+    Let $\mathcal{L}$ be an event log and $l^{state}: \mathcal{L} \times \mathbf{N} \rightarrow S$ a state representation function. $TS_{L, l^{state}} = (S, A, T)$ is a transition system based on $\mathcal{L}$ and $l^{state}$ with the following properties:
+    
+    \begin{itemize}
+        \item $S = \{l^{state}(\sigma, k) \mid \sigma \in \mathcal{L} \land 0 \leq k \leq \lvert \sigma \rvert \}$ the state space,
+        \item $A = \{ \sigma(k) \mid \sigma \in \mathcal{L} \land 1 \leq k \leq \lvert \sigma \rvert \}$ the set of activities of the event log,
+        \item $T = \{ (l^{state}(\sigma, k), \sigma(k+1), l^{state}(\sigma, k+1)) \mid \sigma \in \mathcal{L} \land 0 \leq k < \lvert \sigma \rvert \}$ the set of transitions,
+        \item $S^{start} = \{ l^{state}(\sigma, 0) \mid \sigma \in \mathcal{L} \}$ the set of initial states, and
+        \item $S^{end} = \{ l^{state}(\sigma, \lvert \sigma \rvert) \mid \sigma \in \mathcal{L} \}$ the set of final states.
+    \end{itemize} 
+
+\end{definition}
+
+(Show example of a prefix automaton)
+
+Frequently used examples of a state representation function take the prefix function $hd^k$ as its baseline mechanism. Among diverse methods of process representation using transition systems, we focus on the list, set, and multiset representations.
+
+(Show example of the set and multiset variant of previous example)
+
+All these three variants have their own advantages and disadvantages. The list representation is the most precise, as it preserves the activity order of each trace. However, analyzing parallel situations is difficult due to the very same characteristics of order preservation. Moreover, the representation fails at recognizing loops in the inherent process model and is therefore susceptible to overfitting.
+
+The set representation, on the other hand, is more general and does not suffer from order preservation issues as the list representation does. Although the property of order negligance is practical for local loops and parallel situations, it is critical for larger loops. Consider e.g. nested loops or a loop situation where all activities have been already visited in the first iteration. This would lead to drastic state simplification and the resulting information loss. here, it is crucial to select an optimal prefix length $k$.
+ 
+The multiset representation is a compromise between the list and set representations. However, it is still not able to correctly capture the loop behavior, as each iteration would create a new set of states.
+
+\section{Machine Learning Algorithms}
+
+\subsection{Conventional Machine Learning Algorithms}
+
+\subsubsection*{Random Forest}
+\subsubsection*{Logistic Regression}
+
+\subsection{Deep Learning Algorithms}
+
+\subsubsection*{Transformer Architecture}
+
+
+
+
+
+
+\begin{comment}
+    \begin{definition}[Directly-Follows Graph]
     
 \end{definition}
 
@@ -62,6 +192,8 @@ Some useful tips:
 \begin{definition}[Mining Non-local dependencies]
     
 \end{definition}
+
+\end{comment}
 
 
 

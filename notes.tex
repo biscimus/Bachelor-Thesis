@@ -36,6 +36,14 @@
         \item In a process, there is stateful data involved. The data might fluctuate independent of occurred events, but we limit the data states only to a discrete time interval: Before, between and after two events. It is logical to observe these kinds of data only due to the intrinsic nature of event logs: they are produced right after some event has been executed by e.g. an IoT device. There are several ways to denote this flow of data state in combination with the Petri Net setting. The data petri net does not necessarily denote how data changes througout the process flow, but only dictates the probability distribution of individual transitions for each token with data event. Colored Petri Nets, however, impertively determines the data flow by using guards, arc functions and colors.
         
         \item Note that translucent logs is mainly useful for that case of a lucent process model. We can also create a sound workflow net out of an unsafe workflow net by introducing the notion of a layered petri net. (This might be already covered by object centric petri nets :( )
+        
+        \item Singleton pruning: Singletons are activities that only occurrs max. once in every case. (Define it formally in your paper) After the log enhancement, we can safely remove these activities from the set of enabled activities after its occurrence. This is a simple optimization step that can be done after the log enhancement step.
+        
+        \item Floating pruning: Floating activities are activities that are correlated with neither the control flow nor the data flow of the process. The basic assumptions of a process model is that every activity is enabled by the occurence of one or more previous activitie and/or the value of one or more data attribute values. (Take example of the \emph{Sepsis} log) Activities such as \emph{Leucocytes}, \emph{LacticAcid} or \emph{CRP} can be fired independently of the main control flow. These activities can therefore be added to every set of enabled activities.
+        
+        \item What can be the criteria for an activity to be classified as a floating activity?
+        
+
     \end{itemize}
     
 

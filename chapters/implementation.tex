@@ -1,8 +1,11 @@
-This section is only needed if there are non-trivial parts of your approach that require clarification.
-You do not need to show the design of your code, or, pseudo code.
-Only focus on non-trivial aspects.
+% This section is only needed if there are non-trivial parts of your approach that require clarification.
+% You do not need to show the design of your code, or, pseudo code.
+% Only focus on non-trivial aspects.
 
-For example, the Inductive Miner clearly describes the requirements for the \enquote{cuts} that it finds.
-How you actually compute these cuts, i.e., combined with correctness proofs w.r.t. the requirements posed, is a good example of what can be added here.
+% For example, the Inductive Miner clearly describes the requirements for the \enquote{cuts} that it finds.
+% How you actually compute these cuts, i.e., combined with correctness proofs w.r.t. the requirements posed, is a good example of what can be added here.
 
-Ideally, your previous chapter is so clear, that you do not need this chapter :-), i.e., implementing it is simply clear from the description.
+% Ideally, your previous chapter is so clear, that you do not need this chapter :-), i.e., implementing it is simply clear from the description.\begin{itemize}
+\begin{itemize}
+    \item The program should accept an event log and an optional process model, e.g. a Petri net, as inputs and should return a corresponding translucent event log as output. Users should have the option to select from various methods of log generation, will will be specified below. Mainly, these methods can be classified in two categories: top-down approaches which require a Petri net, and bottom-up approaches which solely need the event log.
+\end{itemize}
