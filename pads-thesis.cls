@@ -9,7 +9,7 @@
 \RequirePackage[T1]{fontenc}
 
 %%% use a non-rasterized font and enable accurate color specification 
-\RequirePackage{xcolor}
+\RequirePackage[x11names]{xcolor}
 \RequirePackage{lmodern}
 
 %%% page layout
@@ -30,7 +30,7 @@
 \setlength{\headheight}{14pt}
 %%% TiKZ setup
 \RequirePackage{tikz}
-\usetikzlibrary{calc, shapes, arrows, positioning, patterns, decorations.pathreplacing, backgrounds, petri, automata}
+\usetikzlibrary{calc, shapes, arrows, positioning, patterns, decorations.pathreplacing, backgrounds, petri, automata, fit, er}
 
 %$% amstheorem setup (order of the require's matters here!)
 %$ introduce separate theorem-like environments 

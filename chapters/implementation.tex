@@ -6,6 +6,224 @@
 % How you actually compute these cuts, i.e., combined with correctness proofs w.r.t. the requirements posed, is a good example of what can be added here.
 
 % Ideally, your previous chapter is so clear, that you do not need this chapter :-), i.e., implementing it is simply clear from the description.\begin{itemize}
-\begin{itemize}
-    \item The program should accept an event log and an optional process model, e.g. a Petri net, as inputs and should return a corresponding translucent event log as output. Users should have the option to select from various methods of log generation, will will be specified below. Mainly, these methods can be classified in two categories: top-down approaches which require a Petri net, and bottom-up approaches which solely need the event log.
-\end{itemize}
+
+The program accepts an event log and an optional process model, e.g. a Petri net, as inputs and returns a corresponding translucent event log as output. Users have the option to select from various methods of log generation, will will be specified below. Mainly, these methods can be classified in two categories: top-down approaches which require a Petri net, and bottom-up approaches which solely need the event log.
+
+In order to provide a user friendly interface, we implement a web application. The following sections describe the software specification, architecture, and its features.
+
+\section{Software Architecture}
+
+\subsection{Backend}
+
+The backend was implemented using the Flask\footnote{www.flask.palletsprojects.com/en/3.0.x/} framework. Flask is fitting for our use case as it is a lightweight framework providing a minimalisitic set of features needed to build API calls.
+
+For the database, SQLAlechemy\footnote{www.sqlalchemy.org} was used as an Object Relational Mapping tool to model the database. It was chosen due to its seamless compatibility with Flask using the Flask-SQLAlchemy extension, and its ease of usage.
+
+The database stores event log entities and their corresponding translucent event log entities. Since the event logs tend to be large, the actual event logs are stored in the file system, while the database only keeps track of the metadata, sucsh as the file path, name, and type of the event logs. Translucnet event log entities have an extra attribute \texttt{is\_ready} in order to indicate whether the computation is complete. The database schema is depicted in Figure \ref{fig:db_schema}.
+
+\tikzset{multi attribute/.style={attribute, double distance=1.5pt}}
+\tikzset{derived attribute/.style={attribute, dashed}}
+\tikzset{total/.style={double distance=1.5pt}}
+\tikzset{every entity/.style={draw=orange, fill=orange!20}}
+\tikzset{every attribute/.style={draw=MediumPurple1, fill=MediumPurple1!20}}
+\tikzset{every relationship/.style={draw=Chartreuse2, fill=Chartreuse2!20}}
+\newcommand{\key}[1]{\underline{#1}}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=5em]
+        \node[entity](eventlog){\texttt{EventLog}};
+        \node[attribute](pid)[left of=eventlog, xshift=-0.5cm]{\texttt{\key{id}}} edge(eventlog);
+        \node[attribute](name)[above left of=eventlog]{\texttt{name}} edge(eventlog);
+        \node[attribute](type)[above right of=eventlog]{\texttt{type}} edge(eventlog);
+        \node[attribute](filepath)[right of=eventlog, xshift=1cm]{\texttt{file\_path}} edge(eventlog);
+        \node[relationship](has)[below of=eventlog]{\texttt{has}} edge(eventlog);
+        \node[entity](translucenteventlog)[below of=has]{\texttt{TranslucentEventLog}} edge[total](has);
+        \node[attribute](tid)[left of=translucenteventlog, xshift=-1.5cm]{\texttt{\key{id}}} edge(translucenteventlog);
+        \node[attribute](tname)[below left of=translucenteventlog, xshift=-1cm]{\texttt{name}} edge(translucenteventlog);
+        \node[attribute](tisready)[below of=translucenteventlog]{\texttt{is\_ready}} edge(translucenteventlog);
+        \node[attribute](ttype)[below right of=translucenteventlog, xshift=1cm]{\texttt{type}} edge(translucenteventlog);
+        \node[attribute](tfilepath)[right of=translucenteventlog, xshift=2cm]{\texttt{file\_path}} edge(translucenteventlog);
+    \end{tikzpicture}
+    \caption{Entity-Relationship Diagram of the database schema.}
+    \label{fig:db_schema}
+\end{figure}
+
+
+ 
+\subsection{Frontend}
+ 
+React was chosen due to the author's proficiency. The web application will start with an interface where the user can upload an event log, with a choice between CSV and XES. After uploading the event log, different methods of translucent log annotation will be available. The user can select the method and the corresponding necessary parameters. After the log generation is complete, the user can download the log either in a CSV or an XES format.
+
+\section{Software Features}
+
+\subsection{GPU Computing}
+For the transformer variant, in order to train the transformer model, a GPU access was necessary due to the high computational requirements. In a local setting, the program would take an extraordinary amount of computing time, or in other cases simply terminate due to insufficient memory.
+
+In order to solve this issue, a connection to the remote PADS HPC Cluster needed to be established. Inside the cluster, a Flask microservice was set up analagously to the local setup. Using SSH tunneling, all requests regarding the transformer model were then forwarded to the remote server. After the computations were finished, the results from the remote server were subsequently delivered back to the main application running in the local server. Figure \ref{fig:ssh_tunneling} illustrates the SSH port forwarding setup.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+
+        % Computer icons
+        \node[label=below:\texttt{localhost}] (local) {\fcComputer{0.1}{black}{0.5}};
+        \node[right of=local, xshift=6cm, label=below:\texttt{Remote GPU Server}] (remote) {\fcComputer{0.1}{black}{0.5}};
+
+        % Ports
+        \node[below of=local, rectangle,  yshift=-1cm, fill=yellow] (localport3000) {\texttt{Port :3000}};
+        \node[below of=remote, rectangle, yshift=-1cm, fill=yellow] (remoteport5000) {\texttt{Port :5000}};
+        \node[below of=localport3000, rectangle, fill=yellow] (localport5000) {\texttt{Port :5000}};
+        \node[below of=remoteport5000, rectangle, fill=yellow] (remoteport3000) {\texttt{Port :3000}};
+
+        % Arrows
+        \draw[thick, ->, >=stealth] (localport3000) -- (remoteport5000) node[midway, above, xshift=-0.25cm] {\texttt{request}};
+        \draw[thick, ->, >=stealth] (remoteport3000) -- (localport5000) node[midway, above, xshift=-0.25cm] {\texttt{callback}};
+
+        % Borders
+        \draw[dotted, thick, rounded corners] ($(local.north west) + (-0.5, 0.5)$)  rectangle ($(localport5000.south east) + (0.5, -0.5)$);
+        \draw[dotted, thick, rounded corners] ($(remote.north west) + (-1, 0.5)$)  rectangle ($(remoteport3000.south east) + (1, -0.5)$);
+
+    \end{tikzpicture}
+    \caption{SSH Port Forwarding.}
+    \label{fig:ssh_tunneling}
+\end{figure}
+
+\subsection{Asynchronous Task Distribution}
+All requests from the frontend are processed by request handlers of Flask. A particular issue we encountered is this case was the excessive computation time for each algorithm run in the backend. As a result, when attempting to run the algorithms directly on the request handlers in Flask, the server would block all other requests until the current computation was finished, making the application unresponsive and bluntly unusable. To mitigate this issue, we incorporated a distributed task queue using Redis\footnote{https://redis.io/} and Celery\footnote{https://pypi.org/project/celery/}.
+
+Celery is a distributed system to split up computation in tasks and to assign these to subprocesses, known as workers. Redis is used as a \emph{message broker} so that the Celery client can delegate the tasks to the workers. Upon receiving a request, the Flask server will pass on the task to the Celery client, which will then push the task to a Redis Message Queue. The Celery workeres will then pick up the task from the queue and execute it. Compared to the setup where all tasks are handled directly in the request handlers, this setup allows for a non-blocking behavior of the server, as the tasks are executed in the background by other processes, thereby preventing the application from freezing.
+
+The overall application architecture is depicted in Figure \ref{fig:app_architecture}.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[node distance=2cm]
+
+        \foreach \i in {0,1} {
+            \begin{scope}[xshift=\i*7.65cm]
+                
+                % Backend (API Server)
+                \node[yshift=-1cm, label=below:\texttt{Server}] (backend\i) {\Huge \faServer};
+                
+                % Database
+                \node[below of=backend\i, yshift=-1cm, label=below:\texttt{Database}] (database\i) {\Huge \faDatabase};
+                
+                % Message Queue
+                \node[cylinder, draw, fill=red!50, text centered, minimum height=5em, shape aspect=0.75, right of=backend\i, label={[label distance=0.25cm]below:\texttt{Redis MQ}}] (queue\i) {\texttt{Tasks}};
+
+                % Celery
+                \node[right of=queue\i, xshift=0.55cm, label=below:\texttt{Celery}] (celery\i) {\Huge \faSitemap};
+
+                % Worker 1
+                \node[below of=celery\i, rectangle, yshift=0.5cm, fill=yellow] (worker1\i) {\texttt{Worker 1}};
+
+                % Worker 2
+                \node[below of=worker1\i, yshift=1cm, rectangle, fill=yellow] (worker2\i) {\texttt{Worker 2}};
+
+                % dots
+                \node[below of=worker2\i, yshift=1.5cm] (dots\i) {\Huge $\vdots$};
+
+                % Worker n
+                \node[below of=dots\i, yshift=1.25cm, rectangle, fill=yellow] (workern\i) {\texttt{Worker n}};
+
+                % Arrows
+                \draw[thick, <->, densely dotted, >=stealth] ($(backend\i) + (0, -1)$) -- (database\i);
+                \draw[thick,->,>=stealth] (backend\i) -- (queue\i);
+                \draw[thick,->,>=stealth] (queue\i) -- (celery\i);
+                \draw[thick, <->,densely dotted, >=stealth] ($(worker1\i) + (-1.35, -1.5)$) -- (database\i);
+
+                % Borders
+                
+                % Application border
+                \draw[dotted, thick, rounded corners] ($(backend\i.north west) + (-0.5, 1)$)  rectangle ($(workern\i.south east) + (0.75, -1)$);
+
+                % Celery border
+                \draw[thin, rounded corners] ($(celery\i.north west) + (-0.65, 0.5)$) rectangle ($(workern\i.south east) + (0.35, -0.5)$);
+            \end{scope}
+        }
+
+        % Frontend (browser)
+        \node[above of=backend0, yshift=1.5cm, label=below:\texttt{Browser}] (frontend) {\Huge \faDesktop};
+
+        % User
+        \node[dave, above of=frontend, yshift=1cm, label=below:\texttt{User},minimum size=1cm] (user) {};
+
+        \draw[thick,<->,>=stealth] ($(user) + (0, -1.5)$) -- (frontend);
+        \draw[thick,<->,>=stealth] ($(frontend) + (0, -1.25)$) -- (backend0);
+
+        % SSH connection
+        \node[draw, cloud, cloud puffs=11, cloud puff arc=120, aspect=2, right of=frontend, xshift=4.5cm] (sshcloud) {\texttt{SSH Tunneling}};
+
+        \draw[thick, >=stealth, out=120, in=90] (sshcloud.west) to[out=220, in=90] ++(-2,-2); % Left arm
+        \draw[thick, >=stealth, out=90, in=90] (sshcloud.east) to[out=320, in=90] ++(2,-2);  % Right arm
+
+        % Labels
+        \node[below of=database0, xshift=2.5cm, yshift=-0.4cm] {\texttt{Local}};
+        \node[below of=database1, xshift=2.5cm, yshift=-0.4cm] {\texttt{Remote}};
+    \end{tikzpicture}
+    \caption{Application Architecture}
+    \label{fig:app_architecture}
+\end{figure}
+
+\subsection{Multivariate Regression With Petri Nets}
+
+The sequence is depicted in Figure \ref*{fig:sd_petri_net}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=6cm,auto,>=stealth']
+        \node[fill=yellow] (server) {\texttt{Server}};
+        \node[left = of server, fill=yellow] (client) {\texttt{Client}};
+        \node[below of=server, node distance=5cm] (server_ground) {};
+        \node[below of=client, node distance=5cm] (client_ground) {};
+        %
+        \draw (client) -- (client_ground);
+        \draw (server) -- (server_ground);
+        \draw[->] ($(client)!0.25!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{GET} /event-log/<id>/columns}} ($(server)!0.25!(server_ground)$);
+        \draw[<-] ($(client)!0.35!(client_ground)$) -- node[below,scale=1,midway]{\texttt{columns}} ($(server)!0.35!(server_ground)$);
+
+        \draw[->, rounded corners=5pt] ($(client)!0.45!(client_ground)$) -- (-8, -2.25) -- (-8, -3.5) -- node[left,scale=1,midway, xshift=-0.25cm, yshift=0.75cm]{\texttt{Choose data columns}} ($(client)!0.70!(client_ground)$);
+
+        \draw[->] ($(client)!0.80!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{POST} /event-log/<id>/petri-net}} ($(server)!0.80!(server_ground)$);
+    \end{tikzpicture}
+    \caption{Client-server sequence diagram for the Petri net variant.}
+    \label{fig:sd_petri_net}
+\end{figure}
+
+\subsection{Multivarate Regression with Prefix Automata}
+
+The sequence is depicted in Figure \ref*{fig:sd_prefix_automaton}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=7cm,auto,>=stealth']
+        \node[fill=yellow] (server) {\texttt{Server}};
+        \node[left= of server, fill=yellow] (client) {\texttt{Client}};
+        \node[below of=server, node distance=7cm] (server_ground) {};
+        \node[below of=client, node distance=7cm] (client_ground) {};
+        %
+        \draw (client) -- (client_ground);
+        \draw (server) -- (server_ground);
+        \draw[->] ($(client)!0.20!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{GET} /event-log/<id>/columns}} ($(server)!0.20!(server_ground)$);
+        \draw[<-] ($(client)!0.30!(client_ground)$) -- node[above,scale=1,midway]{\texttt{columns}} ($(server)!0.30!(server_ground)$);
+
+        \draw[->] ($(client)!0.45!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{GET} /event-log/<id>/prefix-automaton}} ($(server)!0.45!(server_ground)$);
+        \draw[<-] ($(client)!0.55!(client_ground)$) -- node[above,scale=1,midway]{\texttt{prefix automaton}} ($(server)!0.55!(server_ground)$);
+
+        \draw[->, rounded corners=5pt] ($(client)!0.60!(client_ground)$) -- (-9, -4.2) -- (-9, -5.25) -- node[left,scale=1,midway, xshift=0cm, yshift=0.5cm, text width=4.5cm]{\texttt{Choose data columns \& Fine-tune PA}} ($(client)!0.75!(client_ground)$);
+
+        \draw[->] ($(client)!0.80!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{POST} /event-log/<id>/prefix-automaton}} ($(server)!0.80!(server_ground)$);
+    \end{tikzpicture}
+    \caption{Client-server sequence diagram for the Prefix automaton variant.}
+    \label{fig:sd_prefix_automaton}
+\end{figure}
+
+The implementation of the multivariate regression with prefix automata is done analagously to the Petri net variant.
+
+\section{Some another section}
+\subsection{Transformer Models}
+
+The transformer model is implemented using the PyTorch library. 
+
+The model is trained on the PADS HPC Cluster using an NVIDIA GeForce RTX 2080 Ti GPU with a total memory of 11264 MiB equipped with CUDA 12.2. Using a learning rate of 0.00001 and a batch size of 16, the model is trained for 50 epochs.

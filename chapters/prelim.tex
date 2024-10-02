@@ -21,8 +21,17 @@ Some useful tips:
 \end{itemize}
 \end{comment}
 
+In the upcoming section, we will introduce basic mathematical foundations essential for the thesis. These encompass the definitions of sets, multisets, sequences, Petri nets, and event logs. We will also introduce the concept of transition systems and prefix automata. Lastly, we will provide a cursory explanation of machine learning algorithms such as Multivariate Regression as well as deep learning algorithms such as the Transformer architecture.
+
 % 1. process mining
 % 2. ml
+
+\begin{definition}[Set]
+    A set is a collection $M$ of distinct objects. The objects in a set are called \emph{elements} of the set. The set $M$ is denoted as $M = \{ a_1, a_2, \dots, a_n \}$, where $a_1, a_2, \dots, a_n$ are the elements of the set. $\lvert M \rvert$ denotes the cardinality of $M$, i.e. the number of elements of $M$.
+\end{definition}
+
+Throughout the thesis, the set of natural numbers is denoted as $\mathbb{N} = \{0, 1, 2, 3, \dots\}$.
+
 \begin{definition}[Multisets and sequences]
     The set of all multisets of a set $A$ is denoted with $\mathbb{B}(A)$. $\sigma = \langle a_1, a_2, \dots, a_n \rangle \in A^*$ denotes a sequence over $A$ of length $\lvert \sigma \rvert = n$. 
 \end{definition}
@@ -41,13 +50,15 @@ Some useful tips:
 Petri nets are the standard process model used in process mining, whose biggest advantage is the ability to model concurrent systems. Places of a Petri net correspond to states of a process, whereas transition of a Petri net correspond to event activities. In order to portray this behavior, we label transitions with activity names.
 
 \begin{definition}[Marked Labeled Petri net]
-    Let $N = (P, T, F)$ be a Petri net. A \emph{labeled Petri net} is an extended tuple $N = (P, T, F, \mathcal{A}, l)$, where $\mathcal{A}$ is a set of activity labels and $l: T \rightarrow \mathcal{A}$ is a labeling function. A \emph{marked Petri net} is an ordered pair $(N, M)$ where $M \in \mathbb{B}(P)$ is a multiset over P.
+    Let $N = (P, T, F)$ be a Petri net. A \emph{labeled Petri net} is an extended tuple $N = (P, T, F, \mathcal{A}, l)$, where $\mathcal{A}$ is a set of activity labels and $l: T \rightarrow \mathcal{A}$ is a labeling function. A \emph{marked Petri net} is an ordered pair $(N, M)$ where $M \in \mathbb{B}(P)$ is a multiset over $P$.
 \end{definition}
 
 There are cases where a transition does not correspond to any of the activity names in the event log, as some are only used to model the control flow of a Petri net. These transitions are called \emph{silent transitions} (also $\tau$-transitions) and are denoted with the activity name $\tau$.
 
-\begin{definition}[Firing rule]
-    Let $(N, M)$ be a marked Petri net. A transition $t \in T$ is \emph{enabled} in $M$ if and only if $\pre t \leq M$. We also characterize this property using the notation $(N, M)[t\rangle$. The set of enabled transitions in a marked Petri net $(N, M)$ is denoted as $en(N, M) = \{ t \in T \mid \pre t \leq M \}$.
+\begin{definition}[Enabled transition]
+    Let $(N, M)$ be a marked Petri net.  We further define the $\bullet$ notation, where $\pre x = \{ y \mid (y, x) \in F \}$ and $\post x= \{ y \mid (x, y) \in F \}$.
+    
+    A transition $t \in T$ is \emph{enabled} in $M$ if and only if $\pre t \leq M$. We also characterize this property using the notation $(N, M)[t\rangle$. The set of enabled transitions in a marked Petri net $(N, M)$ is denoted as $en(N, M) = \{ t \in T \mid \pre t \leq M \}$.
 \end{definition}
 
 An enabled transition can be fired, which removes a token from each of its input places and adds a token to each of its output places.
@@ -112,7 +123,7 @@ However, when discussing about traces, we oftentimes refer to them as a sequence
 \begin{definition}[Simple Event Log]
     Let $\mathcal{L}$ be an event log and $\sigma \in \mathcal{L}$ a trace. We expand the attribute projection function analogously for traces as the following: $\pi_n(\sigma) = \pi_n(\langle e_1, e_2, \dots, e_n \rangle) = \langle \pi_n(e_1), \pi_n(e_2), \dots, \pi_n(e_n) \rangle$. $\mathcal{L'}$ is a simple event log of $\mathcal{L}$, if:
     \[
-        L' = \bigcup\limits_{\sigma \in \mathcal{L}} \pi_{act}(\sigma).
+        \mathcal{L'} = \bigcup\limits_{\sigma \in \mathcal{L}} \pi_{act}(\sigma).
     \]
 \end{definition}
 
@@ -121,7 +132,7 @@ Since we are projecting only the activity names of each event, we lose the uniqu
 The objective of our thesis is to transform conventional event logs into translucent event logs by annotating each event $e \in \mathcal{E}$ with an additional attribute $en$. $en$ specifies all activities which could have happened the moment $\pi_{act}(e)$ occurred. We formally define the notion of translucent event logs below.
 
 \begin{definition}[Translucent Event Log]
-    Let $\mathcal{L}$ be an event log. $\mathcal{L}$ is \emph{translucent} if and only if for all $e \in \mathcal{L}: \pi_{en}(e) \subseteq \mathcal{A} \land \pi_{act}(e) \in \pi_{en}(e)$.
+    Let $\mathcal{L}$ be an event log. $\mathcal{L}$ is \emph{translucent} if and only if for all $e \in \mathcal{L}: \pi_{en}(e) \subseteq \mathcal{A}$ and $\pi_{act}(e) \in \pi_{en}(e)$.
 \end{definition}
 
 (Example of a translucent event log)
@@ -129,14 +140,14 @@ The objective of our thesis is to transform conventional event logs into translu
 \subsection{Transition Systems}
 
 \begin{definition}[Transition System]
-    Let $S$ be the set of states, $A$ the set of activities, and $T \subseteq S \times A \times S$ the set of transitions. A \emph{transition system} is a triple $TS = (S, A, T)$. We denote the set of initial states as $S^{start}$ and the set of final states as $S^{end}$, where $S^{start}, S^{end} \subseteq S$.
+    Let $S$ be the set of states, $A$ the set of activities, and $T \subseteq S \times A \times S$ the set of transitions. A \emph{transition system} is a triple $TS = (S, A, T)$. We denote the set of initial states as $S^{start} \subseteq S$ and the set of final states as $S^{end} \subseteq S$, where $S^{start}, S^{end} \subseteq S$.
 \end{definition}
 
 Transition systems are an alternative method next to Petri nets to represent processes of a system. Due to its structural property, silent transitions are absent in transition systems. This relieves us from the need to compute alignments when replaying the event log on the model.
 
 \begin{definition}[Prefix Automaton]\label{def:pa}
 
-    Let $\mathcal{L}$ be an event log and $l^{state}: \mathcal{L} \times \mathbf{N} \rightarrow S$ a state representation function. $TS_{L, l^{state}} = (S, A, T)$ is a transition system based on $\mathcal{L}$ and $l^{state}$ with the following properties:
+    Let $\mathcal{L}$ be an event log and $l^{state}: \mathcal{L} \times \mathbb{N} \rightarrow S$ a state representation function. $TS_{L, l^{state}} = (S, A, T)$ is a transition system based on $\mathcal{L}$ and $l^{state}$ with the following properties:
     
     \begin{itemize}
         \item $S = \{l^{state}(\sigma, k) \mid \sigma \in \mathcal{L} \land 0 \leq k \leq \lvert \sigma \rvert \}$ the state space,

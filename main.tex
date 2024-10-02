@@ -5,7 +5,10 @@
 \usepackage{csquotes} % handles quotes automatically
 \usepackage{hyperref} % allows autoref/hyperlinks/etc.
 \usepackage{tikz}
-\usetikzlibrary{petri,positioning, automata, arrows.meta}
+\usepackage{tikzpeople}
+\usepackage{fontawesome}
+\usepackage{figchild}
+\usepackage{float}
 
 %%%%% PADS TEMPLATE SETTINGS %%%%%
 \renewcommand{\gTitle}{Translucify: Enhancing Event Logs with Enabled Activities Beyond the Control-Flow Perspective}
@@ -35,10 +38,10 @@
 %\pagestyle{plain}
 %%% TOC
 
-%\begin{abstract}
-% \chapter*{Abstract} \addcontentsline{toc}{chapter}{Abstract}
-% \input{chapters/abstract.tex}
-%\end{abstract}
+\begin{abstract}
+\chapter*{Abstract} \addcontentsline{toc}{chapter}{Abstract}
+\input{chapters/abstract.tex}
+\end{abstract}
 
 \tableofcontents
 
@@ -75,16 +78,16 @@
 \bibliography{references} 
 \addcontentsline{toc}{chapter}{Bibliography}
 
-% \begin{appendices}
-%     \chapter{Some Appendix}
-%     Try to avoid appendices.
-%     If you can't this is a place to show all kinds of results that are supportive, yet, not critical for your thesis.
-% \end{appendices}
+\begin{appendices}
+    \chapter{Some Appendix}
+    Try to avoid appendices.
+    If you can't this is a place to show all kinds of results that are supportive, yet, not critical for your thesis.
+\end{appendices}
 
 
 
-% \chapter*{Acknowledgments}\addcontentsline{toc}{chapter}{Acknowledgements}
-% \input{chapters/acknowledgements.tex}
+\chapter*{Acknowledgments}\addcontentsline{toc}{chapter}{Acknowledgements}
+\input{chapters/acknowledgements.tex}
 
 
 
