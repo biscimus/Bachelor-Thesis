@@ -1,25 +1,22 @@
-% This section is only needed if there are non-trivial parts of your approach that require clarification.
-% You do not need to show the design of your code, or, pseudo code.
-% Only focus on non-trivial aspects.
 
-% For example, the Inductive Miner clearly describes the requirements for the \enquote{cuts} that it finds.
-% How you actually compute these cuts, i.e., combined with correctness proofs w.r.t. the requirements posed, is a good example of what can be added here.
 
-% Ideally, your previous chapter is so clear, that you do not need this chapter :-), i.e., implementing it is simply clear from the description.\begin{itemize}
+The program accepts an event log and an optional process model, e.g. a Petri net, as inputs and returns a corresponding translucent event log as output. Users have the option to select from various methods of log generation, will be specified below. Mainly, these methods can be classified in two categories: top-down approaches which require a Petri net, and bottom-up approaches which solely need the event log.
 
-The program accepts an event log and an optional process model, e.g. a Petri net, as inputs and returns a corresponding translucent event log as output. Users have the option to select from various methods of log generation, will will be specified below. Mainly, these methods can be classified in two categories: top-down approaches which require a Petri net, and bottom-up approaches which solely need the event log.
-
-In order to provide a user friendly interface, we implement a web application. The following sections describe the software specification, architecture, and its features.
+In order to provide a user-friendly interface, we implement a web application. The following sections describe the software specification, architecture, and its features. The comprehensive source code is publically available on GitHub\footnote{https://github.com/biscimus/Translucify}\footnote{https://github.com/biscimus/Translucify-Transformer-Service}.
 
 \section{Software Architecture}
 
+In the following sections, we briefly describe the technical architecture used for \emph{Translucify}. The architecture can be partitioned into two main components, the backend and the frontend. The backend houses the actual algorithms used to extend the event log with enabled activities, while the frontend provides a UI for user interaction.
+
 \subsection{Backend}
 
-The backend was implemented using the Flask\footnote{www.flask.palletsprojects.com/en/3.0.x/} framework. Flask is fitting for our use case as it is a lightweight framework providing a minimalisitic set of features needed to build API calls.
+The backend was implemented with Python using the Flask\footnote{www.flask.palletsprojects.com/en/3.0.x/} framework. Flask is fitting for our use case as it is a lightweight framework providing a minimalistic set of features needed to build API calls.
 
-For the database, SQLAlechemy\footnote{www.sqlalchemy.org} was used as an Object Relational Mapping tool to model the database. It was chosen due to its seamless compatibility with Flask using the Flask-SQLAlchemy extension, and its ease of usage.
+Behind the API handlers, the backend logic is dependent on \texttt{PM4Py}, an established process mining library written for the Python programming language. Other than \texttt{PM4Py}, standard libraries necessary for machine learning and data processing, such as \texttt{NumPy}, \texttt{Pandas}, and \texttt{Scikit-learn} were used. The choice of using Python for building the backend was an intentional decision in order to incorporate these libraries natively into the backend.
 
-The database stores event log entities and their corresponding translucent event log entities. Since the event logs tend to be large, the actual event logs are stored in the file system, while the database only keeps track of the metadata, sucsh as the file path, name, and type of the event logs. Translucnet event log entities have an extra attribute \texttt{is\_ready} in order to indicate whether the computation is complete. The database schema is depicted in Figure \ref{fig:db_schema}.
+For the database, SQLAlechemy\footnote{www.sqlalchemy.org} was used as an object relational mapping (ORM) tool to model the database. It was chosen due to its seamless compatibility with Flask using the Flask-SQLAlchemy extension and its ease of usage.
+
+The database stores event log entities and their corresponding translucent event log entities. Since the event logs tend to be large, the actual event logs are stored in the file system, while the database only keeps track of the metadata, such as the file path, name, and type of the event logs. Translucent event log entities have an extra attribute \texttt{is\_ready} in order to indicate whether the computation is complete. The database schema is depicted in Figure \ref{fig:db_schema}.
 
 \tikzset{multi attribute/.style={attribute, double distance=1.5pt}}
 \tikzset{derived attribute/.style={attribute, dashed}}
@@ -49,18 +46,20 @@ The database stores event log entities and their corresponding translucent event
     \label{fig:db_schema}
 \end{figure}
 
-
- 
 \subsection{Frontend}
- 
-React was chosen due to the author's proficiency. The web application will start with an interface where the user can upload an event log, with a choice between CSV and XES. After uploading the event log, different methods of translucent log annotation will be available. The user can select the method and the corresponding necessary parameters. After the log generation is complete, the user can download the log either in a CSV or an XES format.
+
+The frontend is a web application built with React. The application leverages Mantine as its UI library, TanStack Router for routing and TanStack Query for asynchronous state management. The frontend application is responsible for sending \& receiving requests \& responses with the backend, parsing \& rendering the data, and finally to provide a user-friendly interface for the user to interact with the application.
+
+The web application will start with an interface where the user can upload an event log, with a choice between CSV and XES. After uploading the event log, different methods of translucent log annotation will be available. The user can select the method and the corresponding necessary parameters. After the log generation is complete, the user can download the log either in a CSV or an XES format.
 
 \section{Software Features}
+
+The following section outlines some technical features employed to implement the software architecture. It also describes the sequence flows within application between the frontend and the backend.
 
 \subsection{GPU Computing}
 For the transformer variant, in order to train the transformer model, a GPU access was necessary due to the high computational requirements. In a local setting, the program would take an extraordinary amount of computing time, or in other cases simply terminate due to insufficient memory.
 
-In order to solve this issue, a connection to the remote PADS HPC Cluster needed to be established. Inside the cluster, a Flask microservice was set up analagously to the local setup. Using SSH tunneling, all requests regarding the transformer model were then forwarded to the remote server. After the computations were finished, the results from the remote server were subsequently delivered back to the main application running in the local server. Figure \ref{fig:ssh_tunneling} illustrates the SSH port forwarding setup.
+In order to solve this issue, a connection to the remote PADS HPC Cluster needed to be established. Inside the cluster, a Flask microservice was set up analogously to the local setup. Using SSH tunneling, all requests regarding the transformer model were then forwarded to the remote server. After the computations are finished, the results from the remote server were subsequently delivered back to the main application running in the local server. Figure \ref{fig:ssh_tunneling} illustrates the SSH port forwarding setup.
 
 \begin{figure}
     \centering
@@ -89,17 +88,26 @@ In order to solve this issue, a connection to the remote PADS HPC Cluster needed
     \label{fig:ssh_tunneling}
 \end{figure}
 
+\begin{figure}
+    % Include a picture
+    \centering
+    \includegraphics[width=\textwidth]{figures/remote-service.png}
+    \caption{Screenshot of the remote service running on the HPC Cluster. In each of the three separate tmux terminals, the Redis server (left), the Celery worker (top right), and the Flask server (bottom right) are running.}
+    \label{fig:remote_service}
+\end{figure}
+
+A screenshot of the remote service is available in Figure \ref{fig:remote_service}.
+
 \subsection{Asynchronous Task Distribution}
 All requests from the frontend are processed by request handlers of Flask. A particular issue we encountered is this case was the excessive computation time for each algorithm run in the backend. As a result, when attempting to run the algorithms directly on the request handlers in Flask, the server would block all other requests until the current computation was finished, making the application unresponsive and bluntly unusable. To mitigate this issue, we incorporated a distributed task queue using Redis\footnote{https://redis.io/} and Celery\footnote{https://pypi.org/project/celery/}.
 
-Celery is a distributed system to split up computation in tasks and to assign these to subprocesses, known as workers. Redis is used as a \emph{message broker} so that the Celery client can delegate the tasks to the workers. Upon receiving a request, the Flask server will pass on the task to the Celery client, which will then push the task to a Redis Message Queue. The Celery workeres will then pick up the task from the queue and execute it. Compared to the setup where all tasks are handled directly in the request handlers, this setup allows for a non-blocking behavior of the server, as the tasks are executed in the background by other processes, thereby preventing the application from freezing.
+Celery is a distributed system to split up computation in tasks and to assign these to subprocesses, known as workers. Redis is used as a \emph{message broker} so that the Celery client can delegate the tasks to the workers. Upon receiving a request, the Flask server will pass on the task to the Celery client, which will then push the task to a Redis Message Queue. The Celery workers will then pick up the task from the queue and execute it. Compared to the setup where all tasks are handled directly in the request handlers, this setup allows for a non-blocking behavior of the server, as the tasks are executed in the background by other processes, thereby preventing the application from freezing.
 
 The overall application architecture is depicted in Figure \ref{fig:app_architecture}.
 
 \begin{figure}
     \centering
     \begin{tikzpicture}[node distance=2cm]
-
         \foreach \i in {0,1} {
             \begin{scope}[xshift=\i*7.65cm]
                 
@@ -166,9 +174,11 @@ The overall application architecture is depicted in Figure \ref{fig:app_architec
     \label{fig:app_architecture}
 \end{figure}
 
-\subsection{Multivariate Regression With Petri Nets}
+\subsection{Multivariable Regression With Petri Nets}
 
-The sequence is depicted in Figure \ref*{fig:sd_petri_net}.
+After the user selection, the client sends a request to the server to obtain the columns of the event log. After receiving the list of columns, the user subsequently selects a set of data columns to be used for the multivariable regression, while simultaneously indicating whether the columns are numerical or categorical. After the selection is complete, the client sends a request to the server to initiate the computation with corresponding columns. After the computation is terminated, the backend flips the \texttt{is\_ready} boolean attribute of the translucent event log entity.
+
+The complete sequence is depicted in Figure \ref*{fig:sd_petri_net}.
 
 \begin{figure}[H]
     \centering
@@ -181,19 +191,21 @@ The sequence is depicted in Figure \ref*{fig:sd_petri_net}.
         \draw (client) -- (client_ground);
         \draw (server) -- (server_ground);
         \draw[->] ($(client)!0.25!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{GET} /event-log/<id>/columns}} ($(server)!0.25!(server_ground)$);
-        \draw[<-] ($(client)!0.35!(client_ground)$) -- node[below,scale=1,midway]{\texttt{columns}} ($(server)!0.35!(server_ground)$);
+        \draw[<-] ($(client)!0.35!(client_ground)$) -- node[below,scale=1,midway]{\texttt{\textcolor{blue}{columns}}} ($(server)!0.35!(server_ground)$);
 
         \draw[->, rounded corners=5pt] ($(client)!0.45!(client_ground)$) -- (-8, -2.25) -- (-8, -3.5) -- node[left,scale=1,midway, xshift=-0.25cm, yshift=0.75cm]{\texttt{Choose data columns}} ($(client)!0.70!(client_ground)$);
 
-        \draw[->] ($(client)!0.80!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{POST} /event-log/<id>/petri-net}} ($(server)!0.80!(server_ground)$);
+        \draw[->] ($(client)!0.80!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{POST} /event-log/<id>/petri-net}} node[below, scale=1, midway]{\texttt{\textcolor{blue}{data column config}}} ($(server)!0.80!(server_ground)$);
     \end{tikzpicture}
     \caption{Client-server sequence diagram for the Petri net variant.}
     \label{fig:sd_petri_net}
 \end{figure}
 
-\subsection{Multivarate Regression with Prefix Automata}
+\subsection{Multivariable Regression with Prefix Automata}
 
-The sequence is depicted in Figure \ref*{fig:sd_prefix_automaton}.
+The user sequence for multivariable regression with prefix automata is analogous to the Petri net variant for the most part. An additional step, however, is required in order to fine-tune the prefix automaton. After the data column selection step, the server computes a prefix automaton. The user then is able to fine-tune the prefix automaton by merging states. After the user is satisfied with his custom fine-tuned automaton, the client sends a request to the server to initiate the regression computation.
+
+The complete sequence is depicted in Figure \ref*{fig:sd_prefix_automaton}.
 
 \begin{figure}[H]
     \centering
@@ -206,24 +218,63 @@ The sequence is depicted in Figure \ref*{fig:sd_prefix_automaton}.
         \draw (client) -- (client_ground);
         \draw (server) -- (server_ground);
         \draw[->] ($(client)!0.20!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{GET} /event-log/<id>/columns}} ($(server)!0.20!(server_ground)$);
-        \draw[<-] ($(client)!0.30!(client_ground)$) -- node[above,scale=1,midway]{\texttt{columns}} ($(server)!0.30!(server_ground)$);
+        \draw[<-] ($(client)!0.30!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textcolor{blue}{columns}}} ($(server)!0.30!(server_ground)$);
 
         \draw[->] ($(client)!0.45!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{GET} /event-log/<id>/prefix-automaton}} ($(server)!0.45!(server_ground)$);
-        \draw[<-] ($(client)!0.55!(client_ground)$) -- node[above,scale=1,midway]{\texttt{prefix automaton}} ($(server)!0.55!(server_ground)$);
 
-        \draw[->, rounded corners=5pt] ($(client)!0.60!(client_ground)$) -- (-9, -4.2) -- (-9, -5.25) -- node[left,scale=1,midway, xshift=0cm, yshift=0.5cm, text width=4.5cm]{\texttt{Choose data columns \& Fine-tune PA}} ($(client)!0.75!(client_ground)$);
+        \draw[->, rounded corners=5pt] ($(server)!0.45!(server_ground)$) -- (0.5, -3.15) -- (0.5, -4.2) -- node[right,scale=1,midway, xshift=0.3cm, yshift=0.5cm, text width=4.5cm]{\texttt{Compute PA}} ($(server)!0.6!(server_ground)$);
 
-        \draw[->] ($(client)!0.80!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{POST} /event-log/<id>/prefix-automaton}} ($(server)!0.80!(server_ground)$);
+        \draw[<-] ($(client)!0.60!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textcolor{blue}{prefix automaton}}} ($(server)!0.60!(server_ground)$);
+
+        \draw[->, rounded corners=5pt] ($(client)!0.60!(client_ground)$) -- (-9, -4.2) -- (-9, -5.25) -- node[left,scale=1,midway, xshift=0.5cm, yshift=0.5cm, text width=4.5cm]{\texttt{Choose data columns \\ \& Fine-tune PA}} ($(client)!0.75!(client_ground)$);
+
+        \draw[->] ($(client)!0.80!(client_ground)$) -- node[above,scale=1,midway]{\texttt{\textbf{POST} /event-log/<id>/prefix-automaton}} node[below,scale=1,midway]{\texttt{\textcolor{blue}{data column config, fine-tuned PA}}} ($(server)!0.80!(server_ground)$);
     \end{tikzpicture}
     \caption{Client-server sequence diagram for the Prefix automaton variant.}
     \label{fig:sd_prefix_automaton}
 \end{figure}
 
-The implementation of the multivariate regression with prefix automata is done analagously to the Petri net variant.
+\subsection{Random Forests}
 
-\section{Some another section}
-\subsection{Transformer Models}
+The Scikit-learn library was used to implement the random forest model. Unlike the classical random forest, the random forest model in Scikit-learn uses decision trees which returns a probability vector, in which each element represents the probability of each activity class. The forest then averages the probability vectors of all trees to formulate a prediction instead of a simple majority vote.
 
-The transformer model is implemented using the PyTorch library. 
+\section{User Workflow}
 
-The model is trained on the PADS HPC Cluster using an NVIDIA GeForce RTX 2080 Ti GPU with a total memory of 11264 MiB equipped with CUDA 12.2. Using a learning rate of 0.00001 and a batch size of 16, the model is trained for 50 epochs.
+In the upcoming section, we will describe the user workflow of \emph{Translucify} with the help of screenshots from the application.
+
+Upon opening the application, the user faces the simple landing page as in Figure \ref{fig:landing-page}. After pressing the $\colorbox{NavyBlue}{\textcolor{white}{\texttt{Go to your logs}}}$ button, the user will be navigated to the home page, where an overview of previously uploaded event logs are provided. The list of all uploaded event logs is constantly available as a sidebar on the left side. Furthermore, an upload button is located above the event log table, allowing the user to upload a fresh event log. The home page is depicted in Figure \ref{fig:home-page}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/screenshots/landing.png}
+    \caption{Landing page of \emph{Translucify}.}
+    \label{fig:landing-page}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/screenshots/home.png}
+    \caption{Home page of \emph{Translucify}.}
+    \label{fig:home-page}
+\end{figure}
+
+Pressing the $\colorbox{NavyBlue}{\textcolor{white}{\texttt{Upload an Event Log}}}$ button opens a modal used for the event log upload.
+
+The modal wizard consists of two steps. In the first step, the user is prompted to upload the event log data, which can either be in a CSV or an XES format. A name is also a required field for the event log. Although \emph{Translucify} assumes the CSV delimiter to be a semicolon, the user can still specify a custom delimiter if necessary.
+
+
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/screenshots/upload1.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/screenshots/upload2.png}
+    \end{subfigure}
+    \caption{Event log upload modal consisting of a two-step wizard.}
+    \label{fig:upload-modal}
+\end{figure}

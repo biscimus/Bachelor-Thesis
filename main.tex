@@ -6,25 +6,33 @@
 \usepackage{hyperref} % allows autoref/hyperlinks/etc.
 \usepackage{tikz}
 \usepackage{tikzpeople}
+\usepackage{tikzsymbols}
 \usepackage{fontawesome}
 \usepackage{figchild}
 \usepackage{float}
+\usepackage{stmaryrd}
+\usepackage{fdsymbol}
+\usepackage{tcolorbox}
+\usepackage{colortbl}
+\usepackage{esvect}
+
+
 
 %%%%% PADS TEMPLATE SETTINGS %%%%%
-\renewcommand{\gTitle}{Translucify: Enhancing Event Logs with Enabled Activities Beyond the Control-Flow Perspective}
+\renewcommand{\gTitle}{Translucify: Enhancing Event Logs with Enabled Activities Beyond the Control-Flow Perspective \par}
 \renewcommand{\gAuthor}{Geonho Yun}
 \renewcommand{\gStudentID}{422305}
 \renewcommand{\gHeader}{Bachelor's Thesis}
 \renewcommand{\gSupervisor}{
-    Harry H. Beyel \\
-    Christopher T. Schwanen
+    Harry H. Beyel, M.Sc. \\
+    Christopher T. Schwanen, M.Sc. \\
     }
 
-\renewcommand{\gExaminer}{Prof. Wil M. P. van der Aalst \\ 
-	Prof. Two }
+\renewcommand{\gExaminer}{Prof. Dr. Ir. Wil M. P. van der Aalst \\ 
+Prof. Dr. rer. pol. Stefan Decker  }
 \renewcommand{\gInstitution}{Chair of Process and Data Science (PADS - Informatik 9), RWTH Aachen University}
-\renewcommand{\gRegDate}{YYYY-MM-DD}
-\renewcommand{\gSubDate}{YYYY-MM-DD}
+\renewcommand{\gRegDate}{2024-08-30}
+\renewcommand{\gSubDate}{2024-10-21}
 
 %%%%% AUTOREF %%%%%
 \renewcommand{\sectionautorefname}{Section}
@@ -54,11 +62,11 @@
 \chapter{Introduction} \label{chap:intro}
 \input{chapters/introduction.tex}
 
-\chapter{Preliminaries} \label{chap:prelim}
-\input{chapters/prelim.tex}
-
 \chapter{Related Work} \label{chap:related_work}
 \input{chapters/related_work.tex}
+
+\chapter{Preliminaries} \label{chap:prelim}
+\input{chapters/prelim.tex}
 
 \chapter{Translucifying the Event Log} \label{chap:method}
 \input{chapters/method.tex}
@@ -81,7 +89,7 @@
 \begin{appendices}
     \chapter{Some Appendix}
     Try to avoid appendices.
-    If you can't this is a place to show all kinds of results that are supportive, yet, not critical for your thesis.
+    
 \end{appendices}
 
 

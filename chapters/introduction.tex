@@ -1,82 +1,31 @@
-\begin{comment}
-    In this section, you introduce the work to your audience.
-Even though this is the first chapter of your thesis, you should not necessarily write this chapter first.
-It is often easier to write this chapter at the end of the thesis writing.
-In this part of your introduction, i.e., the part before the Motivation section (\autoref{sec:intro_ssec:motiv}), you write a paragraph (not just a sentence) for each of the bullet points mentioned in the abstract:
 
-\begin{itemize}
-	\item Domain, i.e., explain the application domain in which your thesis is applicable.
-	\item Problem, i.e., motivate what the problem is you are solving.
-	\item Method, i.e., describe the method you have proposed, and, compare it, briefly \& high level to other approaches. In particular, focus on the benefits of your approach versus the other approach(es)
-	\item Evaluation, i.e., how did you evaluate your method and what do the results indicate?
-\end{itemize}
+Process mining \cite{bible} is a field of computer science aiming to reconstruct the latent process model from a manifest event data. Together with the surge of data availability, process mining has become a hot topic in the fields of data science and business intelligence. 
 
-Optionally, you can finalize this part with a little overview of what is still to come in this chapter:
-\enquote{The remainder of this chapter is structured as follows.
-In \autoref{sec:intro_ssec:motiv}, we motivate the need for \dots
-In \autoref{sec:intro_ssec:probs}, we provide a formal problem statement.
-\dots
-}
+The foundation of all process mining discovery algorithms is the so-called \emph{event log}: A chronologically ordered list of every event recorded in a business system. Event logs have three mandatory feature attributes. \emph{Case ID} represents which case the event belongs to. \emph{Activity} portrays what kind of event happened. \emph{Timestamp} logs the time of occurrence of that specific event. Table \ref{tab:example_event_log} demonstrates a simple example of an event log.
 
-Before we dive into the motivation section, a few general guidelines for writing:
-\begin{enumerate}
-	\item Write \emph{active} and in the \emph{present tense}.
-	\item Avoid \enquote{optionality} as much as possible, i.e., usage of the following words should (pun intended) be minimized:
-	\begin{itemize}
-		\item could
-		\item would
-		\item should
-		\item may
-		\item might
-		\item can
-		\item will
-		\item ...
-	\end{itemize}
-	Good: We present a method that ...\\
-	Bad: We will present a method that ...\\
-	Good: We use function $f$ and compute its inverse.\\
-	Bad: We can use the function $f$ and will compute its inverse.\\
-	\item Connect mathematical operators using the \{ \}-operators in math mode (\$ \$).\\
-	Good: $x{\in}X$\\
-	Bad: $x \in X$\\
-	Good: $f{\colon}X{\to}Y$\\
-	Bad: $f \colon X \to Y$\\
-	If using \{ \} prevents your mathematics to break at the end of the line, use \texttt{$\backslash$allowbreak} in math mode.
-	\item Do not use $\backslash\backslash$ to generate line breaks % we used a few before, however do not use them in text!
-	
-	Do it like
+\renewcommand{\arraystretch}{1.25}
+\begin{table}[h!]
+    \centering
+	\caption{Example event log.}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \textbf{Case ID} & \textbf{Activity} & \textbf{Timestamp} & \textbf{Resource} & \textbf{Cost (Euros)} \\ 
+        \hline
+        001 & Start process  & 2024-10-01 08:30 & User A & 15 \\ 
+        001 & Review data    & 2024-10-01 09:00 & User B & 30 \\ 
+        001 & Approve request & 2024-10-01 09:45 & User C & 10 \\ 
+        001 & Send email     & 2024-10-01 10:15 & User D & 5  \\ 
+        001 & Finish process & 2024-10-01 10:25 & User A & 20 \\
+		002 & Start process  & 2024-10-01 11:30 & User A & 15 \\ 
+        002 & Review data    & 2024-10-01 11:46 & User B & 30 \\ 
+        002 & Finish process & 2024-10-01 12:11 & User A & 10 \\ 
+		$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \\
+        \hline
+    \end{tabular}
+    \label{tab:example_event_log}
+\end{table}
 
-	This
-	\item Position the caption of a Figure below the figure.
-	\item Position the caption of a Table above the table.
-	\item Write Section Headings and Titles Like This\\
-	Good: Approximation Bias in Unstable Systems\\
-	Bad: Approximation bias in unstable systems\\
-	\item Be consistent in your references.
-	\begin{itemize}
-		\item Make sure that the name of the same author is always the same (using DBLP helps for this)
-		\item Titles should be consistent. Either use the style previously described, i.e., Approximation Bias in Unstable Systems or Approximation bias in unstable systems (this is allowed in the references, opposed to your own section headings and titles, however, \emph{BE CONSISTENT}).
-	\end{itemize}
-\end{enumerate}
-\item Next steps: Develop a library to play-out translucent logs from a process model (petri net).
-\end{comment}
-
-Process mining is a field of computer science aiming to reconstruct the latent process model from a manifest event data. Together with the surge of data availability, process mining has become a hot topic in the fields of data science and business intelligence. 
-
-The foundation of all process mining discovery algorithms is the so-called \emph{event log}: A chronologically ordered list of every event recorded in a business system. Event logs have three mandatory feature attributes. The \emph{Case} represents which case the event belongs to. \emph{Activitiy} portrays what kind of event happened. \emph{Timestamp} logs the time of occurrence of that specific event. 
-
-(Insert an example event log here)
-
-The three major branches of process mining are \emph{process discovery}, \emph{conformance checking}, and \emph{process enhancement}. \emph{Process discovery} is where a process model is extracted from a submitted event log. In \emph{conformance checking}, the quality of the discovered process model is evaluated in terms of various criteria such as fitness, precision, generalization, and simplicity. Finally, in the \emph{enhancement} phase, the idea is to extend or improve the existing process model using the data present in the event log.
-
-
-
-
-
-
-
-
-
+The three major branches of process mining are \emph{process discovery}, \emph{conformance checking}, and \emph{process enhancement} \cite{bible}. \emph{Process discovery} is where a process model is extracted from a submitted event log. In \emph{conformance checking}, the quality of the discovered process model is evaluated in terms of various criteria such as fitness, precision, generalization, and simplicity \cite{conformance-checking}. Finally, in the \emph{enhancement} phase, the idea is to extend or improve the existing process model using the data present in the event log.
 
 
 \section{Motivation}
@@ -101,6 +50,8 @@ Finally, you show a model discovered by your fancy algorithm, and, you explain w
 \end{comment}
 
 Business processes are seldom linear. Instead, they are usually a messy, chaotic, intertangled mash of activities where its golden path is meticulously hidden. On top of that, event logs have no guarantee of completeness. The quality of the process model produced by process-discovery techniques is therefore entirely dependent on the quality of its event log.
+
+\subsection{Insights of Enabled Activities}
 
 In an ideal world where perfect process discovery is conceivable, an event log would be \emph{transparent}, containing metadata of structural properties of the corresponding process model, e.g., state information in a Petri net setting. Event logs, however, are usually \emph{opaque} - one cannot identify the underlying process model straight away by solely looking at the log. One must instead utilize process-discovery algorithms to generate corresponding models. By its nature, process event logs primarily focus on what \emph{happened}. However, they often do not take into consideration what \emph{could have happened} instead. An event log is \textit{translucent} if the log contains the information which alternative activities could have potentially taken place instead of the actual activity occurred in the real world. Logs of this nature are called \textit{translucent event logs} and are extremely beneficial to enhance the quality of existing process-discovery algorithms.
 
@@ -149,7 +100,7 @@ Let us consider a small example as motivation. Suppose the underlying model of o
 		edge[pre]   (p5)
         edge[post]  (p6);
 \end{tikzpicture}
-\caption{Example business model represented as a petri net.}
+\caption{Example business model represented as a Petri net.}
 \label{petrinet}
 
 \end{figure}
@@ -162,10 +113,44 @@ This works under the assumption of log completeness, but what would happen if th
 
 Despite its benefits, lucent models and translucent event logs are relatively new concepts and are therefore scarcely researched. As a result, translucent event logs are hardly available in real-life process logs. This motivates us to devise novel methods to generate translucent event logs from a non-translucent event log.
 
+\subsection{Limitations of Previous Methods}
+
+The problem of embedding translucent information in the event log is relatively new and few methods have been proposed so far. This prompts us to explore new methods to annotate event logs with enabled activities.
+
+Among the previously suggesting methods, one of them involves annotating the event log with activities which are in turn pattern-matched by labeling the user's system interface. This requires manual labor of labeling individual patterns and are rather unrealistic for real-life systems with a sizable variety of system interfaces.
+
+Another method suggests replaying the event log on the provided process model and annotating the enabled activities in the log. This method is more feasible, but the quality of the annotation, i.e., the accuracy of the enabled activities, is heavily dependent on the quality of the process model. As process models returned by process-discovery algorithms, such as the Inductive Miner, tend to be underfitting, the method above will likely take a superset of enabled activities for each event, thereby reducing its accuracy.
+
+% \subsection*{Neglecting the Data-Centered Aspect}
+Current methods of translucent log annotation are solely focused on the control-flow aspect, even though the data attributes of event logs also contain valuable information and have an impact on activity enablement.  
+
 \section{Problem Statement}
 \label{sec:intro_ssec:probs}
 
-\begin{figure}
+Taking these aforementioned aspects into account, our problem statement can be formulated as the following.
+
+\begin{tcolorbox}[colback=gray!10!white, colframe=black, boxrule=0.5mm, arc=0mm, left=5mm, right=5mm, top=3mm, bottom=3mm]
+	\emph{\textbf{Translucent Log Extension:} Given an event log and an auxiliary process model, annotate the event log with translucent information while incorporating the data attributes into the computation.}
+\end{tcolorbox}
+
+\section{Research Questions}
+
+In the scope of the thesis, we define the four research questions below: 
+
+\textbf{\emph{RQ1.}} Which techniques can detect enabled activities considering solely the log?
+
+\textbf{\emph{RQ2.}} Which techniques can detect enabled activities considering the log-model pair?
+
+\textbf{\emph{RQ3.}} How do these methods compare to each other in terms of accuracy and runtime?
+
+\textbf{\emph{RQ4.}} How can we design and implement an intuitive, user-friendly tool to demonstrate our results?
+
+
+\section{Research Goals}
+
+The principal research goal of this thesis paper is to explore different methods to annotate event logs with translucent information. Furthermore, by building a meaningful, easily operable end-user framework dedicated to translucent log annotation, the \textbf{Translucify} framework should be able to evaluate these methods systematically with respect to its accuracy and runtime.
+
+\begin{figure}[h!]
     \centering
     \begin{tikzpicture}
 
@@ -180,61 +165,9 @@ Despite its benefits, lucent models and translucent event logs are relatively ne
     \draw[->] (box.east) -- ++(1,0) node[right] {Translucent event log $\mathcal{L'}$};
 
 	\end{tikzpicture}
-    \caption{Workflow of Translucify. The algorithm takes an event log $\mathcal{L}$ and and optional process model $\mathcal{M}$, then returns an annotated translucent event log $\mathcal{L'}$.}
-    \label{fig:enter-label}
+    \caption{Workflow of Translucify. The algorithm takes an event log $\mathcal{L}$ and an optional process model $\mathcal{M}$, then returns an annotated translucent event log $\mathcal{L'}$.}
+    \label{fig:translucify_workflow}
 \end{figure}
-
-\subsection{Limitations of Previous Methods}
-
-\subsubsection*{Insufficient Previous Methods}
-The problem of embedding translucent information in the event log is relatively new and few methods have been proposed so far. This prompts us to explore new methods to annotate event logs with enabled activities.
-
-\subsubsection*{Limitations of Previous Methods}
-Among the previously suggesting methods, one of them involves annotating the event log with activities which are in turn pattern-matched by labeling the user's system interface. This requires manual labour of labeling individual patterns and are rather unrealistic for real-life systems with a sizable variety of system interfaces.
-
-Another method suggests replaying the event log on the provided process model and annotating the enabled activities in the log. This method is more feasible, but the quality of the annotation, i.e., the accuracy of the enabled activities, is heavily dependent on the quality of the process model. As process models returned by process-discovery algorithms such as the Inductive Miner tend to be underfitting, the method above will likely take a superset of enabled activities for each event, thereby reducing its accuracy.
-
-\subsection*{Neglecting the Data-Centered Aspect}
-Current methods of translucent log annotation are solely focused on the control-flow aspect, even though the data attributes of event logs also contain valuable information and have an impact on activity enablement.  
-
-\subsection{Problem Declaration}
-
-Taking these aforementioned aspects into account, our problem statement can be formulated as the followng.
-
-\begin{center}
-	\emph{\textbf{Translucent Log Extension:} Given an event log and an auxillary process model, annotate the event log with translucent information while incorporating the data attributes into the computation.}
-\end{center}
-
-\section{Research Questions}
-
-\begin{comment}
-
-In the context of our example, we can define many relevant research questions:
-\begin{enumerate}
-	\item What are typical prominent noise patterns in real event data?
-	\item How to detect noise patterns in event data?
-	\item How to detect infrequent behavior in event data?
-	\item How to detect contextually different executions of the same activity?
-	\item How to balance between detected noise patterns, infrequent behavior and imprecise labels?
-	\item 
-\end{enumerate}
-Typically, your thesis consists of 3-5 research questions (often multiple more questions can be defined).
-\end{comment}
-
-In the scope of the thesis, we define the five research questions below: 
-
-\textbf{\emph{RQ1.}} Which techniques can detect enabled activities considering solely the log?
-
-\textbf{\emph{RQ2.}} Which techniques can detect enabled activities considering the log-model pair?
-
-\textbf{\emph{RQ3.}} How do these methods compare to each other in terms of accuracy and runtime?
-
-\textbf{\emph{RQ4.}} How can we design and implement an intuitive, user-friendly tool to demonstrate our results?
-
-
-\section{Research Goals}
-
-The principal resarch goal of this thesis paper is to explore different methods to annotate event logs with translucent information. Furthermore, by building a meaningful, easily operable end-user framework dedicated to translucent log annotation, the \textbf{Translucify} framework should be able to evaluate these methods systematically with respect to its accuracy and runtime. 
 
 We hereby explicitly state that while the generated translucent log could be applied for further use, especially for process discovery to enhance previously discovered models, the exact application of generated translucent event logs is not the scope of this thesis. Instead, our sole focus lies on the log enhancement phase.
 
@@ -256,6 +189,6 @@ Some examples:
 \end{comment}
 
 
-% \section{Thesis Structure}
+\section{Thesis Structure}
 
-% The remainder of this thesis is structured as follows. We first present basic mathematical preliminaries in \autoref{chap:prelim}. Related work is presented in \autoref{chap:related_work}. In \autoref{chap:method}, the main ideas of translucent event log generation algorithms are presented and thoroughly explained, followed by the implementation specifications in \autoref{chap:impl}. The evaluation methods and results are displayed in \autoref{chap:eval}. Finally, discussion of the result, further limitations and future perspectives are presented in \autoref{chap:discussion}. 
+The remainder of this thesis is structured as follows. We first present related work in \cref{chap:related_work}. We then introduce basic mathematical preliminaries in \cref{chap:prelim}. In \cref{chap:method}, the main ideas of translucent event log generation algorithms are presented and thoroughly explained, followed by the implementation specifications in \cref{chap:impl}. The evaluation methods and results are displayed in \cref{chap:eval}. Finally, discussion of the result, further limitations and future perspectives are presented in \cref{chap:discussion}. 

@@ -9,7 +9,7 @@
 \RequirePackage[T1]{fontenc}
 
 %%% use a non-rasterized font and enable accurate color specification 
-\RequirePackage[x11names]{xcolor}
+\RequirePackage[x11names,dvipsnames]{xcolor}
 \RequirePackage{lmodern}
 
 %%% page layout
@@ -30,7 +30,7 @@
 \setlength{\headheight}{14pt}
 %%% TiKZ setup
 \RequirePackage{tikz}
-\usetikzlibrary{calc, shapes, arrows, positioning, patterns, decorations.pathreplacing, backgrounds, petri, automata, fit, er}
+\usetikzlibrary{calc, shapes, arrows, positioning, patterns, decorations.pathreplacing, backgrounds, petri, automata, fit, er, trees}
 
 %$% amstheorem setup (order of the require's matters here!)
 %$ introduce separate theorem-like environments 
@@ -96,7 +96,7 @@
 \newcommand{\gTitle}{Fancy long name for something incredibly useless}
 \newcommand{\gAuthor}{Author Name}
 \newcommand{\gStudentID}{Student ID}
-\newcommand{\gSupervisor}{Supervisors}
+\newcommand{\gSupervisor}{Advisors}
 \newcommand{\gExaminer}{Examiners}
 \newcommand{\gInstitution}{RWTH Aachen}
 \newcommand{\gRegDate}{YYYY-MM-DD}
@@ -144,7 +144,7 @@
 								\emph{Student ID:} & 	\textbf{\Large{\gStudentID}} \\
 								\rule{0pt}{15ex}
 								
-								\emph{Supervisors:} & 
+								\emph{Advisors:} & 
 								\makecell[l]{ \gSupervisor} \\
 								
 								\rule{0pt}{8ex} 

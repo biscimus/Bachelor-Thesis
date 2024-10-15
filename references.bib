@@ -5,11 +5,9 @@
   title     = {Writing for Computer Science},
   publisher = {Springer},
   year      = {2014},
-  url       = {https://doi.org/10.1007/978-1-4471-6639-9},
   doi       = {10.1007/978-1-4471-6639-9},
   isbn      = {978-1-4471-6638-2},
   timestamp = {Tue, 16 May 2017 14:01:44 +0200},
-  biburl    = {https://dblp.org/rec/books/sp/Zobel14.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
@@ -28,223 +26,275 @@
   pages     = {311--329},
   publisher = {Springer},
   year      = {2013},
-  url       = {https://doi.org/10.1007/978-3-642-38697-8\_17},
   doi       = {10.1007/978-3-642-38697-8\_17},
   timestamp = {Sat, 19 Oct 2019 20:09:00 +0200},
-  biburl    = {https://dblp.org/rec/conf/apn/LeemansFA13.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
 @article{Translucent-event-logs-first-paper,
-author = {van der Aalst, Wil M .P. and Khomenko, Victor and Kleijn, Jetty and Penczek, Wojciech and Roux, Olivier H.},
-title = {Lucent Process Models and Translucent Event Logs},
-year = {2019},
-issue_date = {2019},
-publisher = {IOS Press},
-address = {NLD},
-volume = {169},
-number = {1–2},
-issn = {0169-2968},
-url = {https://doi.org/10.3233/FI-2019-1842},
-doi = {10.3233/FI-2019-1842},
-abstract = {A process model is lucent if no two reachable states are enabling the same set of activities. An event log is translucent if each event carries information about the set of activities enabled when the event occurred (normally one only sees the activity performed). Both lucency and translucency focus on the set of enabled activities and are therefore related. Surprisingly, these notions have not been investigated before. This paper aims to (1) characterize process models that are lucent, (2) provide a discovery approach to learn process models from translucent event logs, and (3) relate lucency and translucency. Lucency is defined both in terms of automata and Petri nets. A marked Petri net is lucent if there are no two different reachable markings enabling the same set of transitions, i.e., states are fully characterized by the transitions they enable. We will also provide a novel process discovery technique starting from a translucent event log. It turns out that information about the set of activities is extremely valuable for process discovery. We will provide sufficient conditions to ensure that the discovered model is lucent and show that a translucent event log sampled from a lucent process model can be used to rediscover the original model. We anticipate new analysis techniques exploiting lucency. Moreover, as shown in this paper, translucent event logs provide valuable information that can be exploited by a new breed to process mining techniques.},
-journal = {Fundam. Inf.},
-month = {jan},
-pages = {151–177},
-numpages = {27},
-keywords = {translucent event logs, lucent process models, Petri nets, Process mining}
+  author     = {van der Aalst, Wil M. P. and Khomenko, Victor and Kleijn, Jetty and Penczek, Wojciech and Roux, Olivier H.},
+  title      = {Lucent Process Models and Translucent Event Logs},
+  year       = {2019},
+  issue_date = {2019},
+  publisher  = {IOS Press},
+  address    = {NLD},
+  volume     = {169},
+  number     = {1–2},
+  issn       = {0169-2968},
+  doi        = {10.3233/FI-2019-1842},
+  abstract   = {A process model is lucent if no two reachable states are enabling the same set of activities. An event log is translucent if each event carries information about the set of activities enabled when the event occurred (normally one only sees the activity performed). Both lucency and translucency focus on the set of enabled activities and are therefore related. Surprisingly, these notions have not been investigated before. This paper aims to (1) characterize process models that are lucent, (2) provide a discovery approach to learn process models from translucent event logs, and (3) relate lucency and translucency. Lucency is defined both in terms of automata and Petri nets. A marked Petri net is lucent if there are no two different reachable markings enabling the same set of transitions, i.e., states are fully characterized by the transitions they enable. We will also provide a novel process discovery technique starting from a translucent event log. It turns out that information about the set of activities is extremely valuable for process discovery. We will provide sufficient conditions to ensure that the discovered model is lucent and show that a translucent event log sampled from a lucent process model can be used to rediscover the original model. We anticipate new analysis techniques exploiting lucency. Moreover, as shown in this paper, translucent event logs provide valuable information that can be exploited by a new breed to process mining techniques.},
+  journal    = {Fundamenta Informaticae},
+  month      = {jan},
+  pages      = {151–177},
+  numpages   = {27},
+  keywords   = {translucent event logs, lucent process models, Petri nets, Process mining}
 }
 
 @inproceedings{lucency-first-paper,
-author = {van der Aalst, Wil M. P.},
-title = {Markings in Perpetual Free-Choice Nets Are Fully Characterized by Their Enabled Transitions},
-year = {2018},
-isbn = {978-3-319-91267-7},
-publisher = {Springer-Verlag},
-address = {Berlin, Heidelberg},
-url = {https://doi.org/10.1007/978-3-319-91268-4_16},
-doi = {10.1007/978-3-319-91268-4_16},
-abstract = {A marked Petri net is lucent if there are no two different reachable markings enabling the same set of transitions, i.e., states are fully characterized by the transitions they enable. This paper explores the class of marked Petri nets that are lucent and proves that perpetual marked free-choice nets are lucent. Perpetual free-choice nets are free-choice Petri nets that are live and bounded and have a home cluster, i.e., there is a cluster such that from any reachable state there is a reachable state marking the places of this cluster. A home cluster in a perpetual net serves as a “regeneration point” of the process, e.g., to start a new process instance (case, job, cycle, etc.). Many “well-behaved” process models fall into this class. For example, the class of short-circuited sound workflow nets is perpetual. Also, the class of processes satisfying the conditions of the α algorithm for process discovery falls into this category. This paper shows that the states in a perpetual marked free-choice net are fully characterized by the transitions they enable, i.e., these process models are lucent. Having a one-to-one correspondence between the actions that can happen and the state of the process, is valuable in a variety of application domains. The full characterization of markings in terms of enabled transitions makes perpetual free-choice nets interesting for workflow analysis and process mining. In fact, we anticipate new verification, process discovery, and conformance checking techniques for the subclasses identified.},
-booktitle = {Application and Theory of Petri Nets and Concurrency: 39th International Conference, PETRI NETS 2018, Bratislava, Slovakia, June 24-29, 2018, Proceedings},
-pages = {315–336},
-numpages = {22},
-keywords = {Free Choice Nets, Home Cluster, Petri Net Marking, Workﬂow Nets, Reachable Marking},
-location = {Bratislava, Slovakia}
+  author    = {van der Aalst, Wil M. P.},
+  title     = {Markings in Perpetual Free-Choice Nets Are Fully Characterized by Their Enabled Transitions},
+  year      = {2018},
+  isbn      = {978-3-319-91267-7},
+  publisher = {Springer-Verlag},
+  address   = {Berlin, Heidelberg},
+  doi       = {10.1007/978-3-319-91268-4_16},
+  abstract  = {A marked Petri net is lucent if there are no two different reachable markings enabling the same set of transitions, i.e., states are fully characterized by the transitions they enable. This paper explores the class of marked Petri nets that are lucent and proves that perpetual marked free-choice nets are lucent. Perpetual free-choice nets are free-choice Petri nets that are live and bounded and have a home cluster, i.e., there is a cluster such that from any reachable state there is a reachable state marking the places of this cluster. A home cluster in a perpetual net serves as a “regeneration point” of the process, e.g., to start a new process instance (case, job, cycle, etc.). Many “well-behaved” process models fall into this class. For example, the class of short-circuited sound workflow nets is perpetual. Also, the class of processes satisfying the conditions of the α algorithm for process discovery falls into this category. This paper shows that the states in a perpetual marked free-choice net are fully characterized by the transitions they enable, i.e., these process models are lucent. Having a one-to-one correspondence between the actions that can happen and the state of the process, is valuable in a variety of application domains. The full characterization of markings in terms of enabled transitions makes perpetual free-choice nets interesting for workflow analysis and process mining. In fact, we anticipate new verification, process discovery, and conformance checking techniques for the subclasses identified.},
+  booktitle = {Application and Theory of Petri Nets and Concurrency: 39th International Conference, PETRI NETS 2018, Bratislava, Slovakia, June 24-29, 2018, Proceedings},
+  pages     = {315–336},
+  numpages  = {22},
+  keywords  = {Free Choice Nets, Home Cluster, Petri Net Marking, Workﬂow Nets, Reachable Marking},
+  location  = {Bratislava, Slovakia}
 }
 
-@InProceedings{creating-translucent-event-logs,
-author="Beyel, Harry H.
-and van der Aalst, Wil M. P.",
-editor="Montali, Marco
-and Senderovich, Arik
-and Weidlich, Matthias",
-title="Creating Translucent Event Logs to Improve Process Discovery",
-booktitle="Process Mining Workshops",
-year="2023",
-publisher="Springer Nature Switzerland",
-address="Cham",
-pages="435--447",
-abstract="Event logs capture information about executed activities. However, they do not capture information about activities that could have been performed, i.e., activities that were enabled during a process. Event logs containing information on enabled activities are called translucent event logs. Although it is possible to extract translucent event logs from a running information system, such logs are rarely stored. To increase the availability of translucent event logs, we propose two techniques. The first technique records the system's states as snapshots. These snapshots are stored and linked to events. A user labels patterns that describe parts of the system's state. By matching patterns with snapshots, we can add information about enabled activities. We apply our technique in a small setting to demonstrate its applicability. The second technique uses a process model to add information concerning enabled activities to an existing traditional event log. Data containing enabled activities are valuable for process discovery. Using the information on enabled activities, we can discover more correct models.",
-isbn="978-3-031-27815-0"
+@inproceedings{creating-translucent-event-logs,
+  author    = {Beyel, Harry H.
+               and van der Aalst, Wil M. P.},
+  editor    = {Montali, Marco
+               and Senderovich, Arik
+               and Weidlich, Matthias},
+  title     = {Creating Translucent Event Logs to Improve Process Discovery},
+  booktitle = {Process Mining Workshops},
+  year      = {2023},
+  publisher = {Springer Nature Switzerland},
+  address   = {Cham},
+  pages     = {435--447},
+  abstract  = {Event logs capture information about executed activities. However, they do not capture information about activities that could have been performed, i.e., activities that were enabled during a process. Event logs containing information on enabled activities are called translucent event logs. Although it is possible to extract translucent event logs from a running information system, such logs are rarely stored. To increase the availability of translucent event logs, we propose two techniques. The first technique records the system's states as snapshots. These snapshots are stored and linked to events. A user labels patterns that describe parts of the system's state. By matching patterns with snapshots, we can add information about enabled activities. We apply our technique in a small setting to demonstrate its applicability. The second technique uses a process model to add information concerning enabled activities to an existing traditional event log. Data containing enabled activities are valuable for process discovery. Using the information on enabled activities, we can discover more correct models.},
+  isbn      = {978-3-031-27815-0}
 }
 
-@InProceedings{translucent-precision,
-author="Beyel, Harry H.
-and van der Aalst, Wil M. P.",
-editor="Ara{\'u}jo, Jo{\~a}o
-and de la Vara, Jose Luis
-and Santos, Maribel Yasmina
-and Assar, Sa{\"i}d",
-title="Translucent Precision: Exploiting Enabling Information to Evaluate the Quality of Process Models",
-booktitle="Research Challenges in Information Science",
-year="2024",
-publisher="Springer Nature Switzerland",
-address="Cham",
-pages="29--37",
-abstract="An event log stores information about executed activities in a process. Conformance-checking techniques are used to measure the quality of a process model using an event log. Part of the investigated quality dimensions is precision. Precision puts the behavior of a log and a model in relation. There are event logs that also store information about enabled activities besides the actual executed activities. These event logs are called translucent event logs. A technique for measuring precision is escaping arcs. However, this technique does not consider information on enabled activities contained in a translucent event log. This paper provides a formal definition of how to compute a precision score by considering translucent information. We discuss our method using a translucent event log and four different models. Our translucent precision score conveys the underlying concept by considering more information.",
-isbn="978-3-031-59468-7"
+@inproceedings{translucent-precision,
+  author    = {Beyel, Harry H.
+               and van der Aalst, Wil M. P.},
+  editor    = {Ara{\'u}jo, Jo{\~a}o
+               and de la Vara, Jose Luis
+               and Santos, Maribel Yasmina
+               and Assar, Sa{\"i}d},
+  title     = {Translucent Precision: Exploiting Enabling Information to Evaluate the Quality of Process Models},
+  booktitle = {Research Challenges in Information Science},
+  year      = {2024},
+  publisher = {Springer Nature Switzerland},
+  address   = {Cham},
+  pages     = {29--37},
+  abstract  = {An event log stores information about executed activities in a process. Conformance-checking techniques are used to measure the quality of a process model using an event log. Part of the investigated quality dimensions is precision. Precision puts the behavior of a log and a model in relation. There are event logs that also store information about enabled activities besides the actual executed activities. These event logs are called translucent event logs. A technique for measuring precision is escaping arcs. However, this technique does not consider information on enabled activities contained in a translucent event log. This paper provides a formal definition of how to compute a precision score by considering translucent information. We discuss our method using a translucent event log and four different models. Our translucent precision score conveys the underlying concept by considering more information.},
+  isbn      = {978-3-031-59468-7}
 }
 
 @inproceedings{data-aware-process-mining,
-author = {de Leoni, Massimiliano and van der Aalst, Wil M. P.},
-title = {Data-aware process mining: discovering decisions in processes using alignments},
-year = {2013},
-isbn = {9781450316569},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/2480362.2480633},
-doi = {10.1145/2480362.2480633},
-abstract = {Process discovery, i.e., learning process models from event logs, has attracted the attention of researchers and practitioners. Today, there exists a wide variety of process mining techniques that are able to discover the control-flow of a process based on event data. These techniques are able to identify decision points, but do not analyze data flow to find rules explaining why individual cases take a particular path. Fortunately, recent advances in conformance checking can be used to align an event log with data and a process model with decision points. These alignments can be used to generate a well-defined classification problem per decision point. This way data flow and guards can be discovered and added to the process model.},
-booktitle = {Proceedings of the 28th Annual ACM Symposium on Applied Computing},
-pages = {1454–1461},
-numpages = {8},
-keywords = {business process data-flow pespective, machine-learning techniques, process discovery},
-location = {Coimbra, Portugal},
-series = {SAC '13}
+  author    = {de Leoni, Massimiliano and van der Aalst, Wil M. P.},
+  title     = {Data-aware process mining: discovering decisions in processes using alignments},
+  year      = {2013},
+  isbn      = {9781450316569},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  doi       = {10.1145/2480362.2480633},
+  abstract  = {Process discovery, i.e., learning process models from event logs, has attracted the attention of researchers and practitioners. Today, there exists a wide variety of process mining techniques that are able to discover the control-flow of a process based on event data. These techniques are able to identify decision points, but do not analyze data flow to find rules explaining why individual cases take a particular path. Fortunately, recent advances in conformance checking can be used to align an event log with data and a process model with decision points. These alignments can be used to generate a well-defined classification problem per decision point. This way data flow and guards can be discovered and added to the process model.},
+  booktitle = {Proceedings of the 28th Annual ACM Symposium on Applied Computing},
+  pages     = {1454–1461},
+  numpages  = {8},
+  keywords  = {business process data-flow pespective, machine-learning techniques, process discovery},
+  location  = {Coimbra, Portugal},
+  series    = {SAC '13}
 }
 
-@InProceedings{decision-mining-in-prom,
-title="Decision Mining in ProM",
-author="Rozinat, A. and van der Aalst, Wil M. P.",
-booktitle="Business Process Management",
-year="2006",
-publisher="Springer Berlin Heidelberg",
-address="Berlin, Heidelberg",
-pages="420--425",
-abstract="Process-aware Information Systems typically log events (e.g., in transaction logs or audit trails) related to the actual business process executions. Proper analysis of these execution logs can yield important knowledge that can help organizations to improve the quality of their services. Starting from a process model, which can be discovered by conventional process mining algorithms, we analyze how data attributes influence the choices made in the process based on past process executions. Decision mining, also referred to as decision point analysis, aims at the detection of data dependencies that affect the routing of a case. In this paper we describe how machine learning techniques can be leveraged for this purpose, and we present a Decision Miner implemented within the ProM framework.",
-isbn="978-3-540-38903-3"
+@inproceedings{decision-mining-in-prom,
+  title     = {Decision Mining in {P}ro{M}},
+  author    = {Rozinat, Anne and van der Aalst, Wil M. P.},
+  booktitle = {Business Process Management},
+  year      = {2006},
+  publisher = {Springer Berlin Heidelberg},
+  address   = {Berlin, Heidelberg},
+  pages     = {420--425},
+  abstract  = {Process-aware Information Systems typically log events (e.g., in transaction logs or audit trails) related to the actual business process executions. Proper analysis of these execution logs can yield important knowledge that can help organizations to improve the quality of their services. Starting from a process model, which can be discovered by conventional process mining algorithms, we analyze how data attributes influence the choices made in the process based on past process executions. Decision mining, also referred to as decision point analysis, aims at the detection of data dependencies that affect the routing of a case. In this paper we describe how machine learning techniques can be leveraged for this purpose, and we present a Decision Miner implemented within the ProM framework.},
+  isbn      = {978-3-540-38903-3}
 }
 
 @book{decision-mining-in-business-processes,
-title = "Decision mining in business processes",
-abstract = "Many companies have adopted Process-aware Information Systems (PAIS) for supporting their business processes in some form. These systems typically log events (e.g., in transaction logs or audit trails) related to the actual business process executions. Proper analysis of PAIS execution logs can yield important knowledge and help organizations improve the quality of their services. Starting from a process model as it is possible to discover by conventional process mining algorithms we analyze how data attributes influence the choices made in the process based on past process executions. Decision mining, also referred to as decision point analysis, aims at the detection of data dependencies that affect the routing of a case. In this paper we describe how machine learning techniques can be leveraged for this purpose, and discuss further challenges related to this approach. To verify the presented ideas a Decision Miner has been implemented within the ProM framework.",
-author = "A. Rozinat and van der Aalst, Wil M. P.",
-year = "2006",
-language = "English",
-isbn = "90-386-0685-0",
-series = "BETA publicatie : working papers",
-publisher = "Technische Universiteit Eindhoven",
+  title     = {Decision mining in business processes},
+  abstract  = {Many companies have adopted Process-aware Information Systems (PAIS) for supporting their business processes in some form. These systems typically log events (e.g., in transaction logs or audit trails) related to the actual business process executions. Proper analysis of PAIS execution logs can yield important knowledge and help organizations improve the quality of their services. Starting from a process model as it is possible to discover by conventional process mining algorithms we analyze how data attributes influence the choices made in the process based on past process executions. Decision mining, also referred to as decision point analysis, aims at the detection of data dependencies that affect the routing of a case. In this paper we describe how machine learning techniques can be leveraged for this purpose, and discuss further challenges related to this approach. To verify the presented ideas a Decision Miner has been implemented within the ProM framework.},
+  author    = {Anne Rozinat and van der Aalst, Wil M. P.},
+  year      = {2006},
+  language  = {English},
+  isbn      = {90-386-0685-0},
+  series    = {BETA publicatie : working papers},
+  publisher = {Technische Universiteit Eindhoven}
 }
 
-@InProceedings{sldpn,
-author="Mannhardt, Felix
-and Leemans, Sander J. J.
-and Schwanen, Christopher T.
-and de Leoni, Massimiliano",
-editor="Gomes, Luis
-and Lorenz, Robert",
-title="Modelling Data-Aware Stochastic Processes - Discovery and Conformance Checking",
-booktitle="Application and Theory of Petri Nets and Concurrency",
-year="2023",
-publisher="Springer Nature Switzerland",
-address="Cham",
-pages="77--98",
-abstract="Process mining aims to analyse business process behaviour by discovering process models such as Petri nets from process executions recorded as sequential traces in event logs. Such discovered Petri nets capture the process behaviour observed in a log but do not provide insights on the likelihood of behaviour: the stochastic perspective. A stochastic Petri net extends a Petri net to explicitly encode the occurrence probabilities of transitions. However, in a real-life processes, the probability of a trace may depend on data variables: e.g., a higher requested loan amount will trigger additional checks. Such dependencies are not described by current stochastic Petri nets and corresponding stochastic process mining techniques. We extend stochastic Petri nets with data-dependent transition weights and provide a technique for learning them from event logs. We discuss how to evaluate the quality of these discovered models by deriving a stochastic data-aware conformance checking technique. The implementations are available in ProM, and we show on real-life event logs that the discovery technique is competitive with existing stochastic process discovery approaches, and that new types of stochastic data-based insights can be derived.",
-isbn="978-3-031-33620-1"
+@inproceedings{sldpn,
+  author    = {Mannhardt, Felix
+               and Leemans, Sander J. J.
+               and Schwanen, Christopher T.
+               and de Leoni, Massimiliano},
+  editor    = {Gomes, Luis
+               and Lorenz, Robert},
+  title     = {Modelling Data-Aware Stochastic Processes - Discovery and Conformance Checking},
+  booktitle = {Application and Theory of Petri Nets and Concurrency},
+  year      = {2023},
+  publisher = {Springer Nature Switzerland},
+  address   = {Cham},
+  pages     = {77--98},
+  abstract  = {Process mining aims to analyse business process behaviour by discovering process models such as Petri nets from process executions recorded as sequential traces in event logs. Such discovered Petri nets capture the process behaviour observed in a log but do not provide insights on the likelihood of behaviour: the stochastic perspective. A stochastic Petri net extends a Petri net to explicitly encode the occurrence probabilities of transitions. However, in a real-life processes, the probability of a trace may depend on data variables: e.g., a higher requested loan amount will trigger additional checks. Such dependencies are not described by current stochastic Petri nets and corresponding stochastic process mining techniques. We extend stochastic Petri nets with data-dependent transition weights and provide a technique for learning them from event logs. We discuss how to evaluate the quality of these discovered models by deriving a stochastic data-aware conformance checking technique. The implementations are available in ProM, and we show on real-life event logs that the discovery technique is competitive with existing stochastic process discovery approaches, and that new types of stochastic data-based insights can be derived.},
+  isbn      = {978-3-031-33620-1}
 }
 
-@ARTICLE {predictive-process-monitoring-lstm,
-author = {B. Gunnarsson and S. Broucke and J. De Weerdt},
-journal = {IEEE Transactions on Services Computing},
-title = {A Direct Data Aware LSTM Neural Network Architecture for Complete Remaining Trace and Runtime Prediction},
-year = {2023},
-volume = {16},
-number = {04},
-issn = {1939-1374},
-pages = {2330-2342},
-abstract = {Developing LSTM neural networks that can accurately predict the future trajectory of ongoing cases and their remaining runtime is an active area of research in predictive process monitoring. In this work a novel complete remaining trace prediction (CRTP) LSTM is proposed. This model is trained to directly predict the complete remaining trace and runtime of cases in contrast to single event prediction as is considered in previously published research on this topic. This makes the CRTP-LSTM robust in terms of utilizing all available attributes of previously observed events for prediction, consequently it can be considered natively data aware. In an extensive experimental assessment the authors show that CRTP-LSTMs consistently outperform other considered approaches for both remaining trace and runtime prediction. Furthermore, the authors show that including all available information contained in previously observed events has a positive impact on the performance of the CRTP-LSTM model. This indicates that valuable information can be extracted from attributes of events in order to make more accurate trace and runtime predictions. This opens up interesting avenues for future research including the incorporation of inter-case features into a modeling setup when predicting the remaining trace and runtime of cases.},
-keywords = {runtime;predictive models;process monitoring;task analysis;computer architecture;modeling;business},
-doi = {10.1109/TSC.2023.3245726},
-publisher = {IEEE Computer Society},
-address = {Los Alamitos, CA, USA},
-month = {jul}
+@article{predictive-process-monitoring-lstm,
+  author    = {Bj{ö}rn R. Gunnarsson and Seppe vanden Broucke and Jochen De Weerdt},
+  journal   = {IEEE Transactions on Services Computing},
+  title     = {A Direct Data Aware LSTM Neural Network Architecture for Complete Remaining Trace and Runtime Prediction},
+  year      = {2023},
+  volume    = {16},
+  number    = {04},
+  issn      = {1939-1374},
+  pages     = {2330-2342},
+  abstract  = {Developing LSTM neural networks that can accurately predict the future trajectory of ongoing cases and their remaining runtime is an active area of research in predictive process monitoring. In this work a novel complete remaining trace prediction (CRTP) LSTM is proposed. This model is trained to directly predict the complete remaining trace and runtime of cases in contrast to single event prediction as is considered in previously published research on this topic. This makes the CRTP-LSTM robust in terms of utilizing all available attributes of previously observed events for prediction, consequently it can be considered natively data aware. In an extensive experimental assessment the authors show that CRTP-LSTMs consistently outperform other considered approaches for both remaining trace and runtime prediction. Furthermore, the authors show that including all available information contained in previously observed events has a positive impact on the performance of the CRTP-LSTM model. This indicates that valuable information can be extracted from attributes of events in order to make more accurate trace and runtime predictions. This opens up interesting avenues for future research including the incorporation of inter-case features into a modeling setup when predicting the remaining trace and runtime of cases.},
+  keywords  = {runtime;predictive models;process monitoring;task analysis;computer architecture;modeling;business},
+  doi       = {10.1109/TSC.2023.3245726},
+  publisher = {IEEE Computer Society},
+  address   = {Los Alamitos, CA, USA},
+  month     = {jul}
 }
 
 @misc{predictive-process-monitoring-transformer,
-      title={ProcessTransformer: Predictive Business Process Monitoring with Transformer Network}, 
-      author={Zaharah A. Bukhsh and Aaqib Saeed and Remco M. Dijkman},
-      year={2021},
-      eprint={2104.00721},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2104.00721}, 
+  title         = {ProcessTransformer: Predictive Business Process Monitoring with Transformer Network},
+  author        = {Zaharah A. Bukhsh and Aaqib Saeed and Remco M. Dijkman},
+  year          = {2021},
+  eprint        = {2104.00721},
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.LG}
 }
 
-@Inbook{predictive-process-monitoring,
-author="Di Francescomarino, Chiara
-and Ghidini, Chiara",
-editor="van der Aalst, Wil M. P.
-and Carmona, Josep",
-title="Predictive Process Monitoring",
-bookTitle="Process Mining Handbook",
-year="2022",
-publisher="Springer International Publishing",
-address="Cham",
-pages="320--346",
-abstract="Predictive Process Monitoring [29] is a branch of process mining that aims at predicting the future of an ongoing (uncompleted) process execution. Typical examples of predictions of the future of an execution trace relate to the outcome of a process execution, to its completion time, or to the sequence of its future activities",
-isbn="978-3-031-08848-3",
-doi="10.1007/978-3-031-08848-3_10",
-url="https://doi.org/10.1007/978-3-031-08848-3_10"
+@inbook{predictive-process-monitoring,
+  author    = {Di Francescomarino, Chiara
+               and Ghidini, Chiara},
+  editor    = {van der Aalst, Wil M. P.
+               and Carmona, Josep},
+  title     = {Predictive Process Monitoring},
+  booktitle = {Process Mining Handbook},
+  year      = {2022},
+  publisher = {Springer International Publishing},
+  address   = {Cham},
+  pages     = {320--346},
+  abstract  = {Predictive Process Monitoring [29] is a branch of process mining that aims at predicting the future of an ongoing (uncompleted) process execution. Typical examples of predictions of the future of an execution trace relate to the outcome of a process execution, to its completion time, or to the sequence of its future activities},
+  isbn      = {978-3-031-08848-3},
+  doi       = {10.1007/978-3-031-08848-3_10}
 }
 
 @inbook{predictive-process-monitoring-rnn,
-author = {Li Lin and Lijie Wen and Jianmin Wang},
-title = {MM-Pred: A Deep Predictive Model for Multi-attribute Event Sequence},
-booktitle = {Proceedings of the 2019 SIAM International Conference on Data Mining (SDM)},
-year="2019",
-chapter = {},
-pages = {118-126},
-doi = {10.1137/1.9781611975673.14},
-URL = {https://epubs.siam.org/doi/abs/10.1137/1.9781611975673.14},
-eprint = {https://epubs.siam.org/doi/pdf/10.1137/1.9781611975673.14},
-    abstract = { Abstract Event sequence prediction has wide applications on economics, electronic health and social media monitoring. Accurate prediction of event sequences can help provide better service to customers and prevent risks. Recent works try to address the problem aiming at learning the impact of past events on the future events using deep learning methods. Such works often take the past event sequences as input and model the self-change transformations of the events, and few of them concerned the effect of event attributes. We propose an RNN-based predictive model to encode multiple attributes as attached information of the event for predicting next event and its attributes given past sequences. To learn how important each attribute is for the event, we design a component modulator to customize weights for representations of the event and its attributes. The more important the information is, the relevant weight will be higher. Finally, the prediction of next event and its attributes are conducted simultaneously with a different modulator for each predictive task. The performance of the proposed model was evaluated on 5 real-life datasets, containing two different types of event logs. The results show that our model outperforms the baselines and the state-of-the-art, not only on the prediction of next event and its attributes but also the generation of event sequence suffix. }
+  author    = {Li Lin and Lijie Wen and Jianmin Wang},
+  title     = {MM-Pred: A Deep Predictive Model for Multi-attribute Event Sequence},
+  booktitle = {Proceedings of the 2019 SIAM International Conference on Data Mining (SDM)},
+  year      = {2019},
+  chapter   = {},
+  pages     = {118-126},
+  doi       = {10.1137/1.9781611975673.14},
+  eprint    = {https://epubs.siam.org/doi/pdf/10.1137/1.9781611975673.14},
+  abstract  = { Abstract Event sequence prediction has wide applications on economics, electronic health and social media monitoring. Accurate prediction of event sequences can help provide better service to customers and prevent risks. Recent works try to address the problem aiming at learning the impact of past events on the future events using deep learning methods. Such works often take the past event sequences as input and model the self-change transformations of the events, and few of them concerned the effect of event attributes. We propose an RNN-based predictive model to encode multiple attributes as attached information of the event for predicting next event and its attributes given past sequences. To learn how important each attribute is for the event, we design a component modulator to customize weights for representations of the event and its attributes. The more important the information is, the relevant weight will be higher. Finally, the prediction of next event and its attributes are conducted simultaneously with a different modulator for each predictive task. The performance of the proposed model was evaluated on 5 real-life datasets, containing two different types of event logs. The results show that our model outperforms the baselines and the state-of-the-art, not only on the prediction of next event and its attributes but also the generation of event sequence suffix. }
 }
 
 @inbook{doi:10.1137/1.9781611975673.14,
-author = {Li Lin and Lijie Wen and Jianmin Wang},
-title = {MM-Pred: A Deep Predictive Model for Multi-attribute Event Sequence},
-booktitle = {Proceedings of the 2019 SIAM International Conference on Data Mining (SDM)},
-chapter = {},
-pages = {118-126},
-doi = {10.1137/1.9781611975673.14},
-URL = {https://epubs.siam.org/doi/abs/10.1137/1.9781611975673.14},
-eprint = {https://epubs.siam.org/doi/pdf/10.1137/1.9781611975673.14},
-    abstract = { Abstract Event sequence prediction has wide applications on economics, electronic health and social media monitoring. Accurate prediction of event sequences can help provide better service to customers and prevent risks. Recent works try to address the problem aiming at learning the impact of past events on the future events using deep learning methods. Such works often take the past event sequences as input and model the self-change transformations of the events, and few of them concerned the effect of event attributes. We propose an RNN-based predictive model to encode multiple attributes as attached information of the event for predicting next event and its attributes given past sequences. To learn how important each attribute is for the event, we design a component modulator to customize weights for representations of the event and its attributes. The more important the information is, the relevant weight will be higher. Finally, the prediction of next event and its attributes are conducted simultaneously with a different modulator for each predictive task. The performance of the proposed model was evaluated on 5 real-life datasets, containing two different types of event logs. The results show that our model outperforms the baselines and the state-of-the-art, not only on the prediction of next event and its attributes but also the generation of event sequence suffix. }
+  author    = {Li Lin and Lijie Wen and Jianmin Wang},
+  title     = {MM-Pred: A Deep Predictive Model for Multi-attribute Event Sequence},
+  booktitle = {Proceedings of the 2019 SIAM International Conference on Data Mining (SDM)},
+  chapter   = {},
+  pages     = {118-126},
+  doi       = {10.1137/1.9781611975673.14},
+  eprint    = {https://epubs.siam.org/doi/pdf/10.1137/1.9781611975673.14},
+  abstract  = { Abstract Event sequence prediction has wide applications on economics, electronic health and social media monitoring. Accurate prediction of event sequences can help provide better service to customers and prevent risks. Recent works try to address the problem aiming at learning the impact of past events on the future events using deep learning methods. Such works often take the past event sequences as input and model the self-change transformations of the events, and few of them concerned the effect of event attributes. We propose an RNN-based predictive model to encode multiple attributes as attached information of the event for predicting next event and its attributes given past sequences. To learn how important each attribute is for the event, we design a component modulator to customize weights for representations of the event and its attributes. The more important the information is, the relevant weight will be higher. Finally, the prediction of next event and its attributes are conducted simultaneously with a different modulator for each predictive task. The performance of the proposed model was evaluated on 5 real-life datasets, containing two different types of event logs. The results show that our model outperforms the baselines and the state-of-the-art, not only on the prediction of next event and its attributes but also the generation of event sequence suffix. }
 }
 
-@Inbook{bible,
-author="van der Aalst, Wil",
-title="Data Science in Action",
-bookTitle="Process Mining: Data Science in Action",
-year="2016",
-publisher="Springer Berlin Heidelberg",
-address="Berlin, Heidelberg",
-pages="3--23",
-abstract="In recent years, data science emerged as a new and important discipline. It can be viewed as an amalgamation of classical disciplines like statistics, data mining, databases, and distributed systems. Existing approaches need to be combined to turn abundantly available data into value for individuals, organizations, and society. Moreover, new challenges have emerged, not just in terms of size (``Big Data'') but also in terms of the questions to be answered. This book focuses on the analysis of behavior based on event data. Process mining techniques use event data to discover processes, check compliance, analyze bottlenecks, compare process variants, and suggest improvements. In later chapters, we will show that process mining provides powerful tools for today's data scientist. However, before introducing the main topic of the book, we provide an overview of the data science discipline.",
-isbn="978-3-662-49851-4",
-doi="10.1007/978-3-662-49851-4_1",
-url="https://doi.org/10.1007/978-3-662-49851-4_1"
+@inbook{bible,
+  author    = {van der Aalst, Wil M. P.},
+  title     = {Data Science in Action},
+  booktitle = {Process Mining: Data Science in Action},
+  year      = {2016},
+  publisher = {Springer Berlin Heidelberg},
+  address   = {Berlin, Heidelberg},
+  pages     = {3--23},
+  abstract  = {In recent years, data science emerged as a new and important discipline. It can be viewed as an amalgamation of classical disciplines like statistics, data mining, databases, and distributed systems. Existing approaches need to be combined to turn abundantly available data into value for individuals, organizations, and society. Moreover, new challenges have emerged, not just in terms of size (``Big Data'') but also in terms of the questions to be answered. This book focuses on the analysis of behavior based on event data. Process mining techniques use event data to discover processes, check compliance, analyze bottlenecks, compare process variants, and suggest improvements. In later chapters, we will show that process mining provides powerful tools for today's data scientist. However, before introducing the main topic of the book, we provide an overview of the data science discipline.},
+  isbn      = {978-3-662-49851-4},
+  doi       = {10.1007/978-3-662-49851-4_1}
 }
+
+@inproceedings{random-forests-ho,
+  author    = {Tin Kam Ho},
+  booktitle = {Proceedings of 3rd International Conference on Document Analysis and Recognition},
+  title     = {Random decision forests},
+  year      = {1995},
+  volume    = {1},
+  number    = {},
+  pages     = {278-282 vol.1},
+  keywords  = {Classification tree analysis;Decision trees;Training data;Optimization methods;Testing;Tin;Stochastic processes;Handwriting recognition;Hidden Markov models;Multilayer perceptrons},
+  doi       = {10.1109/ICDAR.1995.598994}
+}
+
+@article{random-forest-breiman,
+  author     = {Breiman, Leo},
+  title      = {Random Forests},
+  year       = {2001},
+  issue_date = {2001, 10, 1},
+  publisher  = {Kluwer Academic Publishers},
+  address    = {USA},
+  volume     = {45},
+  number     = {1},
+  issn       = {0885-6125},
+  doi        = {10.1023/A:1010933404324},
+  abstract   = {Random forests are a combination of tree predictors such that each tree depends on the values of a random vector sampled independently and with the same distribution for all trees in the forest. The generalization error for forests converges a.s. to a limit as the number of trees in the forest becomes large. The generalization error of a forest of tree classifiers depends on the strength of the individual trees in the forest and the correlation between them. Using a random selection of features to split each node yields error rates that compare favorably to Adaboost (Y. Freund \& R. Schapire, Machine Learning: Proceedings of the Thirteenth International conference, ***, 148–156), but are more robust with respect to noise. Internal estimates monitor error, strength, and correlation and these are used to show the response to increasing the number of features used in the splitting. Internal estimates are also used to measure variable importance. These ideas are also applicable to regression.},
+  journal    = {Mach. Learn.},
+  month      = oct,
+  pages      = {5–32},
+  numpages   = {28},
+  keywords   = {regression, ensemble, classification}
+}
+
+@inproceedings{attention-is-all-you-need,
+  author    = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and Kaiser, Lukasz and Polosukhin, Illia},
+  title     = {Attention is all you need},
+  year      = {2017},
+  isbn      = {9781510860964},
+  publisher = {Curran Associates Inc.},
+  address   = {Red Hook, NY, USA},
+  abstract  = {The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over the existing best results, including ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.0 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature.},
+  booktitle = {Proceedings of the 31st International Conference on Neural Information Processing Systems},
+  pages     = {6000–6010},
+  numpages  = {11},
+  location  = {Long Beach, California, USA},
+  series    = {NIPS'17}
+}
+
+
+@book{conformance-checking,
+  title     = {Conformance Checking: Relating Processes and Models},
+  abstract  = {This book introduces readers to the field of conformance checking as a whole and outlines the fundamental relation between modelled and recorded behaviour. Conformance checking interrelates the modelled and recorded behaviour of a given process and provides techniques and methods for comparing and analysing observed instances of a process in the presence of a model, independent of the model's origin. Its goal is to provide an overview of the essential techniques and methods in this field at an intuitive level, together with precise formalisations of its underlying principles. The book is divided into three parts, that are meant to cover different perspectives of the field of conformance checking. Part I presents a comprehensive yet accessible overview of the essential concepts used to interrelate modelled and recorded behaviour. It also serves as a reference for assessing how conformance checking efforts could be applied in specific domains. Next, Part II provides readers with detailed insights into algorithms for conformance checking, including the most commonly used formal notions and their instantiation for specific analysis questions. Lastly, Part III highlights applications that help to make sense of conformance checking results, thereby providing a necessary next step to increase the value of a given process model. They help to interpret the outcomes of conformance checking and incorporate them by means of enhancement and repair techniques. Providing the core building blocks of conformance checking and describing its main applications, this book mainly addresses students specializing in business process management, researchers entering process mining and conformance checking for the first time, and advanced professionals whose work involves process evaluation, modelling and optimization.},
+  author    = {Josep Carmona and {van Dongen}, Boudewijn and Andreas Solti and Matthias Weidlich},
+  year      = {2018},
+  month     = nov,
+  day       = {11},
+  doi       = {10.1007/978-3-319-99414-7},
+  language  = {English},
+  isbn      = {978-3-319-99413-0},
+  publisher = {Springer},
+  address   = {Germany}
+}
+
 
 
 
