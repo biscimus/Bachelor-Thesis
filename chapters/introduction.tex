@@ -4,7 +4,7 @@ Process mining \cite{bible} is a field of computer science aiming to reconstruct
 The foundation of all process mining discovery algorithms is the so-called \emph{event log}: A chronologically ordered list of every event recorded in a business system. Event logs have three mandatory feature attributes. \emph{Case ID} represents which case the event belongs to. \emph{Activity} portrays what kind of event happened. \emph{Timestamp} logs the time of occurrence of that specific event. Table \ref{tab:example_event_log} demonstrates a simple example of an event log.
 
 \renewcommand{\arraystretch}{1.25}
-\begin{table}[h!]
+\begin{table}[h]
     \centering
 	\caption{Example event log.}
     \begin{tabular}{|c|c|c|c|c|}
@@ -57,7 +57,7 @@ In an ideal world where perfect process discovery is conceivable, an event log w
 
 Let us consider a small example as motivation. Suppose the underlying model of our business process is represented as the Petri net below.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
     % Place 1
@@ -150,7 +150,7 @@ In the scope of the thesis, we define the four research questions below:
 
 The principal research goal of this thesis paper is to explore different methods to annotate event logs with translucent information. Furthermore, by building a meaningful, easily operable end-user framework dedicated to translucent log annotation, the \textbf{Translucify} framework should be able to evaluate these methods systematically with respect to its accuracy and runtime.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
 

@@ -1,4 +1,4 @@
-In the upcoming chapter, we discuss the methodology of \emph{Translucify} in detail. We begin with a general framework overview and discuss the specific approaches individually.
+In the upcoming chapter, we discuss the methodology of $\emph{Translucify}$ in detail. We begin with a general framework overview and discuss the specific approaches individually.
 
 \section{Framework Overview}
 In order to look deeper into the main problem of this thesis, we first formally define our problem as described below.
@@ -18,7 +18,7 @@ There is a variant of the \emph{Translucent Log Extension Problem}, where a proc
 The second variant differs from the first, as the model is meant to act as a reference model; the set of enabled activities is intended to be constrained by the process model. Note that the function of $\mathcal{M}$ is to provide an upper bound on the set of enabled activities, and the log is there to provide further constraints to enrich the model. Of particular interest are parallel and choice situations, since we are able to deduce supplementary patterns not demonstrated in the process model using log data. We name the first variant defined in Definition \ref{def:tlgp} as \emph{Bottom-up Translucent Log Extension Problem}, whereas the second variant in Definition \ref{def:tlgpm} is named as \emph{Top-down Translucent Log Extension Problem.}
 
 
-\begin{table}[h!]
+\begin{table}[h]
     \centering
 	\caption{A table of available model-based options for \emph{Translucify}.}
     \begin{tabular}{|c|c|c|}
@@ -106,7 +106,7 @@ A method to incorporate the data attributes is to implement multivariable regres
 \end{figure}
 
 
-\begin{table}[h!]
+\begin{table}[h]
     \centering
     \caption{Example event log for multivariable regression.}
     \begin{tabular}{|c|c|c|c|c|}
@@ -124,15 +124,15 @@ A method to incorporate the data attributes is to implement multivariable regres
     \end{table}
 \subsubsection*{Computing Alignments}
 
-A process model does not always guarantee a perfect fitness of the event log. Sometimes, infrequnet traces are considered as noise and are subsequently ignored. Furthermore, process models contain more than one unique fitting path for each trace in various occasions. It is therefore crucial in Petri nets to first compute the best-fitting model trace for each log trace using \emph{alignments.} 
+A process model does not always guarantee a perfect fitness of the event log. Sometimes, infrequent traces are considered as noise and are subsequently ignored. Furthermore, process models contain more than one unique fitting path for each trace in various occasions. It is therefore crucial in Petri nets to first compute the best-fitting model trace for each log trace using \emph{alignments} \cite{alignments}.
 
 (theoretical background \& explanation on how alignments usually work)
 
-Computing alignments can be thought as choosing an alignment function $f_{align} \colon \mathcal{L} \rightarrow T^*$, where given a log trace $\sigma \in \mathcal{L}$ as input, $f_{align}$ returns a sequence of transitions $(t_1, \dots, t_n)$ as output, corresponding to the optimal model trace computed by a chosen alignment algorithm.
+Computing alignments can be thought as choosing an alignment function $f_{align} \colon \mathcal{L} \rightarrow T^*$, where given a log trace $\sigma \in \mathcal{L}$ as input, $f_{align}$ returns a sequence of transitions $\langle t_1, \dots, t_n \rangle$ as output, corresponding to the optimal model trace computed by a chosen alignment algorithm.
 
 In our scenario, however, we need to take data attributes into account as well, which are necessary for the regression analysis. For this, the appropriate data attributes of the log trace must be attached to the model trace. Intuitively, since event logs are records of a system, we assume that the data state is the data snapshot immediately after the event occurrence. Moreover, we assume that silent transitions do not modify the data state. Data states of silent transitions in the model trace are therefore identical to the most recently occurred data state of a named transition recorded in the event log.
 
-We therefore extend the alignment function to $f_{align} \colon \mathcal{L} \rightarrow (T \times \Delta)^*$, where $\Delta$ is the set of data attributes found in the corresponding event $e \in \sigma$. Given a log trace $\sigma \in \mathcal{L}$ and the corresponding data attributes $d \in \Delta$, $f_{align}(\sigma) = ((t_1, d_1), \dots, (t_n, d_n))$ returns a sequence of transitions as output.
+We therefore extend the alignment function to $f_{align} \colon \mathcal{L} \rightarrow (T \times \Delta)^*$, where $\Delta$ is the set of data attributes found in the corresponding event $e \in \sigma$. Given a log trace $\sigma \in \mathcal{L}$ and the corresponding data attributes $d \in \Delta$, $f_{align}(\sigma) = \langle (t_1, d_1), \dots, (t_n, d_n) \rangle$ returns a sequence of transitions as output.
 
 Using the example event log in Table \ref{tab:log-multivar-regression} and the model in Figure \ref{fig:model-multivar-regression}, the alignment for the trace $\langle a, d \rangle$ would be $((a, (yes, 30)), (t1, (yes, 30)), (d, (yes, 50)))$, and the alignment for trace $\langle a, b, d \rangle$ would be $((a, (no, 0)), (b, (no, 40)), (d, (no, 56)))$.
 
@@ -140,7 +140,7 @@ Using the example event log in Table \ref{tab:log-multivar-regression} and the m
 
 Given an aligned model trace, our goal is to generate a labeled training data set for each transition in the Petri net model. In other words, the goal of this stage is to find the function $f_{observe} \colon T \rightarrow (\Delta \times \{0, 1\})^*$.
 
-We iterate over the event log and replay the Petri net using the model trace $f_{align}(\sigma)$ $\forall \sigma \in \mathcal{L}$. For each Petri net marking $M_i$ where $(N, M_0)[(t_1, \dots, t_{i-1}) \rangle (N, M_i)$ and the corresponding current data state $d_i$, we first compute the enabled transitions $en(M_i)$ and update the values of $f_{observe}$ as the following:
+We iterate over the event log and replay the Petri net using the model trace $f_{align}(\sigma)$ $\forall \sigma \in \mathcal{L}$. For each Petri net marking $M_i$ where $(N, M_0)[\langle t_1, \dots, t_{i-1} \rangle \rangle (N, M_i)$ and the corresponding current data state $d_i$, we first compute the enabled transitions $en(M_i)$ and update the values of $f_{observe}$ as the following:
 $f_{observe}(t_j) \leftarrow f_{observe}(t_j) \cup \{ (d_i, c)\}$ for all $t_j \in en(M_i)$, where
 
 \[
@@ -177,7 +177,9 @@ We do the same thing as above, but instead of using logistic regression, we use 
 
 \section{Transition System-based Approaches}
 
-... One of the advantages of utilizing transition systems over Petri nets is the lack of silent transitions. When trying to replay a trace on a Petri net in the presence of silent transition, the algorithm must decide which path of the firing sequence it should take by computing alignments with a certain cost function, then taking the path with the minimal cost. This can be computationally expensive and time-consuming, especially for larger models where the number of silent transitions is high. Transition systems can benefit us in this regard.
+In this section, we discuss how transition systems, in particular prefix automata, can be exploited as an additional process model for the \emph{Translucent Log Extension Problem}.
+
+One of the advantages of utilizing transition systems over Petri nets is the lack of silent transitions. When trying to replay a trace on a Petri net in the presence of silent transition, the algorithm must decide which path of the firing sequence it should take by computing alignments with a certain cost function, then taking the path with the minimal cost. This can be computationally expensive and time-consuming, especially for larger models where the number of silent transitions is high. Transition systems can benefit us in this regard.
 
 \subsection{Frequency-Annotated Prefix Automata}
 
@@ -199,7 +201,7 @@ Let us look at a small example. Consider the simple event log $\mathcal{L} = [\l
 %     }
 % \end{algorithm}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[auto, node distance=3cm, 
         every node/.style={draw, ellipse, font=\sffamily\large\bfseries, inner sep=1pt, outer sep=0pt, minimum height=1cm},
@@ -274,7 +276,7 @@ Using the previous prefix automaton in Figure \ref{fig:example_prefix_automaton}
 
 After merging the states $\{ \langle a, c, b \rangle \}$ and $\{ \langle a, b, c \rangle \}$, the resulting state-merged prefix automaton is depicted in Figure \ref{fig:state_merged_prefix_automaton_1}. The new state $\{ \langle a, b, c \rangle, \langle a, c, b \rangle \}$ inherits the incoming and outgoing transitions of the merged states.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm, semithick]
     \tikzstyle{every state}=[fill=white,draw=black,text=black]

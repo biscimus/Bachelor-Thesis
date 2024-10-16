@@ -1,5 +1,5 @@
 
-In the upcoming section, we will introduce basic mathematical foundations essential for the thesis. These encompass the definitions of sets, multisets, sequences, Petri nets, and event logs. We will also introduce the concept of transition systems and prefix automata. Lastly, we will provide a cursory explanation of machine learning algorithms such as Multivariable Regression as well as deep learning algorithms such as the Transformer architecture.
+In the upcoming section, we will introduce basic mathematical foundations essential for the thesis. These encompass the definitions of sets, multisets, sequences, Petri nets, and event logs. We will also introduce the concept of transition systems and prefix automata. Lastly, we will provide a cursory explanation of machine learning algorithms such as multivariable regression as well as deep learning algorithms such as the transformer architecture.
 
 \begin{definition}[Set]
     A set is a collection $M$ of distinct objects. The objects in a set are called \emph{elements} of the set. The set $M$ is denoted as $M = \{ a_1, a_2, \dots, a_n \}$, where $a_1, a_2, \dots, a_n$ are the elements of the set. The notation $\lvert M \rvert$ denotes the cardinality of $M$, i.e., the number of elements in $M$.
@@ -8,7 +8,7 @@ In the upcoming section, we will introduce basic mathematical foundations essent
 Throughout the thesis, we will use the variant $\mathbb{N} = \{0, 1, 2, \dots\}$ where $0$ is included in the set of natural numbers.
 
 \begin{definition}[Finite Sequence]
-    A finite sequence over a set $A$ is a function with the signature $\sigma \colon S \rightarrow A$ where $S = \{0, 1, \cdots, n \} \subseteq \mathbb{N}$ and $\lvert S \rvert < \infty$. The set of all finite sequences over $A$ is denoted as $A^*$. The cardinality of $S$ $\lvert S \rvert$  is the \emph{length} of a sequence $\sigma$ and is denoted it with $\lvert \sigma \rvert$.
+    A finite sequence over a set $A$ is a function with the signature $\sigma \colon S \rightarrow A$ where $S = \{0, 1, \cdots, n \} \subseteq \mathbb{N}$ and $\lvert S \rvert < \infty$, i.e., a finite set of initial natural numbers. The set of all finite sequences over $A$ is denoted as $A^*$. The cardinality of the domain of $\sigma \lvert S \rvert$  is the \emph{length} of a sequence $\sigma$ and is denoted it with $\lvert \sigma \rvert$.
 \end{definition}
 
 Since we are introducing the notion of sequences to represent event log traces, note that we only consider finite sequences in the scope of this thesis. Instead of the function notation, we predominantly use the list notation with angled brackets to represent sequences. For example, the sequence $\sigma \colon \{0, 1, 2, 3\} \rightarrow \{a, b, c\}, 0 \mapsto a, 1 \mapsto b, 2 \mapsto b, 3 \mapsto c$ is expressed as $\langle a, b, b, c \rangle$.
@@ -20,9 +20,7 @@ Since we are introducing the notion of sequences to represent event log traces, 
 
 Similar to sequences, we preferably use the list notation with square brackets to represent multisets rather than the function notation, where the cardinality of each element is superscripted over the element. For example, the multiset over the sequence $\langle a, b, b, c \rangle$ will be represented as $[a^1, b^2, c^1]$.
 
-\section{Process Mining}
-
-\textcolor{red}{TODO: Explain the basics of process mining}
+Furthermore, for two multisets $X$ and $Y$ over $A$, we notate the multiset union as $X \uplus Y$, where $(X \uplus Y)(a) = X(a) + Y(a)$ for all $a \in A$. Likewise, the difference of two multisets is denoted as $X \setminus Y$, where $(X \setminus Y)(a)$ is the maximum value between $X(a) - Y(a)$ and $0$ for all $a \in A$.
 
 \section{Event Logs}
 
@@ -51,7 +49,7 @@ We further assume that in a conventional event log, there exists a total order $
 We can further group events by their case identifiers. A sequence of events with the same case identifier ordered by $<_{time}$ is called a \emph{trace}. Note that the set of all traces of an event log is pairwise disjoint, i.e., there is no event $e \in \mathcal{E}$ which is an element of two different traces. Hence, an event log can also be represented as a set of traces.
 
 \begin{definition}[Trace]
-    Let $\mathcal{E}$ be the event universe. A \emph{trace} is a sequence of events $\sigma = \langle e_1, e_2, \dots, e_n \rangle \in \mathcal{E}^*$ such that $\pi_{case}(e_i) = \pi_{case}(e_{i+1})$ holds for all $i \in \{1, \dots, n-1\}$.
+    $\mathcal{E}$ is the event universe. A \emph{trace} is a sequence of events $\sigma = \langle e_1, e_2, \dots, e_n \rangle \in \mathcal{E}^*$ such that $\pi_{case}(e_i) = \pi_{case}(e_{i+1})$ holds for all $i \in \{1, \dots, n-1\}$.
 \end{definition}
 
 However, when discussing traces, we oftentimes refer to them as a sequence of activities. This is firstly for the sake of simplicity, but also due to the fact that the control flow is considered to be the most crucial aspect in process mining, in particular when constructing process models. Event logs where each trace is solely represented as a sequence of activities is called a \emph{simple event log}.
@@ -59,7 +57,7 @@ However, when discussing traces, we oftentimes refer to them as a sequence of ac
 \begin{definition}[Simple Event Log]
     Let $\mathcal{L} \subseteq \mathcal{E}$ be an event log and $\sigma \in \mathcal{L}$ a trace. We expand the attribute projection function analogously for traces as the following: $\pi_n(\sigma) = \pi_n(\langle e_1, e_2, \dots, e_n \rangle) = \langle \pi_n(e_1), \pi_n(e_2), \dots, \pi_n(e_n) \rangle$. $\mathcal{L'}$ is a simple event log of $\mathcal{L}$ if
     \[
-        \mathcal{L'} = \bigcup\limits_{\sigma \in \mathcal{L}} \pi_{act}(\sigma).
+        \mathcal{L'} = \left[ \pi_{act}(\sigma) \mid \sigma \in \mathcal{L} \right].
     \]
 \end{definition}
 
@@ -74,7 +72,7 @@ The objective of our thesis is to transform conventional event logs into translu
 Table \ref{tab:translucent_event_log} displays an example translucent event log. Note that the occurred activity in the activity column is always included in the set of enabled activities.
 
 \renewcommand{\arraystretch}{1.25}
-\begin{table}[h!]
+\begin{table}[h]
     \centering
     \caption{Example translucent event log table.}
     \begin{tabular}{|c|c|c|c|c|c|}
@@ -102,7 +100,7 @@ In the following section, two types of automata used throughout the thesis will 
 
 \subsection{Petri Nets}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[transition/.style={rectangle, draw=black, minimum width=8mm, minimum height=8mm}]
         % Define places
@@ -124,22 +122,22 @@ In the following section, two types of automata used throughout the thesis will 
     \label{fig:petrinet}
 \end{figure}
 
-Petri nets are the standard process model used in process mining, whose biggest advantage is the ability to model concurrent systems. Places of a Petri net correspond to states of a process, whereas transition of a Petri net correspond to event activities. In order to portray this behavior, we label transitions with activity names.
+Petri nets are the standard process model used in process mining, whose biggest advantage is the ability to model concurrent systems. Transitions of a Petri net usually correspond to event activities, whereas markings of a Petri net correspond to states of the process. In the following, we begin with the definition of a Petri net and continue to expand its definition in order to express labeling transitions, marking places, and firing transitions. Finally, we augment the Petri net even further to incorporate randomness and data attributes into the model.
 
 \begin{definition}[Petri Net]
 \label{def:petrinet}
     Let $P, T$ be finite, disjoint sets, where $T$ is a set of \emph{places} and $T$ set of \emph{transitions}. A \emph{Petri net} is a triple $N = (P, T, F)$, where $F \subseteq (P \times T) \cup (T \times P)$ is a set of directed arcs between places and transitions.
 \end{definition}
 
-Figure \ref{fig:petrinet} portrays a Petri net with four places $P = \{p_1, p_2, p_3, p_4\}$, two transitions $T = \{t_1, t_2\}$, and arcs $F = \{ (p_1, t_1), (t_1, p_2), (t_1, p_3), (p_2, t_2), (p_3, t_2), (t_2, p_4) \}$. Since Petri nets are used to model the control flow of a process based on an event log, transitions should be able to represent an activity name. This is where Labeled Petri nets come into play.
+Figure \ref{fig:petrinet} portrays a Petri net with four places $P = \{p_1, p_2, p_3, p_4\}$, two transitions $T = \{t_1, t_2\}$, and arcs $F = \{ (p_1, t_1), (t_1, p_2), (t_1, p_3), (p_2, t_2), (p_3, t_2), (t_2, p_4) \}$. Since Petri nets are used to model the control flow of a process based on an event log, transitions should be able to represent an activity name. This is where Labeled Petri nets come into play in order to label transitions with activity names.
 
 \begin{definition}[Marked Labeled Petri Net]
     Let $N = (P, T, F)$ be a Petri net. A \emph{labeled Petri net} is an extended tuple $N = (P, T, F, \mathcal{A}, l)$, where $\mathcal{A}$ is a set of activity labels and $l: T \rightarrow \mathcal{A}$ is a labeling function. A \emph{marked Petri net} is an ordered pair $(N, M)$ where $M \in \mathbb{B}(P)$ is a multiset over $P$.
 \end{definition}
 
-Looking back at Figure \ref{fig:petrinet}, the transitions $t_1$ and $t_2$ are each labeled with activity names $a$ and $b$ respectively.
+As shown in Figure \ref{fig:petrinet}, the transitions $t_1$ and $t_2$ are each labeled with activity names $a$ and $b$ respectively. Furthermore, place $p_1$ is marked with two tokens, while the rest is unmarked. The marking is therefore denoted as $M = [p_1^2, p_2^0, p_3^0, p_4^0]$.
 
-Furthermore, there are cases where a transition does not correspond to any of the activity names in the event log, as some are only used to model the control flow of a Petri net. These transitions are called \emph{silent transitions} (also $\tau$-transitions) and are denoted with the activity name $\tau$.
+Furthermore, there are cases where a transition does not correspond to any of the activity names in the event log, as some are, e.g., only used to model the control flow of a Petri net. These transitions are called \emph{silent transitions} (also $\tau$-transitions) and are denoted with the activity name $\tau$.
 
 \begin{definition}[Enabled Transition]
     Let $(N, M)$ be a marked Petri net.  We further define the $\bullet$ notation, where $\pre x = \{ y \mid (y, x) \in F \}$ and $\post x= \{ y \mid (x, y) \in F \}$. A transition $t \in T$ is \emph{enabled} in $M$ if and only if $\pre t \leq M$.
@@ -151,9 +149,9 @@ We also characterize this property using the notation $(N, M)[t\rangle$. The set
     Let $(N, M)$ be a marked Petri net. The firing of a transition $t \in T$ is denoted as $(N, M) [t\rangle (N, M')$, where $M' = (M \setminus ^{\bullet}t) \cup t^{\bullet}$.
 \end{definition}
 
-Let $\sigma = \langle t_1, t_2, \dots, t_n \rangle \in T^*$ be a sequence of transitions. $(N, M)[\sigma \rangle (N, M')$ denotes that there exists a sequence of markings $\langle M_1 = M, M_2, \dots, M_{n+1} = M' \rangle$ so that \\ $(N, M_i)[t_i \rangle (N, M_{i+1})$ for all $1 \leq i \leq n$. The set of all reachable markings from $M$ is denoted as $[N, M\rangle = \{ M' \mid (N, M) [\sigma\rangle (N, M') \} \text{ for some } \sigma \in T^*$. Figure \ref{fig:firing_sequence} takes the previously defined Petri net in Figure \ref{fig:petrinet} and demonstrates the firing of a transition sequence $\langle t_1, t_2 \rangle$.
+Let $\sigma = \langle t_1, t_2, \dots, t_n \rangle \in T^*$ be a sequence of transitions. $(N, M)[\sigma \rangle (N, M')$ denotes that there exists a sequence of markings $\langle M_1 = M, M_2, \dots, M_{n+1} = M' \rangle$ so that \\ $(N, M_i)[t_i \rangle (N, M_{i+1})$ for all $1 \leq i \leq n$. The set of all reachable markings from $M$ is denoted as $[N, M\rangle = \{ M' \mid (N, M) [\sigma\rangle (N, M') \} \text{ for some } \sigma \in T^*$. Figure \ref{fig:firing_sequence} takes the previously presented Petri net in Figure \ref{fig:petrinet} and demonstrates the firing of a transition sequence $\langle t_1, t_2 \rangle$.
 
-\begin{figure}[ht!]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.31\textwidth}
         % \centering
@@ -228,16 +226,22 @@ Let $\sigma = \langle t_1, t_2, \dots, t_n \rangle \in T^*$ be a sequence of tra
 
 As previously mentioned in \cref{chap:related_work}, \cite{sldpn} introduces an extension of a Petri net by consolidating the stochastic properties and data states into a conventional Petri net.
 
-In a stochastic setting, the firing probability of each transition is regulated by a single weight function. If more than one transition is enabled, the transition to be fired is selected randomly based on its weights. This notion is extended even further in \cite{sldpn} by allocating a separate weight function to each transition dependent on the data states.
+In a stochastic setting, the firing probability of each transition is regulated by a single weight function. If more than one transition is enabled, the transition to be fired is selected randomly based on its weights. In other words, for a marked Petri net $(N, M)$, there exists a weight function $w: T \rightarrow \mathbb{R}^+$ so that 
 
-\begin{definition}[Stochastic Data Petri Net]
-    $\Delta$ is the universe of data states. Let further $N = (P, T, F, \mathcal{A}, l)$ be a labeled Petri net. A tuple $(P, T, F, \mathcal{A}, l, \omega)$ is \emph{stochastic} if and only if $\omega: T \times \Delta \to \mathbb{R}^+$ is a weight function.
+\[ 
+    Pr(t \mid M') = \frac{w(t)}{\sum_{t' \in en(N, M')} w(t')}
+\]
+
+for all reachable markings $M'$ and enabled transitions $t \in en(N, M')$. This notion is extended even further in \cite{sldpn} by allocating a separate weight function to each transition dependent on the data states. It is evident that the identical notion can be denoted as a single function for the entire Petri net for the sake of simplicity, where the function value is dependent on the Cartesian product of the transition and data state.
+
+\begin{definition}[Stochastic Labeled Data Petri Net]
+    $\Delta$ is the universe of data states. Let further $N = (P, T, F, \mathcal{A}, l)$ be a labeled Petri net. A tuple $(P, T, F, \mathcal{A}, l, \omega)$ is a \emph{Stochastic Labeled Data Petri Net (SLDPN)} if and only if $(P, T, F, \mathcal{A}, l)$ is a labeled Petri net and $\omega: T \times \Delta \to \mathbb{R}^+$ is a weight function.
 \end{definition}
 
-Given a place $p \in P$ and a data state $\delta \in \Delta$, the probability that the Petri net $N$ fires a transition $t \in p^{\bullet}$ is given as the following equation:
+Analogous to the previous formulation, given a reachable marking $M'$ and a data state $\delta \in \Delta$ in an SLDPN $(P, T, F, \mathcal{A}, l, \omega)$, the firing probability of an enabled transition $t \in en(N, M')$ is
 
 \[
-    Pr(t \mid p, \delta) = \frac{\omega(t, \delta)}{\sum_{t' \in p^{\bullet}} \omega(t', \delta)}.
+    Pr(t \mid M', \delta) = \frac{\omega(t, \delta)}{\sum_{t' \in en(N, M')} \omega(t', \delta)}.
 \]
 
 \textcolor{red}{Nur die Definition hier ist ein bisschen unverständlich, aber ein Beispiel für SLDPNs taucht eigentlich in Methods wieder auf. Soll ich hier trotzdem ein Beispiel zeigen?}
@@ -245,14 +249,16 @@ Given a place $p \in P$ and a data state $\delta \in \Delta$, the probability th
 \subsection{Prefix Automata} \label{subsec:transition_systems}
 
 \begin{definition}[Transition System]
-    Let $S$ be the set of states, $A$ the set of activities, and $T \subseteq S \times A \times S$ the set of transitions. A \emph{transition system} is a triple $\mathit{\mathit{TS}} = (S, A, T)$. We denote the set of initial states as $S^{start} \subseteq S$ and the set of final states as $S^{end} \subseteq S$, where $S^{start}, S^{end} \subseteq S$.
+    Let $S$ be the set of states, $A$ the set of activities, and $T \subseteq S \times A \times S$ the set of transitions. A \emph{transition system} is a triple $\mathit{\mathit{TS}} = (S, A, T)$. We denote the set of initial states as $S^{start}$ and the set of final states as $S^{end}$, where $S^{start}, S^{end} \subseteq S$.
 \end{definition}
+
+\textcolor{red}{show example of a TS}
 
 Transition systems are an alternative method next to Petri nets to represent processes of a system. Due to its structural property, silent transitions are absent in transition systems. This relieves us from the need to compute alignments when replaying the event log on the model.
 
 \begin{definition}[Prefix Automaton]\label{def:pa}
 
-    Let $\mathcal{L}$ be an event log and $l^{state} \colon \mathcal{L} \times \mathbb{N} \rightarrow S$ a state representation function. $\mathit{TS}_{\mathcal{L}, l^{state}} = (S, A, T)$ is a transition system based on $\mathcal{L}$ and $l^{state}$ with the following properties:
+    Let $\mathcal{L} \subseteq \mathcal{E}$ be an event log and $l^{state} \colon \mathcal{L} \times \mathbb{N} \rightarrow S$ a state representation function. $\mathit{TS}_{\mathcal{L}, l^{state}} = (S, A, T)$ is a transition system based on $\mathcal{L}$ and $l^{state}$ with the following properties:
     
     \begin{itemize}
         \item $S = \{l^{state}(\sigma, k) \mid \sigma \in \mathcal{L} \land 0 \leq k \leq \lvert \sigma \rvert \}$ the state space,
@@ -363,13 +369,13 @@ The multiset representation is a compromise between the list and set representat
 
 \section{Machine Learning Algorithms}
 
-In this section, we will briefly introduce and explain the machine learning algorithms employed throughout the thesis. These include Multivariable Logistic Regression, Random Forest, and the Transformer architecture.
+In this section, we will briefly introduce and explain the machine learning algorithms employed throughout the thesis. These include multivariable logistic regression, random forest, and the transformer architecture.
 
 \subsection{Multivariable Logistic Regression}
 
 Multivariable logistic regression is a statistical model used to predict the probability of a boolean or binary outcome based on multiple variables, and is commonly applied in classification tasks. Formally, we define the model as follows:
 
-\begin{definition}[Multivariable logistic regression]
+\begin{definition}[Multivariable Logistic Regression]
     Given a dataset $D \in (\mathbb{R}^n \times \{0, 1\})^m$, find a function $f: \mathbb{R}^n \rightarrow [0, 1]$ such that:
 
     \[
@@ -382,17 +388,17 @@ Multivariable logistic regression is a statistical model used to predict the pro
     \]
 \end{definition}
 
-\begin{proof}
-    We want to fit our regression model to the dataset $D$ as close as possible, i.e., the returned value of $f$ should be as close as possible to the binary value $y$. We therefore want to maximize:
+% \begin{proof}
+%     We want to fit our regression model to the dataset $D$ as close as possible, i.e., the returned value of $f$ should be as close as possible to the binary value $y$. We therefore want to maximize:
     
-    \[ \prod_{(x, y) \in S} \left(\frac{1}{ 1  + e^{-y \beta^T x}} \right). \]
+%     \[ \prod_{(x, y) \in S} \left(\frac{1}{ 1  + e^{-y \beta^T x}} \right). \]
 
-    Since the function inside the product is increasing, finding the maximum of the product is equivalent to finding the maximum of the sum of its logarithm, which in turn is equivalent to finding the minimum of the negative sum of the logarithm. We can hence rewrite the term as:
+%     Since the function inside the product is increasing, finding the maximum of the product is equivalent to finding the maximum of the sum of its logarithm, which in turn is equivalent to finding the minimum of the negative sum of the logarithm. We can hence rewrite the term as:
 
-    \[
-        - \ln \left( \prod_{(x, y) \in S} \left(\frac{1}{ 1  + e^{-y \beta^T x}} \right) \right) = \ln \left( \prod_{(x, y) \in S} \left( 1  + e^{-y \beta^T x} \right) \right) = \sum_{(x, y) \in S} \ln \left( 1  + e^{-y \beta^T x} \right).
-    \]
-\end{proof}
+%     \[
+%         - \ln \left( \prod_{(x, y) \in S} \left(\frac{1}{ 1  + e^{-y \beta^T x}} \right) \right) = \ln \left( \prod_{(x, y) \in S} \left( 1  + e^{-y \beta^T x} \right) \right) = \sum_{(x, y) \in S} \ln \left( 1  + e^{-y \beta^T x} \right).
+%     \]
+% \end{proof}
 
 \subsection{Random Forest}
 
@@ -400,7 +406,7 @@ Random Forest is an ensemble learning method that creates multiple, logically si
 
 Bootstrap aggregation, also known as \emph{bagging}, is a dataset creation technique in which a multitude of datasets are created by sampling from the original dataset with replacement, i.e., a sample can be selected multiple times. Each of these bagged datasets is then fed to train a decision tree. Figure \ref{fig:bagging} illustrates an example of a bagged dataset.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
 
@@ -482,7 +488,7 @@ Bootstrap aggregation, also known as \emph{bagging}, is a dataset creation techn
 The term random feature selection refers to the procedure of utilizing a randomly selected subspace of the feature space when finding the optimal split at a decision tree's node. This method is reported to improve the model's accuracy and make the model less prone to outliers \cite{random-forest-breiman}. Figure \ref{fig:random-feature-selection} demonstrates the process of random feature selection.
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[level distance=2cm,
         sibling distance=3.25cm, edge from parent/.style={draw,-latex}]
@@ -550,7 +556,7 @@ It is often characterized by the equation
 
 are the query, key, and value matrices, respectively containing the query, key, and value vectors of each token as matrix columns, and $d_k$ is the dimension of the query and key matrices. Figure \ref{fig:self-attention} provides a graphical representation of the self-attention mechanism.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 
     \centering
     \begin{tikzpicture}[node distance=2cm, auto]
@@ -636,41 +642,4 @@ are the query, key, and value matrices, respectively containing the query, key, 
 
 \end{figure}
 
-
-
-
-
-
-
-
-
-
 For further reference, the definitive paper on transformer models is \cite{attention-is-all-you-need}.
-
-
-
-
-\begin{comment}
-    \begin{definition}[Directly-Follows Graph]
-    
-\end{definition}
-
-\begin{definition}[Finally-Follows Graph]
-    
-\end{definition}
-
-\begin{definition}[Non-local dependency]
-    
-\end{definition}
-
-\begin{definition}[Mining Non-local dependencies]
-    
-\end{definition}
-
-\end{comment}
-
-
-
-\begin{comment}
-    Limitations of translucent logs: Cannot solve the problem of non-local dependencies, as there are non-free-choice nets that are not lucent. However: Translucent event logs function as a safeguard to differentiate non-local dependencies from the local dependencies in a potentially incomplete event log.
-\end{comment}

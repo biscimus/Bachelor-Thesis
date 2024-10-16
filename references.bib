@@ -295,7 +295,96 @@
   address   = {Germany}
 }
 
+@inproceedings{translucent-activity-relationships,
+  author    = {Beyel, Harry H.
+               and van der Aalst, Wil M. P.},
+  editor    = {Marrella, Andrea
+               and Resinas, Manuel
+               and Jans, Mieke
+               and Rosemann, Michael},
+  title     = {Improving Process Discovery Using Translucent Activity Relationships},
+  booktitle = {Business Process Management},
+  year      = {2024},
+  publisher = {Springer Nature Switzerland},
+  address   = {Cham},
+  pages     = {146--163},
+  abstract  = {In task mining, data captured by recording user interactions in a desktop environment are stored in a user interaction log. A user interaction log can be transformed into an event log, suitable for process-mining techniques. If the desktop is captured during the recording process, information about enabled activities is available (next to the executed activity). This information can be extracted and added to an event log, resulting in a so-called translucent event log. A translucent event log can also be extracted from running information systems or created by applying domain knowledge to existing non-translucent event logs. Information about enabled activities is valuable for multiple reasons. For example, one may use this information to discover process models that capture the underlying behavior better. However, until now, only limited work has been done on exploiting the information on enabled activities for process discovery. In this work, we introduce translucent activity relationships derived from translucent event logs. These relationships can be embedded in various discovery algorithms. In this work, we focus on the Inductive Miner. In this process, we derive a translucent directly-follows graph. Based on this graph, we extend the Inductive Miner to use translucent activity relationships. We create three different variants and evaluate them on multiple translucent event logs by comparing them with the Inductive Miner. Based on the evaluation, we show that considering these relationships, fewer recordings are needed to discover a similar, if not even a superior, process model.},
+  isbn      = {978-3-031-70396-6}
+}
 
+@phdthesis{inductive-miner,
+  author = {Leemans, Sander J. J.},
+  title  = {Robust process mining with guarantees},
+  school = {Eindhoven University of Technology},
+  year   = {2017}
+}
 
+@article{pm4py,
+  title    = {PM4Py: A process mining library for Python},
+  journal  = {Software Impacts},
+  volume   = {17},
+  pages    = {100556},
+  year     = {2023},
+  issn     = {2665-9638},
+  doi      = {https://doi.org/10.1016/j.simpa.2023.100556},
+  author   = {Alessandro Berti and Sebastiaan {van Zelst} and Daniel Schuster},
+  keywords = {Process mining, Open-source software, Data analysis, Event data},
+  abstract = {PM4Py is a Python library providing a comprehensive array of tools for process mining. This paper presents an in-depth overview of the PM4Py library, including its integration with other Python libraries and its latest features, such as object-centric process mining. Furthermore, we discuss the significant impact of PM4Py within academia, industry, and the open-source community, evidenced by its wide adoption and substantial evolution. In short, the PM4Py library is an essential tool for researchers and practitioners, paving the way for advancements in process mining.}
+}
 
+@article{numpy,
+  author  = {Charles R. Harris and K. Jarrod Millman and St{\'e}fan J. van der Walt and Ralf Gommers and Pauli Virtanen and David Cournapeau and Eric Wieser and Julian Taylor and Sebastian Berg and Nathaniel J. Smith and Robert Kern and Matti Picus and Stephan Hoyer and Marten H. van Kerkwijk and Matthew Brett and Allan Haldane and Jaime Fern{\'a}ndez del R{\'i}o and Mark Wiebe and Pearu Peterson and Pierre G{\'e}rard-Marchant and Kevin Sheppard and Tyler Reddy and Warren Weckesser and Hameer Abbasi and Christoph Gohlke and Travis E. Oliphant},
+  title   = {Array programming with NumPy},
+  journal = {Nature},
+  volume  = {585},
+  number  = {7825},
+  pages   = {357--362},
+  year    = {2020},
+  month   = {Sep},
+  doi     = {10.1038/s41586-020-2649-2},
+  issn    = {1476-4687}
+}
+
+@article{scikit-learn,
+  author  = {Fabian Pedregosa and Ga{{\"e}}l Varoquaux and Alexandre Gramfort and Vincent Michel and Bertrand Thirion and Olivier Grisel and Mathieu Blondel and Peter Prettenhofer and Ron Weiss and Vincent Dubourg and Jake Vanderplas and Alexandre Passos and David Cournapeau and Matthieu Brucher and Matthieu Perrot and {{\'E}}douard Duchesnay},
+  title   = {Scikit-learn: Machine Learning in Python},
+  journal = {Journal of Machine Learning Research},
+  year    = {2011},
+  volume  = {12},
+  number  = {85},
+  pages   = {2825--2830}
+}
+
+@inproceedings{pandas,
+  author    = { {W}es {M}c{K}inney },
+  title     = { {D}ata {S}tructures for {S}tatistical {C}omputing in {P}ython },
+  booktitle = { {P}roceedings of the 9th {P}ython in {S}cience {C}onference },
+  pages     = { 56 - 61 },
+  year      = { 2010 },
+  editor    = { {S}t\'efan van der {W}alt and {J}arrod {M}illman },
+  doi       = { 10.25080/Majora-92bf1922-00a }
+}
+
+@book{react,
+  author    = {Eric Baer},
+  title     = {What React Is and Why It Matters},
+  year      = {2018},
+  publisher = {O'Reilly Media, Inc.},
+  isbn      = {9781491996737}
+}
+
+@inproceedings{alignments,
+  author    = {Rozinat, Anne
+               and van der Aalst, Wil M. P.},
+  editor    = {Bussler, Christoph J.
+               and Haller, Armin},
+  title     = {Conformance Testing: Measuring the Fit and Appropriateness of Event Logs and Process Models},
+  booktitle = {Business Process Management Workshops},
+  year      = {2006},
+  publisher = {Springer Berlin Heidelberg},
+  address   = {Berlin, Heidelberg},
+  pages     = {163--176},
+  abstract  = {Most information systems log events (e.g., transaction logs, audit trails) to audit and monitor the processes they support. At the same time, many of these processes have been explicitly modeled. For example, SAP R/3 logs events in transaction logs and there are EPCs (Event-driven Process Chains) describing the so-called reference models. These reference models describe how the system should be used. The coexistence of event logs and process models raises an interesting question: ``Does the event log conform to the process model and vice versa?''. This paper demonstrates that there is not a simple answer to this question. To tackle the problem, we distinguish two dimensions of conformance: fitness (the event log may be the result of the process modeled) and appropriateness (the model is a likely candidate from a structural and behavioral point of view). Different metrics have been defined and a Conformance Checker has been implemented within the ProM Framework.},
+  isbn      = {978-3-540-32596-3}
+}
 

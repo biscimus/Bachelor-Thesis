@@ -12,7 +12,7 @@ In the following sections, we briefly describe the technical architecture used f
 
 The backend was implemented with Python using the Flask\footnote{www.flask.palletsprojects.com/en/3.0.x/} framework. Flask is fitting for our use case as it is a lightweight framework providing a minimalistic set of features needed to build API calls.
 
-Behind the API handlers, the backend logic is dependent on \texttt{PM4Py}, an established process mining library written for the Python programming language. Other than \texttt{PM4Py}, standard libraries necessary for machine learning and data processing, such as \texttt{NumPy}, \texttt{Pandas}, and \texttt{Scikit-learn} were used. The choice of using Python for building the backend was an intentional decision in order to incorporate these libraries natively into the backend.
+Behind the API handlers, the backend logic is dependent on \texttt{PM4Py} \cite{pm4py}, a novel, rapidly established process mining library written for the Python programming language. Other than \texttt{PM4Py}, standard libraries necessary for machine learning and data processing, such as \texttt{NumPy} \cite{numpy}, \texttt{Pandas} \cite{pandas}, and \texttt{Scikit-learn} \cite{scikit-learn} were used. The choice of using Python for building the backend was an intentional decision in order to incorporate these libraries natively into the backend.
 
 For the database, SQLAlechemy\footnote{www.sqlalchemy.org} was used as an object relational mapping (ORM) tool to model the database. It was chosen due to its seamless compatibility with Flask using the Flask-SQLAlchemy extension and its ease of usage.
 
@@ -42,13 +42,13 @@ The database stores event log entities and their corresponding translucent event
         \node[attribute](ttype)[below right of=translucenteventlog, xshift=1cm]{\texttt{type}} edge(translucenteventlog);
         \node[attribute](tfilepath)[right of=translucenteventlog, xshift=2cm]{\texttt{file\_path}} edge(translucenteventlog);
     \end{tikzpicture}
-    \caption{Entity-Relationship Diagram of the database schema.}
+    \caption{Entity-relationship diagram of the database schema.}
     \label{fig:db_schema}
 \end{figure}
 
 \subsection{Frontend}
 
-The frontend is a web application built with React. The application leverages Mantine as its UI library, TanStack Router for routing and TanStack Query for asynchronous state management. The frontend application is responsible for sending \& receiving requests \& responses with the backend, parsing \& rendering the data, and finally to provide a user-friendly interface for the user to interact with the application.
+The frontend is a web application built with React \cite{react}. The application leverages Mantine \footnote{https://mantine.dev/} as its UI library, TanStack Router \footnote{https://tanstack.com/router/latest} for routing and TanStack Query \footnote{https://tanstack.com/query/latest} for asynchronous state management. The frontend application is responsible for sending \& receiving requests \& responses with the backend, parsing \& rendering the data, and finally to provide a user-friendly interface for the user to interact with the application.
 
 The web application will start with an interface where the user can upload an event log, with a choice between CSV and XES. After uploading the event log, different methods of translucent log annotation will be available. The user can select the method and the corresponding necessary parameters. After the log generation is complete, the user can download the log either in a CSV or an XES format.
 
@@ -130,10 +130,10 @@ The overall application architecture is depicted in Figure \ref{fig:app_architec
                 \node[below of=worker1\i, yshift=1cm, rectangle, fill=yellow] (worker2\i) {\texttt{Worker 2}};
 
                 % dots
-                \node[below of=worker2\i, yshift=1.5cm] (dots\i) {\Huge $\vdots$};
+                \node[below of=worker2\i, yshift=1cm] (dots\i) {\Huge $\vdots$};
 
                 % Worker n
-                \node[below of=dots\i, yshift=1.25cm, rectangle, fill=yellow] (workern\i) {\texttt{Worker n}};
+                \node[below of=dots\i, yshift=1cm, rectangle, fill=yellow] (workern\i) {\texttt{Worker n}};
 
                 % Arrows
                 \draw[thick, <->, densely dotted, >=stealth] ($(backend\i) + (0, -1)$) -- (database\i);
@@ -163,8 +163,8 @@ The overall application architecture is depicted in Figure \ref{fig:app_architec
         % SSH connection
         \node[draw, cloud, cloud puffs=11, cloud puff arc=120, aspect=2, right of=frontend, xshift=4.5cm] (sshcloud) {\texttt{SSH Tunneling}};
 
-        \draw[thick, >=stealth, out=120, in=90] (sshcloud.west) to[out=220, in=90] ++(-2,-2); % Left arm
-        \draw[thick, >=stealth, out=90, in=90] (sshcloud.east) to[out=320, in=90] ++(2,-2);  % Right arm
+        \draw[densely dotted, >=stealth, out=120, in=90] (sshcloud.west) to[out=220, in=90] ++(-2,-2); % Left arm
+        \draw[densely dotted, >=stealth, out=90, in=90] (sshcloud.east) to[out=320, in=90] ++(2,-2);  % Right arm
 
         % Labels
         \node[below of=database0, xshift=2.5cm, yshift=-0.4cm] {\texttt{Local}};
@@ -242,16 +242,18 @@ The Scikit-learn library was used to implement the random forest model. Unlike t
 
 In the upcoming section, we will describe the user workflow of \emph{Translucify} with the help of screenshots from the application.
 
+\subsection{Uploading an Event Log}
+
 Upon opening the application, the user faces the simple landing page as in Figure \ref{fig:landing-page}. After pressing the $\colorbox{NavyBlue}{\textcolor{white}{\texttt{Go to your logs}}}$ button, the user will be navigated to the home page, where an overview of previously uploaded event logs are provided. The list of all uploaded event logs is constantly available as a sidebar on the left side. Furthermore, an upload button is located above the event log table, allowing the user to upload a fresh event log. The home page is depicted in Figure \ref{fig:home-page}.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figures/screenshots/landing.png}
     \caption{Landing page of \emph{Translucify}.}
     \label{fig:landing-page}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{figures/screenshots/home.png}
     \caption{Home page of \emph{Translucify}.}
@@ -262,10 +264,9 @@ Pressing the $\colorbox{NavyBlue}{\textcolor{white}{\texttt{Upload an Event Log}
 
 The modal wizard consists of two steps. In the first step, the user is prompted to upload the event log data, which can either be in a CSV or an XES format. A name is also a required field for the event log. Although \emph{Translucify} assumes the CSV delimiter to be a semicolon, the user can still specify a custom delimiter if necessary.
 
+The wizard moves onto the second step after clicking on the $\colorbox{NavyBlue}{\textcolor{white}{\texttt{Upload}}}$ button. In the background, the frontend sends a request to the backend in order to save the event log in the database, upon which the backend reads the event log data and returns the column list of the event log. Here, the user can manually select the three fundamental columns for the event log: case ID, activity, and timestamp. After pressing the $\colorbox{NavyBlue}{\textcolor{white}{\texttt{Submit}}}$ button, the user will be subsequently prompted to the event log dashboard of the newly uploaded event log. Figure \ref{fig:upload-modal} illustrates the event log upload modal.
 
-
-
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \centering
@@ -278,3 +279,57 @@ The modal wizard consists of two steps. In the first step, the user is prompted 
     \caption{Event log upload modal consisting of a two-step wizard.}
     \label{fig:upload-modal}
 \end{figure}
+
+\subsection{Event Log Dashboard}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/screenshots/loghome.png}
+    \caption{Event log dashboard.}
+    \label{fig:log-home}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/screenshots/pagination.png}
+    \caption{Horizontal scroll and pagination feature for the raw log data.}
+    \label{fig:pagination}
+\end{figure}
+
+\begin{wrapfigure}{r}{0.4\textwidth}    
+    \centering
+    \includegraphics[width=0.35\textwidth]{figures/screenshots/translucify.png}
+    \caption{Choice popup.}
+    \label{fig:choice-popup}
+\end{wrapfigure}
+
+The event log dashboard provides the comprehensive information regarding the specific event log instance and consists of two main sections.
+
+The first section is the translucent log table, in which every generated and to-be-generated translucent event log is registered, listing information such as the generation method and completion status. The download feature enabled the user to download the translucent event log data directly from the table.
+
+The second section is the event log table, which displays the raw event log data in form of a table. During development, we observed frequent browser crashes due to the extensive data size in the table when testing with large event logs. In order to mitigate this, a pagination feature was added to the table. Moreover, the table is horizontally scrollable for event logs with a large column count. Figures \ref{fig:log-home} and \ref{fig:pagination} demonstrate the event log dashboard and the pagination feature, respectively.
+
+Upon clicking the $\colorbox{NavyBlue}{\textcolor{white}{\texttt{Translucify!}}}$ button, the user needs to select between three log generation options: Petri net, prefix automaton, and transformer. Pressing each button navigates the user to the corresponding configuration page. The popup is depicted in Figure \ref{fig:choice-popup}.
+
+\subsection{Configuration Pages}
+
+Petri net and prefix automaton configuration pages share an identical component. The user is first prompted to choose a classifier model between random forests and multivariable regression. Next, the user can select the feature columns to be used for data analysis and subsequently indicate whether the columns are numerical or categorical. Lastly, the user can select the probability threshold for the enabled activities.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/screenshots/petrinetconfig.png}
+    \caption{Petri net configuration page. The random forest model is selected, along with a numerical data column $\texttt{seriousness\_2}$ and a categorical data column $\texttt{workgroup}$. The probability threshold is set to $0.5$.}
+    \label{fig:petri-net-config}
+\end{figure}
+
+A unique component for the prefix automaton configuration page is the graphical prefix automaton interface, allowing the user to merge states.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/screenshots/paconfig.png}
+    \caption{Prefix automaton configuration page.}
+    \label{fig:pa-config}
+\end{figure}
+
