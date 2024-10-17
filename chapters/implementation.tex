@@ -322,14 +322,34 @@ Petri net and prefix automaton configuration pages share an identical component.
     \label{fig:petri-net-config}
 \end{figure}
 
-A unique component for the prefix automaton configuration page is the graphical prefix automaton interface, allowing the user to merge states.
-
-
+A unique component for the prefix automaton configuration page is the graphical prefix automaton interface, allowing the user to merge states. Figure \ref{fig:pa-merge} illustrates this feature: Upon clicking the checkboxes of the desired states (in this case $\{ \langle a, b, c \rangle \}$ and $\{ \langle a, c, b \rangle \}$) and pressing the $\colorbox{NavyBlue}{\textcolor{white}{\texttt{Merge States}}}$ button, it is visible that the states are now merged into a single state with the description $\{ \langle a, b, c \rangle, \langle a, c, b \rangle \}$. The user can repeat this process until satisfied with his custom finetuning.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{figures/screenshots/paconfig.png}
-    \caption{Prefix automaton configuration page.}
-    \label{fig:pa-config}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{figures/screenshots/paconfig.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{figures/screenshots/paconfigmerging.png}
+    \end{subfigure}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{figures/screenshots/paconfigmerged.png}
+    \end{subfigure}
+    \caption{Prefix automaton configuration page. The illustrations demonstrate how the state merging feature is used in the frontend.}
+    \label{fig:pa-merge}
+\end{figure}
+
+The configuration page for transformers is relatively simple as the user only needs to specify the probability threshold.
+
+After the configuration is finished, the user presses the $\colorbox{NavyBlue}{\textcolor{white}{\texttt{Discover Translucent Log}}}$ button. The frontend requests the backend to begin the computation and simultaneously navigates the user back to the event log dashboard. The user waits for the computation to be completed, whose status can be monitored in the translucent log table. With the refresh button, the user can update the completion status. After the computation is finished, the download button will be enabled, allowing the user to download the translucent event log data. Figure \ref{fig:translucent-log-status} shows how the status indicators are displayed in the translucent log table.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{figures/screenshots/status.png}
+    \caption{Status indicators in the translucent log table. The lit blue download button is visible for completed computations.}
+    \label{fig:translucent-log-status}
 \end{figure}
 

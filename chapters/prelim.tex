@@ -1,30 +1,53 @@
 
-In the upcoming section, we will introduce basic mathematical foundations essential for the thesis. These encompass the definitions of sets, multisets, sequences, Petri nets, and event logs. We will also introduce the concept of transition systems and prefix automata. Lastly, we will provide a cursory explanation of machine learning algorithms such as multivariable regression as well as deep learning algorithms such as the transformer architecture.
+In the upcoming section, we introduce basic mathematical foundations essential for the thesis. These encompass the definitions of sets, multisets, sequences, Petri nets, and event logs. We also introduce the concept of transition systems and prefix automata. Lastly, we provide a cursory explanation of machine learning algorithms such as multivariable regression as well as deep learning algorithms such as the transformer architecture.
 
 \begin{definition}[Set]
     A set is a collection $M$ of distinct objects. The objects in a set are called \emph{elements} of the set. The set $M$ is denoted as $M = \{ a_1, a_2, \dots, a_n \}$, where $a_1, a_2, \dots, a_n$ are the elements of the set. The notation $\lvert M \rvert$ denotes the cardinality of $M$, i.e., the number of elements in $M$.
 \end{definition}
 
-Throughout the thesis, we will use the variant $\mathbb{N} = \{0, 1, 2, \dots\}$ where $0$ is included in the set of natural numbers.
+Throughout the thesis, we use the variant $\mathbb{N} = \{0, 1, 2, \dots\}$ where $0$ is included in the set of natural numbers.
 
 \begin{definition}[Finite Sequence]
     A finite sequence over a set $A$ is a function with the signature $\sigma \colon S \rightarrow A$ where $S = \{0, 1, \cdots, n \} \subseteq \mathbb{N}$ and $\lvert S \rvert < \infty$, i.e., a finite set of initial natural numbers. The set of all finite sequences over $A$ is denoted as $A^*$. The cardinality of the domain of $\sigma \lvert S \rvert$  is the \emph{length} of a sequence $\sigma$ and is denoted it with $\lvert \sigma \rvert$.
 \end{definition}
 
-Since we are introducing the notion of sequences to represent event log traces, note that we only consider finite sequences in the scope of this thesis. Instead of the function notation, we predominantly use the list notation with angled brackets to represent sequences. For example, the sequence $\sigma \colon \{0, 1, 2, 3\} \rightarrow \{a, b, c\}, 0 \mapsto a, 1 \mapsto b, 2 \mapsto b, 3 \mapsto c$ is expressed as $\langle a, b, b, c \rangle$.
+Since we are introducing the notion of sequences to represent event log traces, note that we only consider finite sequences in the scope of this thesis. Instead of the function notation, we predominantly use the angled brackets notation to represent sequences. For example, the sequence $\sigma \colon \{0, 1, 2, 3\} \rightarrow \{a, b, c\}, 0 \mapsto a, 1 \mapsto b, 2 \mapsto b, 3 \mapsto c$ is expressed as $\langle a, b, b, c \rangle$.
 
 \begin{definition}[Multiset]
     A multiset over a set $A$ is a function with the signature $\mu \colon A \rightarrow \mathbb{N}$, where $\mu(a)$, $a \in A$ denotes how many times the element $a$ occurs in the multiset.  
     A multiset over a sequence $\sigma$ is a function with the signature $\mu \colon A \rightarrow \mathbb{N}$, where $\mu(a) = \lvert \{ i \mid \sigma(i) = a \} \rvert$. The set of all multisets of a set $A$ is denoted with $\mathbb{B}(A)$.
 \end{definition}
 
-Similar to sequences, we preferably use the list notation with square brackets to represent multisets rather than the function notation, where the cardinality of each element is superscripted over the element. For example, the multiset over the sequence $\langle a, b, b, c \rangle$ will be represented as $[a^1, b^2, c^1]$.
+Similar to sequences, we preferably use the list notation with square brackets to represent multisets rather than the function notation, where the cardinality of each element is superscripted over the element. For example, the multiset over the sequence $\langle a, b, b, c \rangle$ is represented as $[a^1, b^2, c^1]$.
 
 Furthermore, for two multisets $X$ and $Y$ over $A$, we notate the multiset union as $X \uplus Y$, where $(X \uplus Y)(a) = X(a) + Y(a)$ for all $a \in A$. Likewise, the difference of two multisets is denoted as $X \setminus Y$, where $(X \setminus Y)(a)$ is the maximum value between $X(a) - Y(a)$ and $0$ for all $a \in A$.
 
+For a sequence $\sigma$, the set conversion function $\partial_{set}$ converts a sequence into a set, i.e., $\partial_{set}(\sigma) = \{ \sigma(i) \mid 0 \leq i < \lvert \sigma \rvert \}$. Similarly, the multiset conversion function $\partial_{multiset}$ converts a sequence into a multiset, i.e., $\partial_{multiset}(\sigma) = [\sigma(i) \mid 0 \leq i < \lvert \sigma \rvert ]$. An example of a set- and multiset conversions for an example sequence $\sigma = \langle a, b, b, c \rangle$ would be $\partial_{set}(\sigma) = \{ a, b, c \}$ and $\partial_{multiset}(\sigma) = [a^1, b^2, c^1]$, respectively.
+
 \section{Event Logs}
 
-In this section, we formally define the structure of events and event logs. Furthermore, the concept of translucent event logs is introduced.
+Event logs are the cornerstone of process mining, as event logs are primary source of all fundamental information on a certain process. In this section, we formally define the structure of events and event logs. Furthermore, the concept of translucent event logs is introduced.
+
+\begin{table}[h]
+    \centering
+    \caption{Example event log table.}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \textbf{Case ID} & \textbf{Activity} & \textbf{Timestamp} & \textbf{Resource} & \textbf{Cost} \\ 
+        \hline
+        001 & S  & 2024-10-01 08:30 & User A & 15 \\ 
+        001 & R    & 2024-10-01 09:00 & User B & 30 \\ 
+        001 & A & 2024-10-01 09:45 & User C & 10 \\ 
+        001 & E     & 2024-10-01 10:15 & User D & 5  \\ 
+        001 & F & 2024-10-01 10:25 & User A & 20 \\
+        002 & S  & 2024-10-01 11:30 & User A & 15\\ 
+        002 & R    & 2024-10-01 11:46 & User B & 30\\ 
+        002 & F & 2024-10-01 12:11 & User A & 10\\ 
+        $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$\\
+        \hline
+    \end{tabular}
+    \label{tab:event-log}
+\end{table}
 
 \begin{definition}[Event]
     $\mathcal{E}$ is the event universe. An \emph{event} $e \in \mathcal{E}$ is a logical abstraction of a real-life process event. An event possesses multiple named attributes. We define the universe of all attribute names as $\mathcal{AN}$ and the universe of all attribute values as $\mathcal{AV}$.  
@@ -44,15 +67,19 @@ Subsequently, a collection of events form an event log of a process.
     \end{itemize}
 \end{definition}
 
+An example event log is displayed in Table \ref{tab:event-log}. Looking at the very first event row, we can formally express the event as $e \in \mathcal{L}$,  where $e$ possesses five named attributes with corresponding attribute values $\pi_{Case ID}(e) = 001$, $\pi_{Activity}(e) = S$, $\pi_{Timestamp}(e) = 2024-10-01 08:30$, $\pi_{Resource}(e) = \text{User A}$, and $\pi_{Cost}(e) = 15$. Note that $\pi_{Case ID}$ is equivalent to $\pi_{case}$, $\pi_{Activity}$ is equivalent to $\pi_{act}$, and $\pi_{Timestamp}$ is equivalent to $\pi_{time}$.
+
 We further assume that in a conventional event log, there exists a total order $<_{time}$ on $\mathcal{L}$ such that $e <_{time} e' \iff \pi_{time}(e) < \pi_{time}(e')$ holds for all $e, e' \in \mathcal{L}$, i.e., the events are sorted by their timestamps in chronological order.
 
-We can further group events by their case identifiers. A sequence of events with the same case identifier ordered by $<_{time}$ is called a \emph{trace}. Note that the set of all traces of an event log is pairwise disjoint, i.e., there is no event $e \in \mathcal{E}$ which is an element of two different traces. Hence, an event log can also be represented as a set of traces.
+We can further group events by their case identifiers. A sequence of events with the same case identifier ordered by $<_{time}$ is called a \emph{trace}.
 
 \begin{definition}[Trace]
-    $\mathcal{E}$ is the event universe. A \emph{trace} is a sequence of events $\sigma = \langle e_1, e_2, \dots, e_n \rangle \in \mathcal{E}^*$ such that $\pi_{case}(e_i) = \pi_{case}(e_{i+1})$ holds for all $i \in \{1, \dots, n-1\}$.
+    $\mathcal{E}$ is the event universe. A \emph{trace} is a sequence of events $\sigma = \langle e_1, e_2, \dots, e_n \rangle \in \mathcal{E}^*$ such that $\pi_{case}(e_i) = \pi_{case}(e_{i+1})$ and $\pi_{time}(e_i) < \pi_{time}(e_{i+1})$ holds for all $i \in \{1, \dots, n-1\}$.
 \end{definition}
 
-However, when discussing traces, we oftentimes refer to them as a sequence of activities. This is firstly for the sake of simplicity, but also due to the fact that the control flow is considered to be the most crucial aspect in process mining, in particular when constructing process models. Event logs where each trace is solely represented as a sequence of activities is called a \emph{simple event log}.
+Note that the set of all traces of an event log is pairwise disjoint, i.e., there is no event $e \in \mathcal{E}$ which is an element of two different traces. Hence, an event log can also be represented as a set of traces. For the same of simplicity, we henceforth use the notation $\sigma \in \mathcal{L}$ to express that $\sigma$ is a trace in the event log $\mathcal{L}$, where $\sigma = \langle e_1, e_2, \dots, e_n \rangle$ and $e_1, e_2, \dots, e_n \in \mathcal{L}$.
+
+Also, when discussing traces, we oftentimes refer to them as a sequence of activities. This is firstly for the sake of simplicity, but also due to the fact that the control flow is considered to be the most crucial aspect in process mining, in particular when constructing process models. Event logs where each trace is solely represented as a sequence of activities is called a \emph{simple event log}.
 
 \begin{definition}[Simple Event Log]
     Let $\mathcal{L} \subseteq \mathcal{E}$ be an event log and $\sigma \in \mathcal{L}$ a trace. We expand the attribute projection function analogously for traces as the following: $\pi_n(\sigma) = \pi_n(\langle e_1, e_2, \dots, e_n \rangle) = \langle \pi_n(e_1), \pi_n(e_2), \dots, \pi_n(e_n) \rangle$. $\mathcal{L'}$ is a simple event log of $\mathcal{L}$ if
@@ -96,7 +123,7 @@ Table \ref{tab:translucent_event_log} displays an example translucent event log.
 
 \section{Automata}
 
-In the following section, two types of automata used throughout the thesis will be defined, namely Petri nets and prefix automata.
+Alongside event logs, automata play a crucial role in modelling processes with the help of event log data. In the following section, two types of automata used throughout the thesis are defined, namely Petri nets and prefix automata.
 
 \subsection{Petri Nets}
 
@@ -244,45 +271,131 @@ Analogous to the previous formulation, given a reachable marking $M'$ and a data
     Pr(t \mid M', \delta) = \frac{\omega(t, \delta)}{\sum_{t' \in en(N, M')} \omega(t', \delta)}.
 \]
 
-\textcolor{red}{Nur die Definition hier ist ein bisschen unverständlich, aber ein Beispiel für SLDPNs taucht eigentlich in Methods wieder auf. Soll ich hier trotzdem ein Beispiel zeigen?}
+Figure \ref{fig:sldpn} illustrates an example SDLPN with two transitions $t_1, t_2$, where both depend on a single boolean variable \texttt{payed}. Assuming the marking as in the illustrated figure and the data state $\texttt{payed} = \text{true}$, the firing probabilities of $t_1$ and $t_2$ can be calculated as the following.
+
+\[
+    Pr(t_1 \mid [p_1^1, p_2^0], \texttt{payed} = \text{true}) = \frac{0.5}{0.5 + 0.8} \approx 0.3846
+    \vspace{-0.5cm}
+\]
+
+\[
+    Pr(t_2 \mid [p_1^1, p_2^0], \texttt{payed} = \text{true}) = \frac{0.8}{0.5 + 0.8} \approx 0.6154
+\]
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=2cm]
+
+        % Define places
+        \node[place, tokens=1, label=above:$p_1$] (p1) {};
+    
+        % Define transitions
+        \node[transition] (t1) [above right=of p1, label=below:$t_1$] {a};
+        \node[transition] (t2) [below right=of p1, label=above:$t_2$, label=below:$24$] {b};
+
+        \node[place] (p2) [below right=of t1, label=above:$p_2$] {};
+
+        % Draw a node where the function is defined
+        \node (f1) [right=of p2] {
+            $\omega \colon (t_i, d) \mapsto
+            \begin{cases}
+                0.5, & t_i = t_1 \land \texttt{payed}= \text{true}, \\
+                0.2, & t_i = t_1 \land \texttt{payed}= \text{false}, \\
+                0.8, & t_i = t_2 \land \texttt{payed}= \text{true}, \\
+                0.1, & t_i = t_2 \land \texttt{payed}= \text{false}.
+            \end{cases}$
+        };
+        
+    
+        % Connect the places and transitions
+        \draw[->] (p1) -- (t1);
+        \draw[->] (t1) -- (p2);
+        \draw[->] (p1) -- (t2);
+        \draw[->] (t2) -- (p2);
+    
+    \end{tikzpicture}
+    \caption{Example of an SLDPN.}
+    \label{fig:sldpn}
+\end{figure}
 
 \subsection{Prefix Automata} \label{subsec:transition_systems}
+
+Prefix automata are a particular case of a transition system, where the states are represented as prefixes of a trace in an event log. We first define the concept of a transition system and subsequently proceed to the definition of a prefix automaton.
 
 \begin{definition}[Transition System]
     Let $S$ be the set of states, $A$ the set of activities, and $T \subseteq S \times A \times S$ the set of transitions. A \emph{transition system} is a triple $\mathit{\mathit{TS}} = (S, A, T)$. We denote the set of initial states as $S^{start}$ and the set of final states as $S^{end}$, where $S^{start}, S^{end} \subseteq S$.
 \end{definition}
 
-\textcolor{red}{show example of a TS}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[shorten >=1pt, node distance=2cm, on grid, auto]
+        % Define the styles for initial and final states
+        \tikzstyle{state}=[circle, fill=black, minimum size=5pt, inner sep=0pt]
+        
+        % Initial state
+        \node[state, label=above:$s_0$] (s_0)   {};
+        \node[state, label=above:$s_1$] (s_1) [right=of s_0] {};
+        \node[state, label=below:$s_2$] (s_2) [below=of s_0] {};
+        \node[state, label=above right:$s_3$] (s_3) [below=of s_1] {};
+    
+        % Initial arrow (pointing to s_0)
+        \path[->] 
+            (-0.5, 0) edge node {} (s_0);
+    
+        % Transitions
+        \path[->]
+            (s_0) edge node {a} (s_1)
+                  edge node {b} (s_2)
+            (s_1) edge node {c} (s_3)
+            (s_2) edge [above] node {d} (s_3)
+            (s_3) edge [loop below] node {e} ();
 
-Transition systems are an alternative method next to Petri nets to represent processes of a system. Due to its structural property, silent transitions are absent in transition systems. This relieves us from the need to compute alignments when replaying the event log on the model.
+        % Final arrow (pointing from s_3)
+        \path[->] 
+            (s_3) edge node {} (2.5, -2);
+    \end{tikzpicture}
+    \caption{Example transition system with an initial state $s_0$ and a final state $s_3$.}
+    \label{fig:example_transition_system}
+\end{figure}
 
-\begin{definition}[Prefix Automaton]\label{def:pa}
+Figure \ref{fig:example_transition_system} demonstrates a sample transition system $\mathit{TS} = (S, A, T)$ with $S = \{s_0, s_1, s_2, s_3\}$, $A = \{a, b, c, d, e\}$, and $T = \{ (s_0, a, s_1), (s_0, b, s_2), (s_1, c, s_3), (s_2, d, s_3), (s_3, e, s_3) \}$. The set of initial states is $S^{start} = \{ s_0 \}$ and the set of final states is $S^{end} = \{ s_3 \}$. 
+
+Transition systems are an alternative method next to Petri nets to represent processes of a system. Due to its structural property, silent transitions are absent in transition systems. This relieves us from the need to compute alignments when replaying the event log on the model. It is therefore crucial to define how to construct a prefix automaton on the basis of an event log.
+
+In \cite{bible}, the construction of a prefix automaton is limited to the simple event log setting, as the transition system solely focuses on the activity names and hence the process control flow needed for, e.g., region-based mining techniques \cite{region-based-mining}. In this thesis, however, we need to extend the definition for the entire event log, as data attributes of the event log come into play in the subsequent chapters.
+
+\begin{definition}[Constructing a Transition System from an Event Log]\label{def:pa}
 
     Let $\mathcal{L} \subseteq \mathcal{E}$ be an event log and $l^{state} \colon \mathcal{L} \times \mathbb{N} \rightarrow S$ a state representation function. $\mathit{TS}_{\mathcal{L}, l^{state}} = (S, A, T)$ is a transition system based on $\mathcal{L}$ and $l^{state}$ with the following properties:
     
     \begin{itemize}
         \item $S = \{l^{state}(\sigma, k) \mid \sigma \in \mathcal{L} \land 0 \leq k \leq \lvert \sigma \rvert \}$ the state space,
-        \item $A = \{ \sigma(k) \mid \sigma \in \mathcal{L} \land 1 \leq k \leq \lvert \sigma \rvert \}$ the set of activities of the event log,
+        \item $A = \{ \pi_{act}(\sigma(k)) \mid \sigma \in \mathcal{L} \land 1 \leq k \leq \lvert \sigma \rvert \}$ the set of activities of the event log,
         \item $T = \{ (l^{state}(\sigma, k), \sigma(k+1), l^{state}(\sigma, k+1)) \mid \sigma \in \mathcal{L} \land 0 \leq k < \lvert \sigma \rvert \}$ the set of transitions,
         \item $S^{start} = \{ l^{state}(\sigma, 0) \mid \sigma \in \mathcal{L} \}$ the set of initial states, and
         \item $S^{end} = \{ l^{state}(\sigma, \lvert \sigma \rvert) \mid \sigma \in \mathcal{L} \}$ the set of final states.
     \end{itemize} 
-
 \end{definition}
 
-Taking the simple event log $\mathcal{L}_1 = [ \langle a, b, c, d \rangle ^{48}, \langle a, c, b, d \rangle^2 ]$ as an example, we can construct a prefix automaton $\mathit{TS}_{L_1, hd}$ as follows:
+While $l^{state}$ can be any function which takes a trace and a natural number as input and returns a state, our interest lies in employing the prefix function $\mathit{hd}$ for defining the state representation function. For a trace $\sigma = \langle a_1, a_2, \dots, a_n \rangle$ and a natural number $k \in \mathbb{N}$, $\mathit{hd}(\sigma, k) = \langle a_1, a_2, \dots, a_k \rangle$, i.e., the prefix function return the first $k$ elements as a sequence. Note that $\mathit{hd}(\sigma, 0) = \langle \rangle$ and $\mathit{hd}(\sigma, k) = \sigma$ for all $k \geq \lvert \sigma \rvert$.
+
+\begin{definition}[Prefix Automaton]
+    Let $\mathcal{L} \subseteq \mathcal{E}$ be an event log and $l^{state} \colon \mathcal{L} \times \mathbb{N} \rightarrow S$ a state representation function. $\mathit{TS}_{\mathcal{L}, l^{state}} = (S, A, T)$ is a \emph{prefix automaton} if $l^{state}$ is a composite function containing $\mathit{hd}$.
+\end{definition}
+
+Taking the event log $\mathcal{L}_1$ as an example, whose simple event log representation is \\ $\mathcal{L'}_1 = [ \langle a, b, c, d \rangle ^{48}, \langle a, c, b, d \rangle^2 ]$, we can construct a prefix automaton $\mathit{TS}_{L_1, \pi_{act} \circ hd}$ as follows:
 
 \begin{itemize}
     \item $S = \{ \langle \rangle, \langle a \rangle, \langle a, b \rangle, \langle a, b, c \rangle, \langle a, b, c, d \rangle, \langle a, c \rangle, \langle a, c, b \rangle, \langle a, c, b, d \rangle \}$
     \item $A = \{ a, b, c, d \}$
-    \item $T = \{ (\langle \rangle, a, \langle a \rangle), (\langle a \rangle, b, \langle a, b \rangle), (\langle a, b \rangle, c, \langle a, b, c \rangle), (\langle a, b, c \rangle, d, \langle a, b, c, d \rangle), (\langle a \rangle, c, \langle a, c \rangle), \\ (\langle a, c \rangle, b, \langle a, c, b \rangle), (\langle a, c, b \rangle, d, \langle a, c, b, d \rangle) \}$
+    \item $T = \{ (\langle \rangle, a, \langle a \rangle), (\langle a \rangle, b, \langle a, b \rangle), (\langle a, b \rangle, c, \langle a, b, c \rangle), (\langle a, b, c \rangle, d, \langle a, b, c, d \rangle), \\ (\langle a \rangle, c, \langle a, c \rangle), (\langle a, c \rangle, b, \langle a, c, b \rangle), (\langle a, c, b \rangle, d, \langle a, c, b, d \rangle) \}$
     \item $S^{start} = \{ \langle \rangle \}$
     \item $S^{end} = \{ \langle a, b, c, d \rangle, \langle a, c, b, d \rangle \}$
 \end{itemize}
 
 The graphical representation is shown in Figure \ref{fig:example_prefix_automaton}.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
                         semithick]
@@ -305,17 +418,17 @@ The graphical representation is shown in Figure \ref{fig:example_prefix_automato
           (<abc>) edge node {d} (<abcd>)
           (<acb>) edge node {d} (<acbd>);
     \end{tikzpicture}
-    \caption{Example of a prefix automaton $\mathit{TS}_{L_1, hd}$ for the simple event log $\mathcal{L}_1 = [ \langle a, b, c, d \rangle ^{48}, \langle a, c, b, d \rangle^2 ]$.}
+    \caption{Example of a prefix automaton $\mathit{TS}_{L_1, \pi_{act} \circ hd}$ for the simple event log $\mathcal{L}_1 = [ \langle a, b, c, d \rangle ^{48}, \langle a, c, b, d \rangle^2 ]$.}
     \label{fig:example_prefix_automaton}
 \end{figure}
 
-Frequently used examples of a state representation function take the prefix function $hd^k$ as its baseline mechanism. Among diverse methods of process representation using transition systems, we focus on the list, set, and multiset representations.
+Frequently used examples of a state representation function take the prefix function $\mathit{hd}$ as its baseline mechanism. Among diverse methods of process representation using transition systems, we focus on the sequence, set, and multiset representations. 
 
-\textcolor{red}{TODO: Definition für Representations verfeinern}
+Starting from the previously described sequence notation with $\pi_{act} \circ \mathit{hd}$ as its state representation function, we can generate the set- and multiset-based representation by slightly tweaking the composite function. The set-based representation uses the state representation function $\partial_{set} \circ \pi_{act} \circ \mathit{hd}$, whereas the multiset-based representation uses $\partial_{multiset} \circ \pi_{act} \circ \mathit{hd}$.
 
-The set- and multiset-based representations of the prefix automaton $\mathit{TS}_{L_1, hd}$ are shown in Figures \ref{fig:example_prefix_automaton_set} and \ref{fig:example_prefix_automaton_multiset}, respectively.
+In order to demonstrate these two types, the set- and multiset-based representations of the prefix automaton $\mathit{TS}_{L_1, hd}$ are shown in Figures \ref{fig:example_prefix_automaton_set} and \ref{fig:example_prefix_automaton_multiset}, respectively.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
                         semithick]
@@ -334,11 +447,11 @@ The set- and multiset-based representations of the prefix automaton $\mathit{TS}
           (<ac>) edge node {b} (<abc>)
           (<abc>) edge node {d} (<abcd>);
     \end{tikzpicture}
-    \caption{Set-based representation of a prefix automaton $\mathit{TS}_{L_1, hd}$ for the simple event log $\mathcal{L}_1 = [ \langle a, b, c, d \rangle ^{48}, \langle a, c, b, d \rangle^2 ]$.}
+    \caption{Set-based representation of a prefix automaton $\mathit{TS}_{L_1, \partial_{set} \circ \pi_{act} \circ \mathit{hd}}$ for the simple event log $\mathcal{L}_1 = [ \langle a, b, c, d \rangle ^{48}, \langle a, c, b, d \rangle^2 ]$.}
     \label{fig:example_prefix_automaton_set}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,
         semithick]
@@ -357,23 +470,23 @@ The set- and multiset-based representations of the prefix automaton $\mathit{TS}
     (<ac>) edge node {b} (<abc>)
     (<abc>) edge node {d} (<abcd>);
 \end{tikzpicture}
-    \caption{Mutliset-based representation of a prefix automaton $\mathit{TS}_{L_1, hd}$ for the simple event log $\mathcal{L}_1 = [ \langle a, b, c, d \rangle ^{48}, \langle a, c, b, d \rangle^2 ]$.}
+    \caption{Multiset-based representation of a prefix automaton $\mathit{TS}_{L_1, \partial_{multiset} \circ \pi_{act} \circ \mathit{hd}}$ for the simple event log $\mathcal{L}_1 = [ \langle a, b, c, d \rangle ^{48}, \langle a, c, b, d \rangle^2 ]$.}
     \label{fig:example_prefix_automaton_multiset}
 \end{figure}
 
-All these three variants have their own advantages and disadvantages. The list representation is the most precise, as it preserves the activity order of each trace. However, analyzing parallel situations is difficult due to the very same characteristics of order preservation. Moreover, the representation fails at recognizing loops in the inherent process model and is therefore susceptible to overfitting.
+All these three variants have their own advantages and disadvantages. The sequence representation is the most precise as it preserves the activity order of each trace. However, analyzing parallel situations is difficult due to the very same characteristics of order preservation. Moreover, the representation fails at recognizing loops in the inherent process model and is therefore susceptible to overfitting.
 
-The set representation, on the other hand, is more general and does not suffer from order preservation issues as the list representation does. Although the property of order negligence is practical for local loops and parallel situations, it is critical for larger loops. Consider a situation with nested loops, or a loop where all activities have been already visited in the first iteration. This would lead to drastic state simplification and the resulting information loss. Here, it is crucial to select an optimal prefix length $k$.
+The set representation, on the other hand, is more general and does not suffer from order preservation issues as the sequence representation does. Although the property of order negligence is practical for local loops and parallel situations, it is critical for larger loops. Consider a situation with nested loops or a loop where all activities have been already visited in the first iteration. This would lead to drastic state simplification and the resulting information loss.
  
-The multiset representation is a compromise between the list and set representations. However, it is still not able to correctly capture the loop behavior as each iteration would create a new set of states.
+The multiset representation is a compromise between the sequence and set representations. However, it is still not able to correctly capture the loop behavior as each iteration would create a new set of states.
 
 \section{Machine Learning Algorithms}
 
-In this section, we will briefly introduce and explain the machine learning algorithms employed throughout the thesis. These include multivariable logistic regression, random forest, and the transformer architecture.
+In this section, we briefly introduce and explain the machine learning algorithms employed throughout the thesis. These include multivariable logistic regression, random forest, and the transformer architecture.
 
 \subsection{Multivariable Logistic Regression}
 
-Multivariable logistic regression is a statistical model used to predict the probability of a boolean or binary outcome based on multiple variables, and is commonly applied in classification tasks. Formally, we define the model as follows:
+Multivariable logistic regression is a statistical model used to predict the probability of a boolean or binary outcome based on multiple variables and is commonly applied in classification tasks. Formally, we define the model as follows:
 
 \begin{definition}[Multivariable Logistic Regression]
     Given a dataset $D \in (\mathbb{R}^n \times \{0, 1\})^m$, find a function $f: \mathbb{R}^n \rightarrow [0, 1]$ such that:
@@ -402,7 +515,7 @@ Multivariable logistic regression is a statistical model used to predict the pro
 
 \subsection{Random Forest}
 
-Random Forest is an ensemble learning method that creates multiple, logically simpler decision trees and combines their predictions in order to create more accurate predictions. In contrast to conventional decision trees where the model consists of a single tree with a deep structure, Random Forests are composed of several trees with a shallow structure. The naming of the algorithm is derived from two distinct sources of randomness, namely bootstrap aggregation and random feature selection.
+Random forest is an ensemble learning method that creates multiple, logically simpler decision trees and combines their predictions in order to create more accurate predictions. In contrast to conventional decision trees where the model consists of a single tree with a deep structure, random forests are composed of several trees with a shallow structure. The naming of the algorithm is derived from two distinct sources of randomness, namely bootstrap aggregation and random feature selection.
 
 Bootstrap aggregation, also known as \emph{bagging}, is a dataset creation technique in which a multitude of datasets are created by sampling from the original dataset with replacement, i.e., a sample can be selected multiple times. Each of these bagged datasets is then fed to train a decision tree. Figure \ref{fig:bagging} illustrates an example of a bagged dataset.
 
